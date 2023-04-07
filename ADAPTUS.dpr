@@ -6,7 +6,8 @@ uses
   UDM_PRINCIPAL in 'UDM_PRINCIPAL.pas' {DM_PRINCIPAL: TDataModule},
   UParameters in 'OBJECTS\UParameters.pas',
   UGlobal in 'OBJECTS\UGlobal.pas',
-  UParametersScreen in 'UParametersScreen.pas' {frmParameters};
+  UParametersScreen in 'UParametersScreen.pas' {frmParameters},
+  UMenu in 'UMenu.pas' {frmMenu};
 
 {$R *.res}
 

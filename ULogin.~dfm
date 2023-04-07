@@ -228,8 +228,8 @@ object frmLogin: TfrmLogin
     object imgTools: TImage
       Left = 349
       Top = 140
-      Width = 26
-      Height = 28
+      Width = 33
+      Height = 31
       Picture.Data = {
         07544269746D6170A2070000424DA20700000000000036000000280000001900
         00001900000001001800000000006C070000C40E0000C40E0000000000000000

@@ -39,7 +39,7 @@ var
 implementation
 
 uses
-  UDM_PRINCIPAL, StrUtils, UParameters, UGlobal, UParametersScreen;
+  UDM_PRINCIPAL, StrUtils, UParameters, UGlobal, UParametersScreen, UMenu;
 
 {$R *.dfm}
 
@@ -69,13 +69,18 @@ begin
     Exit;
 
   SaveUserPassword(chkSaveUserPassword.Checked);
+
+  if not Assigned(frmLogin) then
+    frmLogin := TfrmLogin.Create(self);
+    
+  frmLogin.Show;
 end;
 
 procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
   chkSaveUserPassword.Checked := DM_PRINCIPAL.FParameters.SaveUserPassword;
   edtLogin.Text := DM_PRINCIPAL.FParameters.Login;
-  
+
   if trim(DM_PRINCIPAL.FParameters.Password) <> '' then
     edtPassword.Text := DM_PRINCIPAL.FGlobal.Decrypt(DM_PRINCIPAL.FParameters.Password, 1010);
 end;
@@ -83,7 +88,7 @@ end;
 function TfrmLogin.ValidateFields: Boolean;
 
   function VerifyLogin: Boolean;
-  begin                 
+  begin
     with QuyComandos do
     begin
       Close;
@@ -146,7 +151,6 @@ begin
     Result := True;
     Exit;
   end;
-
 
 end;
 
