@@ -1,0 +1,11 @@
+========================= Delphi 7 ===============================
+
+Copie o conteúdo desta pasta para "C:\Arquivos de programas\Borland\Delphi7\Lib\RichView\"
+
+INSTALANDO OS COMPONENTES
+  
+  Componentes para Delphi 7 estão no diretório D7
+  
+  Abra o arquivo "RVPkgD7.dpk" (menu "File|Open"), clique no botão "Compile" e logo após no botão "Install" na janela package. Repita os passos acima com o arquivo "RVDBPkgD7.dpk". 
+  
+ Após a instalação, no o Delphi vá em "Tools|Environment Options" clique na aba "Library", depois selecione "Library path" após clique no botão que contém "..." e selecione o caminho "C:\Arquivos de programas\Borland\Delphi7\Lib\RichView" e depois click no botão "Add" e confirme todas as alterações. 

@@ -1,0 +1,83 @@
+package SUIPackD7;
+
+{$R *.res}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'Sunisoft SUIPack'}
+{$IMPLICITBUILD OFF}
+
+requires
+  vcl,
+  rtl,
+  vclx,
+  dbrtl,
+  vcldb,
+  designide;
+
+contains
+  SUIReg in '..\Source\SUIReg.pas',
+  SUIURLLabel in '..\Source\SUIURLLabel.pas',
+  SUICheckListBox in '..\Source\SUICheckListBox.pas',
+  SUIColorBox in '..\Source\SUIColorBox.pas',
+  SUIComboBox in '..\Source\SUIComboBox.pas',
+  SUIDBCtrls in '..\Source\SUIDBCtrls.pas',
+  SUIDlg in '..\Source\SUIDlg.pas',
+  SUIDsgn in '..\Source\SUIDsgn.pas',
+  SUIEdit in '..\Source\SUIEdit.pas',
+  SUIFontComboBox in '..\Source\SUIFontComboBox.pas',
+  SUIForm in '..\Source\SUIForm.pas',
+  SUIGrid in '..\Source\SUIGrid.pas',
+  SUIGroupBox in '..\Source\SUIGroupBox.pas',
+  SUIImagePanel in '..\Source\SUIImagePanel.pas',
+  SUIListBox in '..\Source\SUIListBox.pas',
+  SUIListView in '..\Source\SUIListView.pas',
+  SUIMainMenu in '..\Source\SUIMainMenu.pas',
+  SUIMemo in '..\Source\SUIMemo.pas',
+  SUIMenu in '..\Source\SUIMenu.pas',
+  SUIMgr in '..\Source\SUIMgr.pas',
+  SUIPageControl in '..\Source\SUIPageControl.pas',
+  SUIPopupMenu in '..\Source\SUIPopupMenu.pas',
+  SUIProgressBar in '..\Source\SUIProgressBar.pas',
+  SUIPublic in '..\Source\SUIPublic.pas',
+  SUIRadioGroup in '..\Source\SUIRadioGroup.pas',
+  SUIResDef in '..\Source\SUIResDef.pas',
+  SUIScrollBar in '..\Source\SUIScrollBar.pas',
+  SUISideChannel in '..\Source\SUISideChannel.pas',
+  SUISkinControl in '..\Source\SUISkinControl.pas',
+  SUISkinForm in '..\Source\SUISkinForm.pas',
+  SUIStatusBar in '..\Source\SUIStatusBar.pas',
+  SUITabControl in '..\Source\SUITabControl.pas',
+  SUIThemeFile in '..\Source\SUIThemeFile.pas',
+  SUIThemes in '..\Source\SUIThemes.pas',
+  SUITitleBar in '..\Source\SUITitleBar.pas',
+  SUIToolBar in '..\Source\SUIToolBar.pas',
+  SUITrackBar in '..\Source\SUITrackBar.pas',
+  SUITreeView in '..\Source\SUITreeView.pas',
+  SUIButton in '..\Source\SUIButton.pas',
+  frmInput in '..\Source\frmInput.pas' {frmInput},
+  frmMessage in '..\Source\frmMessage.pas' {frmMsg},
+  frmMSNPop in '..\Source\frmMSNPop.pas' {frmMSNPopForm},
+  frmPassword in '..\Source\frmPassword.pas' {frmPass},
+  frmThemeMgr in '..\Source\frmThemeMgr.pas' {frmMgr},
+  frmConvert in '..\Source\frmConvert.pas' {frmConv};
+
+end.

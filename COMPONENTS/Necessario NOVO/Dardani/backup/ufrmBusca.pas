@@ -1,0 +1,379 @@
+unit ufrmBusca;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Grids, DBGrids, StdCtrls, Buttons, ExtCtrls, DB, FMTBcd,
+  DBClient, Provider, SqlExpr, DBXpress, SapiensBusca, SapiensCriterios;
+
+type
+  TFrmBusca = class(TForm)
+    Panel1: TPanel;
+    Btn_OK: TBitBtn;
+    BitBtn2: TBitBtn;
+    Grd: TDBGrid;
+    Ds: TDataSource;
+    qry: TSQLQuery;
+    dsp: TDataSetProvider;
+    cds: TClientDataSet;
+    Panel2: TPanel;
+    Label1: TLabel;
+    EdtPesquisa: TEdit;
+    cbxCampos: TComboBox;
+    Label2: TLabel;
+    PnlMultiSel: TPanel;
+    BtTodos: TBitBtn;
+    BtNenhum: TBitBtn;
+    BtMarcaDesmarca: TBitBtn;
+    Button1: TButton;
+    Mm: TMemo;
+    CG: TEmbCriteriaGroup;
+    procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure GrdDrawDataCell(Sender: TObject; const Rect: TRect;
+      Field: TField; State: TGridDrawState);
+    procedure GrdDblClick(Sender: TObject);
+    procedure GrdTitleClick(Column: TColumn);
+    procedure EdtPesquisaChange(Sender: TObject);
+    procedure BtTodosClick(Sender: TObject);
+    procedure BtNenhumClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure BtMarcaDesmarcaClick(Sender: TObject);
+    procedure GrdKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+    FEmbQuery : TEmbQuery;
+    procedure prcMarcaDesmarcaTodos(bMarcar: Boolean);
+	 procedure prcMarcaDesmarca;
+  public
+    { Public declarations }
+    constructor Cria(	Query: TEmbQuery;
+                     	AOwner: TComponent);
+    procedure adicionaCampoBusca(sNomeCampo : String);
+    procedure configuraCampo(	sNomeCampo,
+                              sTitulo: String;
+    													iTamanho: Integer = 0;
+                              bVisivel : Boolean = True); overload;
+
+	 function buscaLista( sNomeCampo: String; sDelimitador : Char = #0) : WideString;
+	 procedure populaLista(sNomeCampo: String; Lista : TStrings);
+	 function buscaValor(sNomeCampo: String) : String;
+  end;
+
+var
+  FrmBusca: TFrmBusca;
+
+
+implementation
+
+{$R *.dfm}
+
+var
+	sLista : TStrings;
+	FMultiSelect : Boolean;
+
+constructor TFrmBusca.Cria(	Query: TEmbQuery;AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FEmbQuery := Query;
+  FMultiSelect := FEmbQuery.MultiRows;
+
+  //   FMultiSelect := bSelecaoMultipla;
+  PnlMultiSel.Visible := FMultiSelect;
+  sLista := TStringList.Create;
+  try
+  if FEmbQuery <> nil then
+  begin
+    qry.SQLConnection := FEmbQuery.SqlConnection;
+    Query.CriteriaGroup := CG;
+  end;
+  cds.Close;
+  //qry.SQLConnection := oConexao;
+  except
+  On E: Exception do
+    begin
+      MessageDlg('Erro ao setar conexão com a mensagem: '#1310+ E.Message, mtError, [mbOk],0);
+    end;
+  end;
+  Query.PrepareCriteriaGroup;
+end;
+
+// Configura os campos com título, tamanho (opcional) e visibilidade (opcional)
+procedure TFrmBusca.configuraCampo(	sNomeCampo,
+																		sTitulo: String;
+  																	iTamanho: Integer = 0;
+  																	bVisivel: Boolean = True);
+var
+	i : Integer;
+begin
+	if cds.Active then
+  begin
+  	for i := 0 to cds.FieldCount -1 do
+    begin
+    	if UpperCase(cds.Fields[i].FieldName) = UpperCase(sNomeCampo) then
+      begin
+      	cds.Fields[i].DisplayLabel := sTitulo;
+        if iTamanho <> 0 then
+					cds.Fields[i].DisplayWidth := iTamanho;
+        cds.Fields[i].Visible := bVisivel;
+        Break;
+			end;
+		end;
+	end;
+end;
+
+// Armazena na lista sLista o campo (FIELDNAME) para opção de busca
+procedure TFrmBusca.adicionaCampoBusca(sNomeCampo : String);
+begin
+   if sLista <> nil then
+   begin
+      sLista.Add(sNomeCampo);
+  	   cbxCampos.Items.Add(sNomeCampo);
+   end;
+end;
+
+// Varre a lista de campos de busca e adiciona-os no combo com o título
+procedure TFrmBusca.FormShow(Sender: TObject);
+var
+	x, i : Integer;
+   sFieldName : String;
+begin
+	cbxCampos.Items.Clear;
+	if (sLista <> nil) and cds.Active then
+   begin
+      for x := 0 to sLista.Count -1 do
+      begin
+         sFieldName := sLista.Strings[x];
+         for i := 0 to cds.FieldCount -1 do
+         begin
+            if UpperCase(cds.Fields[i].FieldName) = UpperCase(sFieldName) then
+            begin
+            	cbxCampos.Items.Add(cds.Fields[i].DisplayLabel);
+               Break;
+            end;
+         end;
+      end;
+   end;
+   if cbxCampos.Items.Count > 0 then
+   	cbxCampos.ItemIndex := 0;
+   EdtPesquisa.SetFocus;
+end;
+
+// Ao duplo clique, marca/desmarca no caso de seleção múltipla ou seleciona (mrOk)
+procedure TFrmBusca.GrdDblClick(Sender: TObject);
+begin
+   prcMarcaDesmarca;
+end;
+
+// As linhas selecionadas ficam com fundo amarelo
+procedure TFrmBusca.GrdDrawDataCell(Sender: TObject;
+  const Rect: TRect; Field: TField; State: TGridDrawState);
+begin
+	if FMultiSelect and Grd.SelectedRows.CurrentRowSelected then
+   begin
+		Grd.Canvas.Brush.Color := clYellow;
+		Grd.Canvas.Font.Color := clBlack;
+		Grd.DefaultDrawDataCell(Rect, Field, State);
+   end;
+end;
+
+// Ao clicar no título, ordena a coluna clicada e modifica título (negrito + fundo cinza escuro)
+procedure TFrmBusca.GrdTitleClick(Column: TColumn);
+var
+	i : Integer;
+begin
+	for i := 0 to Grd.Columns.Count -1 do
+   begin
+		Grd.Columns[i].Title.Color := clBtnFace;
+		Grd.Columns[i].Title.Font.Style := [];
+   end;
+   cds.IndexFieldNames := Column.FieldName;
+   Column.Title.Color := clBtnShadow;
+   Column.Title.Font.Style := [fsBold];
+end;
+
+// Ao mudar o texto de pesquisa, verifica o campo de busca selecionado e dá um Locate parcial e insensitivo
+procedure TFrmBusca.EdtPesquisaChange(Sender: TObject);
+begin
+	if Trim(EdtPesquisa.Text) <> '' then
+		cds.Locate(sLista.Strings[cbxCampos.ItemIndex], Trim(EdtPesquisa.Text), [loPartialKey, loCaseInsensitive]);
+end;
+
+// Teclas de atalho para marcar/desmarcar, marcar todos ou desmarcar todos
+procedure TFrmBusca.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+	if (Key = VK_F4) and PnlMultiSel.Visible then
+   	prcMarcaDesmarca
+   else
+	if (Key = VK_F5) and PnlMultiSel.Visible then
+   	BtTodosClick(BtTodos)
+   else
+	if (Key = VK_F6) and PnlMultiSel.Visible then
+   	BtNenhumClick(BtNenhum);
+end;
+
+// Ao clicar no botão Marca/Desmarca (F4), invoca prcMarcaDesmarca
+procedure TFrmBusca.BtMarcaDesmarcaClick(Sender: TObject);
+begin
+	prcMarcaDesmarca;
+end;
+
+// Marca ou desmarca o registro. Quando não em seleção múltipla, fecha formulário
+// com ModalResult = mrOk
+procedure TFrmBusca.prcMarcaDesmarca;
+begin
+	if FMultiSelect then
+   	Grd.SelectedRows.CurrentRowSelected := not (Grd.SelectedRows.CurrentRowSelected)
+   else
+   	ModalResult := mrOk;
+end;
+
+// Ao clicar no botão Selecionar Todos (F5), varre tabela e marca todos os registros
+procedure TFrmBusca.BtTodosClick(Sender: TObject);
+begin
+	prcMarcaDesmarcaTodos(True);
+end;
+
+// Ao clicar no botão Desmarcar Todos (F6), varre tabela e desmarca todos os registros
+procedure TFrmBusca.BtNenhumClick(Sender: TObject);
+begin
+	prcMarcaDesmarcaTodos(False);
+end;
+
+// Marca ou desmarca todos os registros
+procedure TFrmBusca.prcMarcaDesmarcaTodos(bMarcar: Boolean);
+begin
+	with cds do
+  begin
+		try
+   		DisableControls;
+   		First;
+      while not EOF do
+      begin
+				Grd.SelectedRows.CurrentRowSelected :=  bMarcar;
+      	Next;
+      end;
+      First;
+		finally
+  		EnableControls;
+  	end;
+	end;
+end;
+
+procedure TFrmBusca.FormDestroy(Sender: TObject);
+begin
+	if sLista <> nil then
+		sLista.Free;
+   cds.Close;
+end;
+
+// Retorna o conteúdo do campo sNomeCampo em que o dataset está posicionado
+function TFrmBusca.buscaValor(sNomeCampo: String): String;
+begin
+	try
+  	if cds.FindField(sNomeCampo) <> nil then
+    	Result := cds.FieldByName(sNomeCampo).AsString
+    else
+    	Result := '';
+	except
+  end;
+end;
+
+procedure TFrmBusca.populaLista(sNomeCampo: String; Lista: TStrings);
+begin
+	if Lista = nil then Exit;
+
+  Lista.Clear;
+  cds.DisableControls;
+	with cds do
+  begin
+		First;
+    while not EOF do
+    begin
+			if Grd.SelectedRows.CurrentRowSelected then
+      begin
+      	Lista.Add(FieldByName(sNomeCampo).AsString);
+      end;
+      Next;
+    end;
+  end;
+  // ShowMessage('Selecionados: '+ IntToStr(iQtd));
+end;
+
+procedure TFrmBusca.GrdKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = 13 then
+    Btn_OK.Click;
+end;
+
+// Retorna o conteúdo do campo sNomeCampo de todos os registros selecionados.
+// O delimitador é opcional.
+// Exemplo de Formato de Retorno: "15,25,30,44"
+// Ideal para seleção múltipla
+function TFrmBusca.buscaLista( sNomeCampo: String;
+                                    sDelimitador : Char = #0): WideString;
+var
+	sResult : WideString;
+  Char : String;
+begin
+	sResult := '';
+  if sDelimitador = #0 then
+  	Char := ''
+  else
+  	Char := sDelimitador;
+
+  with cds do
+  begin
+		First;
+    while not EOF do
+    begin
+			if Grd.SelectedRows.CurrentRowSelected then
+      begin
+      	sResult := sResult + Char + FieldByName(sNomeCampo).AsString + Char + ', ';
+      end;
+      Next;
+    end;
+	end;
+  Result := copy(sResult, 1, length(sResult)-2);
+end;
+
+procedure TFrmBusca.Button1Click(Sender: TObject);
+var
+	i : Integer;
+  QF : TEmbQueryField;
+begin
+	Mm.Lines.Clear;
+  Mm.Lines.Assign(FEmbQuery.Expression);
+	qry.Close;
+  qry.SQL.Assign(Mm.Lines);
+
+  // ParaMontar a query
+  try
+    with cds do
+    begin
+    	cds.Close;
+      cds.Open;
+      for i := 0 to FEmbQuery.Fields.Count -1 do
+      begin
+        QF := FEmbQuery.Fields[i];
+        configuraCampo(	QF.InternalName, QF.DisplayName, QF.DisplayWidth, QF.Visible);
+      end;
+    end;
+  except
+  	On E: Exception do
+    begin
+    	Raise Exception.Create(Format('Erro ao abrir consulta com a mensagem "%s"',[E.Message]));
+    end;
+  end;
+end;
+
+end.
+
+
+

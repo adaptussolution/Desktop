@@ -1,0 +1,5 @@
+Feche o delphi antes da instalação.
+
+Deve-se instalar o IBO(LICENCIADO) na pasta C:\Arquivos de programas\Borland\Delphi7\Lib\IBO4\
+
+Obs: Após a instalação não é necessário instalar as packages dentro do delphi, pois a instalação do IBO já faz automaticamente. Apagar o arquivo c:\arquivos

@@ -1,0 +1,18 @@
+========================= Delphi 7 ===============================
+
+No menu "Tools|Environment Options" na aba "Environment Variables" click no botão "New" e adicione:
+
+"Variable Name" = libold
+"Variable Value" = E:\Projetos\Sapiens\sdk\old
+
+"Variable Name" = dm
+"Variable Value" = E:\Projetos\Sapiens\sdk\new\dm
+
+"Variable Name" = frm
+"Variable Value" = E:\Projetos\Sapiens\sdk\new\frm
+
+"Variable Name" = lib
+"Variable Value" = E:\Projetos\Sapiens\sdk\new\lib
+
+
+Se as variaveis acima não estiver vinculadas ao seu projeto deve-se incluí-las. No menu "Project|Options" na aba "Directories/Conditionals" acrescente a string "$(libold);$(dm);$(frm);$(lib)" sem as aspas em "Search path".

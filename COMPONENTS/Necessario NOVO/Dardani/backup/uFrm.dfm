@@ -1,0 +1,211 @@
+object Form1: TForm1
+  Left = 107
+  Top = 121
+  Width = 917
+  Height = 475
+  Caption = 'Form1'
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Arial'
+  Font.Style = []
+  OldCreateOrder = False
+  WindowState = wsMaximized
+  PixelsPerInch = 96
+  TextHeight = 14
+  object Label2: TLabel
+    Left = 96
+    Top = 8
+    Width = 66
+    Height = 14
+    Caption = 'Nome Interno:'
+  end
+  object Label3: TLabel
+    Left = 96
+    Top = 32
+    Width = 56
+    Height = 14
+    Caption = 'DisplayText'
+  end
+  object Button1: TButton
+    Left = 120
+    Top = 64
+    Width = 75
+    Height = 25
+    Caption = 'Executa'
+    TabOrder = 0
+    OnClick = Button1Click
+  end
+  object BitBtn5: TBitBtn
+    Left = 8
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Cria'
+    TabOrder = 1
+    OnClick = BitBtn5Click
+  end
+  object BitBtn6: TBitBtn
+    Left = 328
+    Top = 24
+    Width = 75
+    Height = 25
+    Caption = 'Adiciona'
+    TabOrder = 2
+    OnClick = BitBtn6Click
+  end
+  object EdtInternalName: TEdit
+    Left = 168
+    Top = 8
+    Width = 153
+    Height = 22
+    TabOrder = 3
+  end
+  object EdtDisplayText: TEdit
+    Left = 168
+    Top = 32
+    Width = 153
+    Height = 22
+    TabOrder = 4
+  end
+  object CG: TEmbCriteriaGroup
+    Left = 8
+    Top = 96
+    Width = 470
+    Height = 329
+    TabOrder = 5
+  end
+  object Mm: TMemo
+    Left = 488
+    Top = 96
+    Width = 369
+    Height = 273
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Style = []
+    Lines.Strings = (
+      'Mm')
+    ParentFont = False
+    TabOrder = 6
+  end
+  object Button2: TButton
+    Left = 488
+    Top = 376
+    Width = 75
+    Height = 25
+    Caption = 'Get Criterios'
+    TabOrder = 7
+    OnClick = Button2Click
+  end
+  object Button3: TButton
+    Left = 8
+    Top = 64
+    Width = 75
+    Height = 25
+    Caption = 'Prepara'
+    TabOrder = 8
+    OnClick = Button3Click
+  end
+  object Button4: TButton
+    Left = 568
+    Top = 376
+    Width = 75
+    Height = 25
+    Caption = 'Get SQL'
+    TabOrder = 9
+    OnClick = Button4Click
+  end
+  object Q: TEmbQuery
+    Fields = <
+      item
+        InternalName = 'SERVIDOR'
+        Prefix = 'S'
+        DisplayText = 'C'#243'digo'
+        DisplayWidth = 0
+        ContentType = ctInteger
+        Visible = False
+        Indexed = False
+      end
+      item
+        InternalName = 'MATRICULA'
+        Prefix = 'A'
+        DisplayText = 'Matr'#237'cula'
+        DisplayWidth = 0
+        ContentType = ctInteger
+        Visible = True
+        Indexed = True
+      end
+      item
+        InternalName = 'NOME'
+        Prefix = 'S'
+        DisplayText = 'Nome do Servidor'
+        DisplayWidth = 0
+        ContentType = ctString
+        Visible = True
+        Indexed = True
+      end
+      item
+        InternalName = 'SEXO'
+        DisplayText = 'Sexo'
+        DisplayWidth = 20
+        ContentType = ctString
+        Expression.Strings = (
+          'CASE '
+          '     WHEN S.SEXO = '#39'M'#39' THEN '#39'MASCULINO'#39
+          '     ELSE '#39'FEMININO'#39
+          'END SEXO')
+        Visible = True
+        Indexed = False
+      end
+      item
+        InternalName = 'CPF'
+        Prefix = 'S'
+        DisplayText = 'N'#250'mero do CPF'
+        DisplayWidth = 0
+        ContentType = ctString
+        Visible = True
+        Indexed = True
+      end>
+    SqlFrom.Strings = (
+      'FOL_SERVIDOR S'
+      'INNER JOIN FOL_ADMISSAO A'
+      'ON A.SERVIDOR = S.SERVIDOR')
+    SqlWhere.Strings = (
+      'A.DEMISSAO IS NULL')
+    SqlOrderBy.Strings = (
+      'S.NOME, A.ADMISSAO')
+    SqlConnection = SQLConnection1
+    CriteriaGroup = CG
+    Left = 264
+    Top = 64
+  end
+  object SQLConnection1: TSQLConnection
+    ConnectionName = 'Atualizacao'
+    DriverName = 'Interbase'
+    GetDriverFunc = 'getSQLDriverINTERBASE'
+    LibraryName = 'dbexpint.dll'
+    LoginPrompt = False
+    Params.Strings = (
+      'DriverName=Interbase'
+      'Database=localhost/3050:d:\sapiens\clientes\bancos\pmcverde.fdb'
+      'RoleName=RoleName'
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'ServerCharSet=ISO8859_1'
+      'SQLDialect=3'
+      'BlobSize=-1'
+      'CommitRetain=False'
+      'WaitOnLocks=True'
+      'ErrorResourceFile='
+      'LocaleCode=0000'
+      'Interbase TransIsolation=ReadCommited'
+      'Trim Char=False')
+    VendorLib = 'gds32.dll'
+    Connected = True
+    Left = 216
+    Top = 64
+  end
+end

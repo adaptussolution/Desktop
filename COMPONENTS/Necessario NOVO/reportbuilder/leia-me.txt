@@ -1,0 +1,56 @@
+1) Desinstalar o ReportBuilder 9.01 e reiniciar o windows
+
+2) Rodar rbent7d.exe para instalar o ReportBuilder 11 para delphi 7 no diretório "C:\Arquivos de programas\Borland\Delphi7\Lib\RBuilder"
+   Obs - Escolher a opção de instalar "todas a linguagens" para aparecer o "portuguese(Brazil)"
+
+3) Extrair e substituir os arquivos "CRACKS" contido em "RBuilderv11.06.Lib.for.Delphi.7.Retail.rar" para as suas devidas pastas:
+
+  Lib = C:\Arquivos de programas\Borland\Delphi7\Lib\RBuilder\Lib
+
+  System32 = C:\WINDOWS\system32
+
+
+4) Depois de instalado, executar os arquivos:
+
+Deploying your new Translation
+
+You can compile and deploy your translation using the three .bat files in the ..RBuilder\Languages directory. The first .bat file is:
+
+CreateResFromRC.bat
+
+This file uses the Borland Resource Compiler located in your Delphi\Bin directory to compile the RC files into RES files. If you did not accept the default installation path when installing Delphi, you may need to change the path information in this file regarding the location of your Delphi\Bin directory.
+
+The second file is:
+
+CreateDLLFromRes.bat
+
+This file compiles the RES files into DLLs.  These DLLs allow ReportBuilder to switch between different languages at Delphi design-time. If you did not accept the default installation path when installing Delphi, you may need to change the path information in this file regarding the location of your Delphi\Bin directory.
+
+The third and final file is:
+
+CopyDLLToLib.bat
+
+This file deploys language support by copying the res files of the default language into the RBuilder\Lib directory and the DLL files into the Windows\System directory.  If English is not your default language, you will need to modify this file to copy the appropriate default language to RBuilder\Lib.  Also, if you are using Windows NT, you’ll need to change the target directory for the DLL files to Windows\System32.
+
+
+
+
+5) Instalar o componente "psrb11.07_r_all.sfx.exe" para gerar exportação do relatórios em .pdf, .xls, .htm, .rtf, etc.
+
+
+6) Depois vá em "C:\Program Files\Borland\Delphi7\RBuilder\TeeChart\" e execute o arquivo "RBTeePackageBuilder.exe" (Se estiver usando o Windows 7 execute como administrador), depois click no botão "Build and Install" após finalizar feche o programa e abra o delphi, vá em "Component/Install Packages" na lista "Design packages" ache a opção "ReportBuilder TeeChart 4.04 Components" e marque-a, depois click no botão "OK".
+
+
+   Pasta - C:\Arquivos de programas\Borland\Delphi7\Lib
+
+   Atenção1 - O password para extração do instalador "psrb11.07_r_all.sfx.exe" é kus11es4
+
+   Atenção2 - O ReportBuider 11 juntamente com seu Crack e o componente de exportação não foram totalmente testados por cada
+módulo do sistema sapiens.	
+
+   Atenção3 - Para gerar os relatórios do ReportBuilder nos formatos desejados é só jogar os componentes do "PsRBExportDevices PRO 11"
+              para um formulário de cada projeto.
+
+
+
+ 

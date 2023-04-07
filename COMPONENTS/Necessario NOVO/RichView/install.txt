@@ -1,0 +1,352 @@
+========== COMMON ==========
+If you used freeware version (0.5), read the section
+in the end of this file.
+
+If you have another version of RichView Package installed,
+you need to delete (archive) it.
+If older version remains in paths where Delphi/C++Builder
+searches for components, you will not be able to compile/run
+your applications with RichView properly.
+
+Below are the instructions how to install components, 
+how to run demos, how to integrate help into IDE. 
+(Help file is integrated with more or less completeness, 
+ depending on version of Delphi/C++Builder)
+
+In registered version, components are in the the root directory of installation.
+In trial versions, components are in the locations specified below.
+
+
+========== Installing Update ======
+Copy updated files to the same directory as older version (override older files)
+Then follow instructions for your version of Delphi/C++Builder.
+Do not forget to rebuild packages!
+Read about compatibility issues (if any) in Readme.txt
+
+========== Delphi 2 ==========
+
+INSTALLING COMPONENTS
+Components for Delphi 2 are in D2 directory.
+Help file is in HELP directory.
+Select menu "Component|Install" ("Install Components" dialog)
+Push "Add" button and add unit
+RVReg.
+If your Delphi version supports database components, also add
+DBRV.
+DO NOT INSTALL OTHER UNITS!
+Units have DCU extension in the trial version, 
+and PAS in the registered one.
+INSTALLING HELP
+- Copy RichView.hlp and RichView.cnt to HELP directory of Delphi.
+- Delete all *.GID files form HELP directory of Delphi (these files are hidden!)
+- Open Delphi.cnt and append three lines to it:
+:Link RichView.hlp
+:Include RichView.cnt
+:Index RichView=RichView.hlp
+Now you have "RichView Components" node in main tree of Delphi Help system, 
+and can explore help beginning from it. 
+But index of help is not integrated into Delphi Help, and 
+you can't receive context help on RichView properties. 
+To read index of RichView Help, open RichView.hlp. 
+Sorry, help is not fully integrated into Delphi2. 
+DEMOS
+Demos are in Demos\Delphi subdirectory.
+
+========== Delphi 3 ==========
+
+INSTALLING COMPONENTS
+Components for Delphi 3 are in D3 directory.
+Help file is in HELP directory.
+IMPORTANT: 
+(=problem description=) 
+  There is a problem in Delphi 3 with packages 
+which use jpeg.dcu unit (as RVPkgD3.dpk does).
+Jpeg unit is not included in any package by default. 
+If some package uses this unit, this unit is included in it implicitly. 
+When second package tries to use it, Delphi says that jpeg unit 
+is already implicitly contained in the first package, and does not want 
+to install the second one. 
+Moreover, when such thing happens, you will not be able to install 
+second package any more, even if you set correct dependencies manually 
+(you will need to delete all compilation result files for packages 
+manually, or install a new package under a new name).
+(=what to do=)
+The recommended way is to create a new package with jpeg unit, install it and 
+specify that all packages which use jpeg unit require this package.
+(a)If you have no third-party packages which use jpeg unit, 
+  first open JpegD3.dpk package from D3 directory of RichView 
+  (menu "File|Open") and click "Install" button in the package window 
+  (this package contains only standart jpeg unit).
+  Open RVPkgD3.dpk (menu "File|Open") and click "Install" button in
+  the package window. 
+  You can see what this package requires JpegD3 package 
+  (click on "Requires" tab on package window).
+  Repeat the steps above with RVDBPkgD3.dpk.
+(b)If you have third-party package which already uses jpeg unit, please
+ - uninstall this package 
+   (menu "Component|Install Packages",
+   select this package and click "Remove" button)
+ - install JpegD3.dpk (see above)
+ - open these old packages and make them to require JpegD3 package 
+   (click on "Requires" tab in the package window, then click "Add" 
+   button in the toolbar and add JpegD3.dcp from D3 directory of RichView
+ - install RVPkgD3.dpk (see above)
+ - if your version of Delphi supports database components, 
+   install RVDBPkgD3.dpk.
+INSTALLING HELP
+ - Copy RichView.hlp and RichView.cnt to HELP directory of Delphi
+ - Open Delphi3.cfg in HELP directory of Delphi, and add line:
+:Link RichView.hlp
+ - Open Delphi3.cnt in HELP directory of Delphi 
+  (it's possible that you'll need to use wordpad or other text editor 
+   without file size limitation), and add two lines: 
+:Include RichView.cnt
+:Index RichView=RichView.hlp
+ - delete all *.gid files from HELP directory of Delphi (these files are hidden!)
+
+DEMOS
+Demos are in Demos\Delphi subdirectory.
+Some additional utilities are in Demos\Addins\.
+
+========================= Delphi 4 ===============================
+
+INSTALLING COMPONENTS
+  Components for Delphi 4 are in D4 directory.
+  Help file is in HELP directory.
+  Open RVPkgD4.dpk (menu "File|Open") and click "Install" button 
+in package window. 
+  Repeat the steps above with RVDBPkgD4.dpk.
+INSTALLING HELP
+- Copy RichView.hlp and RichView.cnt to HELP directory of Delphi
+- Open Delphi4.cfg in HELP directory of Delphi, and add line:
+:Link RichView.hlp
+- Open Delphi4.cnt in HELP directory of Delphi, and add lines:
+:Include RichView.cnt
+:Index RichView=RichView.hlp
+- delete all *.gid files from HELP directory of Delphi (these files are hidden!)
+DEMOS
+Demos are in Demos\Delphi subdirectory.
+Some additional utilities are in Demos\Addins\.
+
+========================= Delphi 5 ===============================
+
+INSTALLING COMPONENTS
+  Components for Delphi 5 are in D5 directory.
+  Help file is in HELP directory.
+  Open RVPkgD5.dpk (menu "File|Open") and click "Install" button 
+in package window. 
+  Repeat the steps above with RVDBPkgD5.dpk.
+INSTALLING HELP
+In Delphi IDE, choose Help | Customize to open OpenHelp application.
+Choose the Contents tab.
+Choose Edit | Add Files.
+Select RichView.cnt.
+Click OK
+Choose the Index tab.
+Choose Edit | Add Files.
+Select RichView.hlp.
+Click OK
+Choose the Link tab.
+Choose Edit | Add Files.
+Select RichView.hlp.
+Click OK
+Choose File | Save Project to update Delphi's help file.
+DEMOS
+Demos are in Demos\Delphi subdirectory.
+Some additional utilities are in Demos\Addins\.
+
+========================= Delphi 6 ===============================
+
+INSTALLING COMPONENTS
+  Components for Delphi 6 are in D6 directory.
+  Open RVPkgD6.dpk (menu "File|Open") and click "Install" button 
+in the package window. 
+  Repeat the steps above with RVDBPkgD6.dpk.
+INSTALLING HELP
+Choose menu "Help|Customize...". You'll see Borland OpenHelp Window.
+Click the tab "Contents", then "Add files" button and add "RichView.cnt".
+Click the tab "Index", then "Add files" button and add "RichView.hlp".
+Click the tab "Link", then "Add files" button and add "RichView.hlp".
+Click OpenHelp menu "File|Save project".
+DEMOS
+Demos are in Demos\Delphi subdirectory.
+Some additional utilities are in Demos\Addins\.
+
+========================= Delphi 7 ===============================
+
+INSTALLING COMPONENTS
+  Components for Delphi 7 are in D7 directory.
+  Open RVPkgD7.dpk (menu "File|Open") and click "Install" button 
+in the package window. 
+  Repeat the steps above with RVDBPkgD7.dpk.
+
+DEMOS
+Demos are in Demos\Delphi subdirectory.
+Some additional utilities are in Demos\Addins\.
+
+===================== C++Builder1 ===============================
+
+INSTALLING COMPONENTS
+  Components for C++Builder 1 are in CB1 directory.
+  Help file is in HELP directory.
+  Select menu "Component|Install" ("Install Components" dialog)
+  Push "Add" button and add unit
+RVReg
+  If your C++Builder version supports database components, also add
+DBRV
+  DO NOT ADD OTHER UNITS!
+  Units have OBJ extension in trial version, and PAS in registered one.
+Note: it may be necessary to edit include- and library- paths manually, 
+if your C++Builder can't find *.hpp or *.obj files. 
+Add path to components' directory to:
+- menu "Options|Environment", "Library" tab, 
+  "Include path" and "Library path"
+- menu "Options|Project", "Directories/Conditionals" tab, 
+  "Include path" and "Library path"
+INSTALLING HELP
+- Copy RichView.hlp and RichView.cnt to HELP directory of C++Builder
+- Open Bcb.cnt in HELP directory of C++Builder, and add three lines to it:
+:Link RichView.hlp
+:Include RichView.cnt
+:Index RichView=RichView.hlp
+- delete all *.gid files from HELP directory of C++Builder (these files are hidden!)
+DEMOS
+Demos are in Demos\CBuilder subdirectory.
+
+======================== C++Builder 3 ============================
+
+INSTALLING COMPONENTS
+  Components for C++Builder 3 are in CB3 directory.
+  Help file is in HELP directory.
+  Open RVPkgCB3.bpk (menu "File|Open").
+  If your version of C++Builder supports database components, 
+add DBRV unit (.pas or .obj) into this package (menu "Project|Add To Project").
+  When C++Builder asks to VCLDB35 package to list of required packages, 
+press "OK" button.
+  If C++Builder does not ask to do it,  but generates 
+error messages when compiling instead, 
+open RVPkgCB3.cpp and add line:
+USEPACKAGE("vcldb35.bpi");
+  Compile it.
+  Click menu "Component|Install Packages" ("Project Options:Packages" dialog),
+  Push "Add" button and install RVPkgCB3.bpl.
+  If C++Builder does not ask for vcldb35, and you can't see 
+TDBRichView and TDBRichViewEdit on the component palette, 
+open RVPkgCB3.cpp and change line:
+USEOBJ("Dbrv.obj");
+to
+USEUNIT("Dbrv.pas");
+Compile.
+
+Note: it may be necessary to edit include- and library- paths manually, 
+if your C++Builder can't find *.hpp or *.obj files. 
+Add path to components' directory to:
+- menu "Tools|Environment Options", "Library" tab, 
+  "Library path"
+- menu "Project|Options", "Directories/Conditionals" tab, 
+  "Include path" and "Library path"
+INSTALLING HELP
+- Copy RichView.hlp and RichView.cnt to HELP directory of C++Builder
+- Open Bcb3.cnt in HELP directory of C++Builder, and add three lines to it:
+:Link RichView.hlp
+:Include RichView.cnt
+:Index RichView=RichView.hlp
+- delete all *.gid files from HELP directory of C++Builder (these files are hidden!)
+DEMOS
+Demos are in Demos\CBuilder subdirectory.
+Some additional utilities are in Demos\Addins\.
+
+======================== C++Builder 4 ============================
+
+INSTALLING COMPONENTS
+  Components for C++Builder 4 are in CB4 directory.
+  Help file is in HELP directory.
+  Open RVPkgCB4.bpk (menu "File|Open") 
+and click "Install" button in package window.
+  Repeat the steps above with RVDBPkgCB4.bpk.
+Note: it may be necessary to edit include- and library- paths manually, 
+if your C++Builder can't find *.hpp or *.obj files. 
+Add path to components' directory to:
+- menu "Tools|Environment Options", "Library" tab, 
+  "Library path"
+- menu "Project|Options", "Directories/Conditionals" tab, 
+  "Include path" and "Library path"
+INSTALLING HELP
+- Copy RichView.hlp and RichView.cnt to HELP directory of C++Builder
+- Open Bcb4.cfg in HELP directory of C++Builder, and add line:
+:Link RichView.hlp
+- Open Bcb4.cnt in HELP directory of C++Builder, and add lines:
+:Include RichView.cnt
+:Index RichView=RichView.hlp
+- delete all *.gid files from HELP directory of C++Builder (these files are hidden!)
+DEMOS
+Demos are in Demos\CBuilder subdirectory.
+Some additional utilities are in Demos\Addins\.
+
+======================== C++Builder 5 ============================
+
+INSTALLING COMPONENTS
+  Components for C++Builder 5 are in CB5 directory.
+  Open RVPkgCB5.bpk (menu "File|Open") 
+and click "Install" button in package window.
+  If your version of C++Builder supports database components, 
+repeat the steps above with RVDBPkgCB5.bpk.
+Note: it may be necessary to edit include- and library- paths manually, 
+if your C++Builder can't find *.hpp or *.obj files. 
+Add path to components' directory to:
+- menu "Tools|Environment Options", "Library" tab, 
+  "Library path"
+- menu "Project|Options", "Directories/Conditionals" tab, 
+  "Include path" and "Library path"
+INSTALLING HELP
+- Copy RichView.hlp and RichView.cnt to the HELP directory of C++Builder
+Run C++Builder.
+Click menu "Help|Customize...". You'll see Borland OpenHelp Window.
+Click the tab "Contents", then "Add files" button and add "RichView.cnt".
+Click the tab "Index", then "Add files" button and add "RichView.hlp".
+Click the tab "Link", then "Add files" button and add "RichView.hlp".
+Click OpenHelp menu "File|Save project".
+DEMOS
+Demos are in Demos\CBuilder subdirectory.
+Some additional utilities are in Demos\Addins\.
+
+======================== C++Builder 6 ============================
+
+INSTALLING COMPONENTS
+  Components for C++Builder 6 are in CB6 directory.
+  Open RVPkgCB6.bpk (menu "File|Open") 
+and click "Install" button in package window.
+  Repeat the steps above with RVDBPkgCB6.bpk.
+Note: it may be necessary to edit include- and library- paths manually, 
+if your C++Builder can't find *.hpp or *.obj files. 
+Add path to components' directory to:
+- menu "Tools|Environment Options", "Library" tab, 
+  "Library path"
+- menu "Project|Options", "Directories/Conditionals" tab, 
+  "Include path" and "Library path"
+INSTALLING HELP
+- Copy RichView.hlp and RichView.cnt to the HELP directory of C++Builder
+Run C++Builder.
+Click menu "Help|Customize...". You'll see Borland OpenHelp Window.
+Click the tab "Contents", then "Add files" button and add "RichView.cnt".
+Click the tab "Index", then "Add files" button and add "RichView.hlp".
+Click the tab "Link", then "Add files" button and add "RichView.hlp".
+Click OpenHelp menu "File|Save project".
+DEMOS
+Demos are in Demos\CBuilder subdirectory.
+Some additional utilities are in Demos\Addins\.
+
+===== FOR USERS OF FREEWARE VERSION (0.5): =====
+
+You can't use both freeware and shareware version
+on the same Delphi or C++Builder instance.
+If you have the old freeware version, please uninstall it
+before installing the shareware one (and remove it from 
+directories where Delphi/C++Builder searches for 
+components).
+You can try your existing projects with this version 
+of RichView, but read "Compatibility with older versions 
+of RichView" topic of RichView help before. Please save 
+original code of these projects (old freeware version 
+could not be able to load projects saved with new one, 
+and you can decide to return to old version).

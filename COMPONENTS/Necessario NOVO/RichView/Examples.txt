@@ -1,0 +1,77 @@
+=======================================================
+Example of BeginOleDrag
+=======================================================
+This example implements d&d of inserted TButtons.
+
+1) Add the following variables in form
+    ClickedControl: TObject;
+    ClickPoint: TPoint;
+2) Add the following methods:
+
+procedure TForm1.OnControlMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if Button = mbLeft then begin
+    RichViewEdit1.SelectControl(TControl(Sender));
+    ClickedControl := Sender;
+    ClickPoint := Point(X, Y);
+  end;
+end;
+
+procedure TForm1.OnControlMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  if (ssLeft in Shift) and (ClickedControl=Sender) and 
+    (Sqr(ClickPoint.X-X)+Sqr(ClickPoint.Y-Y)>10) then
+    RichViewEdit1.BeginOleDrag;
+end;
+
+3) Now we need to assign events to created controls:
+
+  btn := TButton.Create(Self);
+  btn.Caption := 'Button';
+  btn.OnMouseDown := OnControlMouseDown;
+  btn.OnMouseMove := OnControlMouseMove;
+  RichViewEdit1.InsertControl('',btn,rvvaBaseline);
+
+4) Events are not saved in RVF, so we need to reassign them
+  on loading. Using OnControlAction event:
+
+procedure TForm1.RichViewEdit1ControlAction(Sender: TCustomRichView;
+  ControlAction: TRVControlAction; ItemNo: Integer; var ctrl: TControl);
+begin
+  if ControlAction=rvcaAfterRVFLoad then begin
+    if ctrl is TButton then begin
+      TButton(ctrl).OnMouseDown := OnControlMouseDown;
+      TButton(ctrl).OnMouseMove := OnControlMouseMove;
+     end;
+  end;
+end;
+
+=======================================================
+Example of OnItemHint.
+=======================================================
+Besides the default hint, it displays
+- for hyperlinks - tag
+- for images - Delphi class type, width and height
+
+procedure TForm1.RichViewEdit1ItemHint(Sender: TCustomRichView;
+  RVData: TCustomRVData; ItemNo: Integer; var HintText: String);
+var Tag: Integer;
+    VAlign: TRVVAlign;
+    Name: String;
+    gr: TGraphic;
+begin
+  if RVData.GetItem(ItemNo).GetBoolValueEx(rvbpJump, Sender.Style) then begin
+    if HintText<>'' then
+      HintText := HintText+#13;
+    HintText := HintText + 'Target: '+PChar(RVData.GetItemTag(ItemNo));
+  end;
+  if (RVData.GetItemStyle(ItemNo)=rvsPicture) or
+     (RVData.GetItemStyle(ItemNo)=rvsHotPicture) then begin
+    if HintText<>'' then
+      HintText := HintText+#13;
+    RVData.GetPictureInfo(ItemNo, Name, gr, VAlign, Tag);
+    HintText := HintText+gr.ClassName+' ('+IntToStr(gr.Width)+','+IntToStr(gr.Height)+')';
+  end;
+end;

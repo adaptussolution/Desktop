@@ -1,0 +1,7 @@
+Instale os arquivos no diretório "C:\Arquivos de programas\Borland\Delphi7\Lib\SkyLine\ImageLib Corporate Suite version 60\" o restante da instalação é padrão.
+
+Senha de instalação: filesharing
+
+Após a instalação abra o Delphi e vá em "Tools|Environment Options" clique na aba "Library", depois selecione "Library path" após clique no botão que contém "..." e selecione o caminho "C:\Arquivos de programas\Borland\Delphi7\Lib\SkyLine\ImageLib Corporate Suite version 60\Vcl_Del6" e depois click no botão "Add" e confirme todas as alterações.
+
+Após o procedimento acima vá no menu File|Open e abra o arquivo "C:\Arquivos de programas\Borland\Delphi7\Lib\SkyLine\ImageLib Corporate Suite version 60\Vcl_Del6\ILCORP60.dpk", depois click no botão "Compile" e depois "Install".

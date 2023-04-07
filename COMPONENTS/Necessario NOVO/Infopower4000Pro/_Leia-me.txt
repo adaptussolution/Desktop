@@ -1,0 +1,5 @@
+Instale os arquivos no diretório "C:\Arquivos de programas\Borland\Delphi7\Lib\ip4000vcl7\" o restante da instalação é padrão.
+
+Senha InfoPower 4000: IP4013487442
+
+ Após a instalação, no o Delphi vá em "Tools|Environment Options" clique na aba "Library", depois selecione "Library path" após clique no botão que contém "..." e selecione o caminho "C:\Arquivos de programas\Borland\Delphi7\Lib\ip4000vcl7\Source\" e depois click no botão "Add" e confirme todas as alterações. 
