@@ -4,11 +4,22 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs;
+  Dialogs, ExtCtrls, Menus;
 
 type
   TfrmMenu = class(TForm)
+    Panel1: TPanel;
+    MainMenu1: TMainMenu;
+    Register: TMenuItem;
+    Report: TMenuItem;
+    Person: TMenuItem;
+    Operational: TMenuItem;
+    Usurio1: TMenuItem;
+    company: TMenuItem;
+    Employee: TMenuItem;
+    Exit: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ExitClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -27,6 +38,11 @@ uses UDM_PRINCIPAL;
 procedure TfrmMenu.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Application.Terminate;
+end;
+
+procedure TfrmMenu.ExitClick(Sender: TObject);
+begin
+  Close;
 end;
 
 end.
