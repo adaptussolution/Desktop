@@ -20,6 +20,7 @@ object DM_PRINCIPAL: TDM_PRINCIPAL
     Top = 96
   end
   object IBDatabase1: TIBDatabase
+    Connected = True
     DatabaseName = 'C:\Users\Trabalho\Desktop\ADAPTUS\BANCO\ADAPTUS.FDB'
     Params.Strings = (
       'user_name=SYSDBA'

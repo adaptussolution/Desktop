@@ -107,31 +107,6 @@ object FrmRelatorio: TFrmRelatorio
         Visible = False
       end
     end
-    object frmrelpadrao: TRLReport
-      Left = 1000
-      Top = 171
-      Width = 794
-      Height = 1123
-      DefaultFilter = rldraftfilter1
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clBlack
-      Font.Height = -13
-      Font.Name = 'Arial'
-      Font.Style = []
-    end
-  end
-  object rldraftfilter1: TRLDraftFilter
-    DeviceKind = dkPrinter
-    DevicePath = 'prn'
-    EjectMethod = ejForceWithCode
-    DisplayName = 'Impressora Matricial'
-    Left = 344
-    Top = 56
-  end
-  object RLRichFilter1: TRLRichFilter
-    DisplayName = 'Formato RichText'
-    Left = 280
-    Top = 8
   end
   object ActionList1: TActionList
     Left = 400
@@ -151,15 +126,5 @@ object FrmRelatorio: TFrmRelatorio
   object DsSource: TDataSource
     Left = 184
     Top = 56
-  end
-  object RLXLSFilter1: TRLXLSFilter
-    DisplayName = 'Planilha Excel'
-    Left = 387
-    Top = 45
-  end
-  object RLPDFFilter1: TRLPDFFilter
-    DisplayName = 'Documento PDF'
-    Left = 126
-    Top = 117
   end
 end

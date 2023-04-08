@@ -18,14 +18,14 @@ type
     { Private declarations }
     function ConnectBank(APath: string): Boolean;
     procedure ValidatePathBank;
-    procedure StartTransaction;
-    procedure ConfirmTransaction;
-    procedure CancelTransaction;
-    function GetSequence(AGENERATOR: string): string;
   public
     { Public declarations }
     FParameters: TParameters;
     FGlobal: TGlobal;
+    procedure StartTransaction;
+    procedure ConfirmTransaction;
+    procedure CancelTransaction;
+    function GetSequence(AGENERATOR: string): string;
   end;
 
 var
@@ -120,7 +120,7 @@ begin
     if OpenDialog1.Execute then
       FParameters.PathBank := OpenDialog1.FileName;
   end;
-  DM_PRINCIPAL.FParameters.FArqIni.WriteString('Geral', 'Caminho do banco', FParameters.PathBank);
+  FParameters.FArqIni.WriteString('Geral', 'Caminho do banco', FParameters.PathBank);
 end;
 
 end.

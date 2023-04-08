@@ -1,8 +1,8 @@
 object frmMenu: TfrmMenu
-  Left = 263
-  Top = 164
-  Width = 928
-  Height = 480
+  Left = 190
+  Top = 141
+  Width = 1195
+  Height = 588
   BorderIcons = [biSystemMenu]
   Caption = 'Menu'
   Color = clBtnFace
@@ -20,16 +20,16 @@ object frmMenu: TfrmMenu
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 920
-    Height = 410
+    Width = 1187
+    Height = 518
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 410
-    Width = 920
+    Top = 518
+    Width = 1187
     Height = 19
     Panels = <
       item
@@ -46,6 +46,7 @@ object frmMenu: TfrmMenu
       Caption = 'Cadastro'
       object Person: TMenuItem
         Caption = 'Pessoa'
+        OnClick = PersonClick
       end
       object Operational: TMenuItem
         Caption = 'Operacional'

@@ -18,14 +18,14 @@ type
     { Private declarations }
     function ConnectBank(APath: string): Boolean;
     procedure ValidatePathBank;
-    procedure StartTransaction;
-    procedure ConfirmTransaction;
-    procedure CancelTransaction;
-    function GetSequence(AGENERATOR: string): string;
   public
     { Public declarations }
     FParameters: TParameters;
     FGlobal: TGlobal;
+    procedure StartTransaction;
+    procedure ConfirmTransaction;
+    procedure CancelTransaction;
+    function GetSequence(AGENERATOR: string): string;
   end;
 
 var

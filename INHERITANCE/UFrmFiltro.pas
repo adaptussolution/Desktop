@@ -89,7 +89,7 @@ implementation
 
 {$R *.dfm}
 
-uses UFrmMenu, UFRMROTINAS, UFrmCadFuncionario;
+uses UMenu;
 
 procedure TFrmFiltro.AbreForm(aClasseForm: TComponentClass; var aForm);
 begin
@@ -280,92 +280,7 @@ begin
     Tbobjetos.Open;
     VARNOMEFORM := 'TFUNCIONARIO';
   end;
-  //////////////////////////////////////////////////////////////////////////////////
-  if TipoPesquisa = 'TESTADO' then
-  begin
-    Tbobjetos.Close;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[0].FieldName := 'CODIGO';
-    DBGrid1.Columns[0].Title.Caption := 'Código';
-    DBGrid1.Columns[0].Width := 80;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[1].FieldName := 'NOME';
-    DBGrid1.Columns[1].Title.Caption := 'Nome do estado';
-    DBGrid1.Columns[1].Width := 250;
-
-
-    with QuyCNSObjetos do
-    begin
-      Close;
-      sql.Clear;
-      sql.Add('SELECT A.CODIGO, A.NOME  FROM TESTADO A ');
-      Open;
-      Last;
-      First;
-    end;
-    Tbobjetos.Open;
-    VARNOMEFORM := 'TESTADO';
-  end;
-  //////////////////////////////////////////////////////////////////////////////////
-   if TipoPesquisa = 'TCIDADE' then
-  begin
-    Tbobjetos.Close;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[0].FieldName := 'CODIGO';
-    DBGrid1.Columns[0].Title.Caption := 'Código';
-    DBGrid1.Columns[0].Width := 80;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[1].FieldName := 'NOME';
-    DBGrid1.Columns[1].Title.Caption := 'Nome da cidade';
-    DBGrid1.Columns[1].Width := 250;
-
-
-    with QuyCNSObjetos do
-    begin
-      Close;
-      sql.Clear;
-      sql.Add('SELECT A.CODIGO, A.NOME  FROM TCIDADE A WHERE A.codigo_estado = :ESTADO');
-      Open;
-      //Last;
-      //First;
-      ParamByName('ESTADO').AsInteger := FrmCadFuncionario.TBObjetosCOD_ESTADO_NASC.AsInteger;
-    end;
-    Tbobjetos.Open;
-    VARNOMEFORM := 'TCIDADE';
-  end;
-  ////////////////////////////////////////////////////////////////////////////////////
-    if TipoPesquisa = 'TCIDADE_MORA' then
-  begin
-    Tbobjetos.Close;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[0].FieldName := 'CODIGO';
-    DBGrid1.Columns[0].Title.Caption := 'Código';
-    DBGrid1.Columns[0].Width := 80;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[1].FieldName := 'NOME';
-    DBGrid1.Columns[1].Title.Caption := 'Nome da cidade';
-    DBGrid1.Columns[1].Width := 250;
-
-
-    with QuyCNSObjetos do
-    begin
-      Close;
-      sql.Clear;
-      sql.Add('SELECT A.CODIGO, A.NOME  FROM TCIDADE A WHERE A.codigo_estado = :ESTADO');
-      Open;
-      //Last;
-      //First;
-      ParamByName('ESTADO').AsInteger := FrmCadFuncionario.TBObjetosCOD_ESTADO_RES.AsInteger;
-    end;
-    Tbobjetos.Open;
-    VARNOMEFORM := 'TCIDADE_MORA';
-  end;
+  
   ////////////////////////////////////////////////////////////////////////////////////
   if TipoPesquisa = 'TMATRICULA' then
   begin

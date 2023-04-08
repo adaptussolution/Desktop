@@ -13,17 +13,11 @@ type
   TFrmRelatorio = class(TForm)
     Panel1: TPanel;
     Panel2: TPanel;
-    rldraftfilter1: TRLDraftFilter;
-    RLRichFilter1: TRLRichFilter;
     ActionList1: TActionList;
     Panel3: TPanel;
     ActSair: TAction;
     FormStorage1: TFormStorage;
     DsSource: TDataSource;
-
-    RLXLSFilter1: TRLXLSFilter;
-    RLPDFFilter1: TRLPDFFilter;
-    frmrelpadrao: TRLReport;
     btnvisualizar: TButton;
     btnimprimir: TButton;
     btnsair: TButton;

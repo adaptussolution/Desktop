@@ -332,8 +332,8 @@ object FrmFiltro: TFrmFiltro
     end
   end
   object QuyCNSObjetos: TIBQuery
-    Database = dm.IBDatabase1
-    Transaction = dm.IBTransaction1
+    Database = DM_PRINCIPAL.IBDatabase1
+    Transaction = DM_PRINCIPAL.IBTransaction1
     BufferChunks = 1000
     CachedUpdates = False
     SQL.Strings = (

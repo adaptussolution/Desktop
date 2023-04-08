@@ -23,6 +23,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ExitClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure PersonClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,7 +35,7 @@ var
 
 implementation
 
-uses UDM_PRINCIPAL;
+uses UDM_PRINCIPAL, URegisterPerson;
 
 {$R *.dfm}
 
@@ -51,6 +52,14 @@ end;
 procedure TfrmMenu.Timer1Timer(Sender: TObject);
 begin
   StatusBar1.Panels.Items[1].Text := DateTimeToStr(Now);
+end;
+
+procedure TfrmMenu.PersonClick(Sender: TObject);
+begin
+  if not Assigned(frmRegisterPerson) then
+    frmRegisterPerson := TfrmRegisterPerson.Create(Self);
+
+  frmRegisterPerson.Show;
 end;
 
 end.

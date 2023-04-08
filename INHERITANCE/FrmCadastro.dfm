@@ -1,6 +1,6 @@
 object FrmCadastros: TFrmCadastros
-  Left = 337
-  Top = 142
+  Left = 332
+  Top = 109
   BorderStyle = bsSingle
   ClientHeight = 471
   ClientWidth = 744
@@ -945,7 +945,7 @@ object FrmCadastros: TFrmCadastros
       Top = 1
       Width = 742
       Height = 416
-      ActivePage = TabManutencao
+      ActivePage = TabConsulta
       Align = alClient
       Font.Charset = ANSI_CHARSET
       Font.Color = clBlack
@@ -1433,8 +1433,8 @@ object FrmCadastros: TFrmCadastros
       000000000000}
   end
   object QuyObjetos: TIBQuery
-    Database = dm.IBDatabase1
-    Transaction = dm.IBTransaction1
+    Database = DM_PRINCIPAL.IBDatabase1
+    Transaction = DM_PRINCIPAL.IBTransaction1
     ForcedRefresh = True
     BufferChunks = 1000
     CachedUpdates = False
@@ -1461,22 +1461,11 @@ object FrmCadastros: TFrmCadastros
     Top = 199
   end
   object QuyComandos: TIBQuery
-    Database = dm.IBDatabase1
-    Transaction = dm.IBTransaction1
+    Database = DM_PRINCIPAL.IBDatabase1
+    Transaction = DM_PRINCIPAL.IBTransaction1
     BufferChunks = 1000
     CachedUpdates = False
     Left = 205
     Top = 201
-  end
-  object FormStorage1: TFormStorage
-    UseRegistry = True
-    StoredValues = <>
-    Left = 579
-    Top = 223
-  end
-  object AppEvents1: TAppEvents
-    OnActiveControlChange = AppEvents1ActiveControlChange
-    Left = 423
-    Top = 153
   end
 end

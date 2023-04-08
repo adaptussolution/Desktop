@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, ExtCtrls, ImgList, ActnList, Menus, ComCtrls, ToolWin,
   StdCtrls, Mask, Buttons, Grids, DBGrids, DB, IBCustomDataSet, IBQuery,
-  Provider, DBClient, ib,     AppEvent, Placemnt;
+  Provider, DBClient, ib;
 
 type
   TFrmCadastros = class(TForm)
@@ -37,7 +37,6 @@ type
     QuyComandos: TIBQuery;
     actCancelar: TAction;
     BitBtn6: TBitBtn;
-    FormStorage1: TFormStorage;
     DBNavigator1: TDBNavigator;
     PANEL4: TPanel;
     rdgFiltragem: TGroupBox;
@@ -47,7 +46,6 @@ type
     edPesquisar: TEdit;
     chxDecrescente: TCheckBox;
     ComboBox2: TComboBox;
-    AppEvents1: TAppEvents;
     spdIncluir: TSpeedButton;
     spdAlterar: TSpeedButton;
     spdExcluir: TSpeedButton;
@@ -124,10 +122,7 @@ var
 
 implementation
 
-USES  UFRMFILTRO, UDM;
-
-
-
+USES UDM_PRINCIPAL;
 
 {$R *.dfm}
 

@@ -7,7 +7,11 @@ uses
   UParameters in 'OBJECTS\UParameters.pas',
   UGlobal in 'OBJECTS\UGlobal.pas',
   UParametersScreen in 'UParametersScreen.pas' {frmParameters},
-  UMenu in 'UMenu.pas' {frmMenu};
+  UMenu in 'UMenu.pas' {frmMenu},
+  UFrmFiltro in 'INHERITANCE\UFrmFiltro.pas' {FrmFiltro},
+  FrmCadastro in 'INHERITANCE\FrmCadastro.pas' {FrmCadastros},
+  UPerson in 'OBJECTS\UPerson.pas',
+  URegisterPerson in 'FORMS\URegisterPerson.pas' {frmRegisterPerson};
 
 {$R *.res}
 

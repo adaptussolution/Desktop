@@ -1,7 +1,7 @@
 package JpegD3;
 
-{$R *.RES}
-{$ALIGN ON}
+{$R *.res}
+{$ALIGN 8}
 {$ASSERTIONS OFF}
 {$BOOLEVAL OFF}
 {$DEBUGINFO OFF}
@@ -21,13 +21,13 @@ package JpegD3;
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST ON}
 {$MINENUMSIZE 1}
-{$IMAGEBASE $00400000}
+{$IMAGEBASE $400000}
 {$DESCRIPTION 'Standard Delphi JPEG Unit'}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
 
 requires
-  vcl30;
+  vcl;
 
 contains
   jpeg,
