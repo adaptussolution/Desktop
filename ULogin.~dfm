@@ -337,7 +337,6 @@ object frmLogin: TfrmLogin
       ParentFont = False
       PasswordChar = '*'
       TabOrder = 2
-      OnKeyDown = edtLoginKeyDown
     end
     object chkViewPassword: TCheckBox
       Left = 344

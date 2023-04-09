@@ -6,6 +6,7 @@ uses
   SysUtils, XMLDoc, XMLIntf;
 
 type
+
   TCep = class
     logradouro: string;
     complemento: string;
@@ -103,7 +104,7 @@ begin
 
     xtempXML := AXMLDocument.DocumentElement;
 
-    if xtempXML.ChildNodes.Count = 0 then
+    if xtempXML.ChildNodes.FindNode('logradouro') = nil then
       Exit; 
 
     xtempNodePAI := xtempXML.ChildNodes.FindNode('logradouro');

@@ -29,6 +29,7 @@ type
     UF: string;
     PAIS: string;
     TIPO_PESSOA: string;
+    estado_civil: string;
   end;
 
   TPerson = class
@@ -36,7 +37,6 @@ type
     FInterfaceList: TInterfaceList;
     procedure NotifyPersonSucess(AStatus: string; AId: Integer);
     procedure NotifyPersonFaild(AMsg: string);
-  protected
   public
     procedure AddListener(AIPerson: IPerson);
     procedure RemListener(AIPerson: IPerson);
@@ -45,6 +45,9 @@ type
     constructor Create;
     class function GetInstance(): TPerson;
   end;
+
+  var
+    Person: TPerson;
 
 implementation
 
@@ -69,8 +72,8 @@ begin
     begin
       Close;
       SQL.Clear;
-      SQL.Add('update or insert into tb_pessoa (id_pessoa, cpf_cnpj, nome, data_nascimento, sexo, email, telefone, cep, bairro, numero, logradouro, complemento, cidade, uf, pais, tipo_pessoa) ');
-      SQL.Add('values (:id_pessoa, :cpf_cnpj, :nome, :data_nascimento, :sexo, :email, :telefone, :cep, :bairro, :numero, :logradouro, :complemento, :cidade, :uf, :pais, :tipo_pessoa) ');
+      SQL.Add('update or insert into tb_pessoa (id_pessoa, cpf_cnpj, nome, data_nascimento, sexo, email, telefone, cep, bairro, numero, logradouro, complemento, cidade, uf, pais, tipo_pessoa, estado_civil) ');
+      SQL.Add('values (:id_pessoa, :cpf_cnpj, :nome, :data_nascimento, :sexo, :email, :telefone, :cep, :bairro, :numero, :logradouro, :complemento, :cidade, :uf, :pais, :tipo_pessoa, :estado_civil) ');
       SQL.Add('matching (id_pessoa)');
 
       ParamByName('id_pessoa').AsString := xCodigo;
@@ -89,7 +92,7 @@ begin
       ParamByName('uf').AsString := APersonOBJECT.UF;
       ParamByName('pais').AsString := APersonOBJECT.PAIS;
       ParamByName('tipo_pessoa').AsString := APersonOBJECT.TIPO_PESSOA;
-
+      ParamByName('estado_civil').AsString := APersonOBJECT.estado_civil;
       ExecSQL;
       DM_PRINCIPAL.ConfirmTransaction;
       APersonOBJECT.ID_PESSOA := StrToInt(xCodigo);
@@ -160,7 +163,7 @@ begin
         xIPerson.OnFaild(AMsg);
     end;
   except
-    
+
   end;
 end;
 
@@ -179,7 +182,7 @@ begin
         xIPerson.OnSucess(AStatus, AId);
     end;
   except
-    
+
   end;
 end;
 
@@ -191,7 +194,10 @@ end;
 
 class function TPerson.GetInstance: TPerson;
 begin
-  Result := TPerson.Create;
+  if not Assigned(Person) then
+    Person := TPerson.Create;
+
+  Result := Person;
 end;
 
 end.

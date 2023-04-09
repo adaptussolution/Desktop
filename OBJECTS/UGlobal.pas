@@ -6,6 +6,7 @@ uses
   SysUtils, XMLDoc, XMLIntf;
 
 type
+
   TCep = class
     logradouro: string;
     complemento: string;

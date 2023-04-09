@@ -6,7 +6,9 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FrmCadastro, DB, Provider, DBClient, IBCustomDataSet, IBQuery,
   ImgList, ActnList, StdCtrls, Grids, DBGrids, ComCtrls, DBCtrls, Buttons,
-  ToolWin, ExtCtrls, UPerson, Mask, xmldom, XMLIntf, msxmldom, XMLDoc;
+  ToolWin, ExtCtrls, UPerson, Mask, xmldom, XMLIntf, msxmldom, XMLDoc, ToolEdit,
+  RXDBCtrl, RxDBComb, IdIOHandler, IdIOHandlerSocket, IdBaseComponent,
+  IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, IdSSLOpenSSL;
 
 type
   TfrmRegisterPerson = class(TFrmCadastros, IPerson)
@@ -67,21 +69,25 @@ type
     lbl7: TLabel;
     dbedtCIDADE: TDBEdit;
     lbl8: TLabel;
-    dbedtUF: TDBEdit;
-    lbl9: TLabel;
-    dbedtPAIS: TDBEdit;
     dbrgrpSEXO: TDBRadioGroup;
     dbrgrpTIPO_PESSOA: TDBRadioGroup;
     Label5: TLabel;
-    DBEdit4: TDBEdit;
     XMLDocument1: TXMLDocument;
+    DBDateEdit1: TDBDateEdit;
+    lbl10: TLabel;
+    RxDBComboBox1: TRxDBComboBox;
+    RxDBComboBox2: TRxDBComboBox;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actExcluirExecute(Sender: TObject);
-    procedure dbrgrpTIPO_PESSOAChange(Sender: TObject);
     procedure dbedtCEPExit(Sender: TObject);
+    procedure actGravarExecute(Sender: TObject);
+    procedure actNovoExecute(Sender: TObject);
+    procedure dbrgrpTIPO_PESSOAExit(Sender: TObject);
+    procedure TBObjetosAfterScroll(DataSet: TDataSet);
   private
     { Private declarations }
+    function validateFileds: Boolean;
     procedure OnSucess(AStatus: string; AId: Integer);
     procedure OnFaild(AMsg: string);
   public
@@ -93,7 +99,8 @@ var
 
 implementation
 
-uses UDM_PRINCIPAL, UGlobal;
+uses
+  UDM_PRINCIPAL, UGlobal;
 
 {$R *.dfm}
 
@@ -119,6 +126,8 @@ begin
       Application.MessageBox('Alteração realizada com sucesso!', 'Atenção', mb_ok + MB_ICONWARNING);
 
     TBObjetos.Post;
+
+    PageControl1.TabIndex := 0;
   end;
 
 end;
@@ -146,7 +155,177 @@ begin
   end;
 end;
 
-procedure TfrmRegisterPerson.dbrgrpTIPO_PESSOAChange(Sender: TObject);
+procedure TfrmRegisterPerson.dbedtCEPExit(Sender: TObject);
+var
+  xCep: TCep;
+begin
+  inherited;
+  if Length(Trim(TBObjetosCEP.AsString)) <> 8 then
+  begin
+    ShowMessage('CEP inválido');
+    Exit;
+  end;
+
+  if TBObjetos.State in [dsBrowse] then
+    TBObjetos.Edit;
+
+  xCep := DM_PRINCIPAL.FGlobal.ConsultaCEP(TBObjetosCEP.AsString, XMLDocument1);
+  TBObjetosLOGRADOURO.AsString := xCep.logradouro;
+  TBObjetosBAIRRO.AsString := xCep.bairro;
+  TBObjetosCIDADE.AsString := xCep.cidade;
+  TBObjetosUF.AsString := xCep.uf;
+  RxDBComboBox2.Text := RxDBComboBox2.Items[RxDBComboBox2.Values.IndexOf(xCep.uf)];
+  dbedtNUMERO.SetFocus;
+
+//  TThread.Create(
+//    procedure
+//    var
+//      xCep: TCep;
+//    begin
+//      xCep := DM_PRINCIPAL.FGlobal.ConsultaCEP(TBObjetosCEP.AsString, XMLDocument1);
+//      TBObjetosLOGRADOURO.AsString := xCep.logradouro;
+//      TBObjetosBAIRRO.AsString := xCep.bairro;
+//      TBObjetosCIDADE.AsString := xCep.cidade;
+//      RxDBComboBox2.ItemIndex := RxDBComboBox2.Values.IndexOf(xCep.uf);
+//    end).Start;
+
+end;
+
+procedure TfrmRegisterPerson.actGravarExecute(Sender: TObject);
+var
+  xPersonOBJECT: TPersonOBJECT;
+  xStatus: string;
+begin
+  inherited;
+  if validateFileds then
+    Exit;
+
+  if TBObjetos.State in [DSINSERT, DSEDIT] then
+  begin
+    if TBObjetos.State in [DSINSERT] then
+      xStatus := 'I'
+    else
+      xStatus := 'U';
+
+    xPersonOBJECT := TPersonOBJECT.Create;
+    xPersonOBJECT.ID_PESSOA := TBObjetosID_PESSOA.AsInteger;
+    xPersonOBJECT.CPF_CNPJ := TBObjetosCPF_CNPJ.AsString;
+    xPersonOBJECT.NOME := TBObjetosNOME.AsString;
+    xPersonOBJECT.DATA_NASCIMENTO := TBObjetosDATA_NASCIMENTO.AsDateTime;
+    xPersonOBJECT.SEXO := TBObjetosSEXO.AsString;
+    xPersonOBJECT.EMAIL := TBObjetosEMAIL.AsString;
+    xPersonOBJECT.TELEFONE := TBObjetosTELEFONE.AsString;
+    xPersonOBJECT.CEP := TBObjetosCEP.AsString;
+    xPersonOBJECT.BAIRRO := TBObjetosBAIRRO.AsString;
+    xPersonOBJECT.NUMERO := TBObjetosNUMERO.AsInteger;
+    xPersonOBJECT.LOGRADOURO := TBObjetosLOGRADOURO.AsString;
+    xPersonOBJECT.COMPLEMENTO := TBObjetosCOMPLEMENTO.AsString;
+    xPersonOBJECT.CIDADE := TBObjetosCIDADE.AsString;
+    xPersonOBJECT.UF := TBObjetosUF.AsString;
+
+    TBObjetosPAIS.AsString := 'Brasil';
+    xPersonOBJECT.PAIS := TBObjetosPAIS.AsString;
+    
+    xPersonOBJECT.TIPO_PESSOA := TBObjetosTIPO_PESSOA.AsString;
+    xPersonOBJECT.estado_civil := TBObjetosESTADO_CIVIL.AsString;
+    TPerson.GetInstance.save(xPersonOBJECT, xStatus);
+  end;
+end;
+
+function TfrmRegisterPerson.validateFileds: Boolean;
+begin
+  Result := False;
+  DBEdit1.SetFocus;
+  if TBObjetosNOME.AsString = '' then
+  begin
+    Application.MessageBox('POR FAVOR INFORME O NOME!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    DBEdit2.SetFocus;
+    Result := True;
+    Exit;
+  end;
+
+  if TBObjetosTIPO_PESSOA.AsString = '' then
+  begin
+    Application.MessageBox('POR FAVOR INFORME O TIPO!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    dbrgrpTIPO_PESSOA.SetFocus;
+    Result := True;
+    Exit;
+  end;
+
+  if TBObjetosCPF_CNPJ.AsString = '' then
+  begin
+    Application.MessageBox('POR FAVOR INFORME O CNPJ OU CPF!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    DBEdit3.SetFocus;
+    Result := True;
+    Exit;
+  end;
+
+  if TBObjetosSEXO.AsString = '' then
+  begin
+    Application.MessageBox('POR FAVOR INFORME O SEXO!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    dbrgrpSEXO.SetFocus;
+    Result := True;
+    Exit;
+  end;
+
+  if TBObjetosDATA_NASCIMENTO.AsDateTime = 0 then
+  begin
+    Application.MessageBox('POR FAVOR INFORME A DATA DE ANAIVERSÁRIO!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    DBDateEdit1.SetFocus;
+    Result := True;
+    Exit;
+  end;
+
+  if TBObjetosESTADO_CIVIL.AsString = '' then
+  begin
+    Application.MessageBox('POR FAVOR INFORME O ESTADO CIVIL!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    RxDBComboBox1.SetFocus;
+    Result := True;
+    Exit;
+  end;
+
+  if TBObjetosEMAIL.AsString = '' then
+  begin
+    Application.MessageBox('POR FAVOR INFORME O E-MAIL!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    dbedtEMAIL.SetFocus;
+    Result := True;
+    Exit;
+  end;
+
+  if TBObjetosTELEFONE.AsString = '' then
+  begin
+    Application.MessageBox('POR FAVOR INFORME O TELEFONE!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    dbedtTELEFONE.SetFocus;
+    Result := True;
+    Exit;
+  end;
+
+  if TBObjetosCEP.AsString = '' then
+  begin
+    Application.MessageBox('POR FAVOR INFORME O CEP!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    dbedtCEP.SetFocus;
+    Result := True;
+    Exit;
+  end;
+
+  if TBObjetosNUMERO.AsInteger = 0 then
+  begin
+    Application.MessageBox('POR FAVOR INFORME NÚMERO', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    dbedtNUMERO.SetFocus;
+    Result := True;
+    Exit;
+  end;
+end;
+
+procedure TfrmRegisterPerson.actNovoExecute(Sender: TObject);
+begin
+  inherited;
+  TBObjetosTIPO_PESSOA.AsString := 'F';
+  TBObjetosSEXO.AsString := 'F';
+  DBEdit2.SetFocus;
+end;
+
+procedure TfrmRegisterPerson.dbrgrpTIPO_PESSOAExit(Sender: TObject);
 begin
   inherited;
   TBObjetosCPF_CNPJ.EditMask := '999.999.999-99;0;_';
@@ -154,22 +333,11 @@ begin
     TBObjetosCPF_CNPJ.EditMask := '999.999.999/9999-99;0;_';
 end;
 
-procedure TfrmRegisterPerson.dbedtCEPExit(Sender: TObject);
-var
-  xCep: TCep;
+procedure TfrmRegisterPerson.TBObjetosAfterScroll(DataSet: TDataSet);
 begin
   inherited;
-  if Length(Trim(dbedtCEP.Text)) <> 8 then
-  begin
-    ShowMessage('CEP inválido');
-    Exit;
-  end;
-  
-  xCep := DM_PRINCIPAL.FGlobal.ConsultaCEP(TBObjetosCEP.AsString, XMLDocument1);
-  TBObjetosLOGRADOURO.AsString := xCep.logradouro;
-  TBObjetosBAIRRO.AsString := xCep.bairro;
-  TBObjetosCIDADE.AsString := xCep.cidade;
-  TBObjetosUF.AsString := xCep.uf;
+  RxDBComboBox1.Text := RxDBComboBox1.Items[RxDBComboBox1.Values.IndexOf(TBObjetosESTADO_CIVIL.AsString)];
+  RxDBComboBox2.Text := RxDBComboBox2.Items[RxDBComboBox2.Values.IndexOf(TBObjetosUF.AsString)];
 end;
 
 initialization

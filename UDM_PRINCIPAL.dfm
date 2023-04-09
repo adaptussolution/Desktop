@@ -14,13 +14,14 @@ object DM_PRINCIPAL: TDM_PRINCIPAL
     Top = 24
   end
   object IBQuery1: TIBQuery
+    Database = IBDatabase1
+    Transaction = IBTransaction1
     BufferChunks = 1000
     CachedUpdates = False
     Left = 48
     Top = 96
   end
   object IBDatabase1: TIBDatabase
-    Connected = True
     DatabaseName = 'C:\Users\Trabalho\Desktop\ADAPTUS\BANCO\ADAPTUS.FDB'
     Params.Strings = (
       'user_name=SYSDBA'

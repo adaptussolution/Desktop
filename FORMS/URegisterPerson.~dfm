@@ -1,26 +1,25 @@
 inherited frmRegisterPerson: TfrmRegisterPerson
-  Left = 232
-  Top = 214
+  Left = 253
+  Top = 195
   Caption = 'Pessoa'
   ClientHeight = 357
-  ClientWidth = 996
+  ClientWidth = 1086
   OldCreateOrder = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel
-    Width = 996
+    Width = 1086
     Height = 357
     inherited Panel2: TPanel
       Top = 303
-      Width = 994
+      Width = 1084
       inherited DBNavigator1: TDBNavigator
         Hints.Strings = ()
       end
     end
     inherited PageControl1: TPageControl
-      Width = 994
+      Width = 1084
       Height = 302
-      ActivePage = TabManutencao
       inherited TabManutencao: TTabSheet
         object Label2: TLabel
           Left = 16
@@ -39,7 +38,7 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           FocusControl = DBEdit2
         end
         object Label4: TLabel
-          Left = 296
+          Left = 273
           Top = 46
           Width = 53
           Height = 13
@@ -116,23 +115,20 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           Width = 38
           Height = 13
           Caption = 'Estado'
-          FocusControl = dbedtUF
-        end
-        object lbl9: TLabel
-          Left = 744
-          Top = 213
-          Width = 23
-          Height = 13
-          Caption = 'Pa'#237's'
-          FocusControl = dbedtPAIS
         end
         object Label5: TLabel
-          Left = 720
+          Left = 688
           Top = 48
           Width = 113
           Height = 13
           Caption = 'Data de Nascimento'
-          FocusControl = DBEdit4
+        end
+        object lbl10: TLabel
+          Left = 817
+          Top = 48
+          Width = 64
+          Height = 13
+          Caption = 'Estado Civil'
         end
         object DBEdit1: TDBEdit
           Left = 16
@@ -154,14 +150,14 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           TabOrder = 1
         end
         object DBEdit3: TDBEdit
-          Left = 296
+          Left = 273
           Top = 62
           Width = 223
           Height = 21
           DataField = 'CPF_CNPJ'
           DataSource = dsObjetos
           MaxLength = 14
-          TabOrder = 2
+          TabOrder = 3
         end
         object dbedtEMAIL: TDBEdit
           Left = 16
@@ -170,7 +166,7 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           Height = 21
           DataField = 'EMAIL'
           DataSource = dsObjetos
-          TabOrder = 3
+          TabOrder = 7
         end
         object dbedtTELEFONE: TDBEdit
           Left = 480
@@ -180,7 +176,7 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           DataField = 'TELEFONE'
           DataSource = dsObjetos
           MaxLength = 14
-          TabOrder = 4
+          TabOrder = 8
         end
         object dbedtCEP: TDBEdit
           Left = 16
@@ -190,7 +186,7 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           DataField = 'CEP'
           DataSource = dsObjetos
           MaxLength = 9
-          TabOrder = 5
+          TabOrder = 9
           OnExit = dbedtCEPExit
         end
         object dbedtBAIRRO: TDBEdit
@@ -201,7 +197,7 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           DataField = 'BAIRRO'
           DataSource = dsObjetos
           ReadOnly = True
-          TabOrder = 6
+          TabOrder = 13
         end
         object dbedtNUMERO: TDBEdit
           Left = 833
@@ -210,7 +206,7 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           Height = 21
           DataField = 'NUMERO'
           DataSource = dsObjetos
-          TabOrder = 7
+          TabOrder = 11
         end
         object dbedtLOGRADOURO: TDBEdit
           Left = 184
@@ -220,7 +216,7 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           DataField = 'LOGRADOURO'
           DataSource = dsObjetos
           ReadOnly = True
-          TabOrder = 8
+          TabOrder = 10
         end
         object dbedtCOMPLEMENTO: TDBEdit
           Left = 16
@@ -229,7 +225,7 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           Height = 21
           DataField = 'COMPLEMENTO'
           DataSource = dsObjetos
-          TabOrder = 9
+          TabOrder = 12
         end
         object dbedtCIDADE: TDBEdit
           Left = 256
@@ -239,32 +235,12 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           DataField = 'CIDADE'
           DataSource = dsObjetos
           ReadOnly = True
-          TabOrder = 10
-        end
-        object dbedtUF: TDBEdit
-          Left = 512
-          Top = 229
-          Width = 217
-          Height = 21
-          DataField = 'UF'
-          DataSource = dsObjetos
-          ReadOnly = True
-          TabOrder = 11
-        end
-        object dbedtPAIS: TDBEdit
-          Left = 744
-          Top = 229
-          Width = 220
-          Height = 21
-          DataField = 'PAIS'
-          DataSource = dsObjetos
-          ReadOnly = True
-          TabOrder = 12
+          TabOrder = 14
         end
         object dbrgrpSEXO: TDBRadioGroup
-          Left = 528
+          Left = 505
           Top = 52
-          Width = 185
+          Width = 172
           Height = 37
           Caption = 'Sexo'
           Columns = 2
@@ -273,7 +249,8 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           Items.Strings = (
             'Feminino'
             'Masculino')
-          TabOrder = 13
+          TabOrder = 4
+          TabStop = True
           Values.Strings = (
             'F'
             'M')
@@ -281,7 +258,7 @@ inherited frmRegisterPerson: TfrmRegisterPerson
         object dbrgrpTIPO_PESSOA: TDBRadioGroup
           Left = 15
           Top = 51
-          Width = 273
+          Width = 250
           Height = 34
           Caption = 'Tipo'
           Columns = 2
@@ -290,41 +267,132 @@ inherited frmRegisterPerson: TfrmRegisterPerson
           Items.Strings = (
             'Pessoa Jur'#237'dica'
             'Pessoa F'#237'sica')
-          TabOrder = 14
+          TabOrder = 2
+          TabStop = True
           Values.Strings = (
             'J'
             'F')
-          OnChange = dbrgrpTIPO_PESSOAChange
+          OnExit = dbrgrpTIPO_PESSOAExit
         end
-        object DBEdit4: TDBEdit
-          Left = 720
+        object DBDateEdit1: TDBDateEdit
+          Left = 688
           Top = 64
-          Width = 113
+          Width = 119
           Height = 21
           DataField = 'DATA_NASCIMENTO'
           DataSource = dsObjetos
-          MaxLength = 10
+          NumGlyphs = 2
+          TabOrder = 5
+        end
+        object RxDBComboBox1: TRxDBComboBox
+          Left = 817
+          Top = 64
+          Width = 145
+          Height = 21
+          DataField = 'ESTADO_CIVIL'
+          DataSource = dsObjetos
+          EnableValues = False
+          ItemHeight = 13
+          Items.Strings = (
+            'solteiro'
+            'casado'
+            'separado'
+            'divorciado'
+            'vi'#250'vo')
+          TabOrder = 6
+          Values.Strings = (
+            'solteiro'
+            'casado'
+            'separado'
+            'divorciado'
+            'vi'#250'vo')
+        end
+        object RxDBComboBox2: TRxDBComboBox
+          Left = 512
+          Top = 228
+          Width = 222
+          Height = 21
+          DataField = 'UF'
+          DataSource = dsObjetos
+          EnableValues = False
+          ItemHeight = 13
+          Items.Strings = (
+            'Acre'#9'            '
+            'Alagoas'#9'            '
+            'Amap'#225#9'            '
+            'Amazonas'#9'        '
+            'Bahia'#9'            '
+            'Cear'#225#9'            '
+            'Distrito Federal'#9
+            'Esp'#237'rito Santo'#9'    '
+            'Goi'#225's'#9'            '
+            'Maranh'#227'o'#9'        '
+            'Mato Grosso'#9'        '
+            'Mato Grosso do Sul'#9
+            'Minas Gerais'#9'    '
+            'Par'#225#9'            '
+            'Para'#237'ba'#9'            '
+            'Paran'#225#9'            '
+            'Pernambuco'#9'        '
+            'Piau'#237#9'            '
+            'Rio de Janeiro'#9'    '
+            'Rio Grande do Norte'#9
+            'Rio Grande do Sul'#9
+            'Rond'#244'nia'#9'        '
+            'Roraima'#9'            '
+            'Santa Catarina'#9'    '
+            'S'#227'o Paulo'#9'        '
+            'Sergipe'#9'            '
+            'Tocantins'#9'        ')
           TabOrder = 15
+          Values.Strings = (
+            'AC'
+            'AL'
+            'AP'
+            'AM'
+            'BA'
+            'CE'
+            'DF'
+            'ES'
+            'GO'
+            'MA'
+            'MT'
+            'MS'
+            'MG'
+            'PA'
+            'PB'
+            'PR'
+            'PE'
+            'PI'
+            'RJ'
+            'RN'
+            'RS'
+            'RO'
+            'RR'
+            'SC'
+            'SP'
+            'SE'
+            'TO')
         end
       end
       inherited TabConsulta: TTabSheet
         inherited DBGrid1: TDBGrid
-          Width = 986
+          Width = 1076
           Height = 206
         end
         inherited PANEL4: TPanel
           Top = 206
-          Width = 986
+          Width = 1076
           inherited rdgFiltragem: TGroupBox
-            Width = 986
+            Width = 1076
           end
         end
       end
     end
   end
   inherited ActionList1: TActionList
-    Left = 893
-    Top = 125
+    Left = 829
+    Top = 197
   end
   inherited ImageList1: TImageList
     Left = 940
@@ -336,8 +404,8 @@ inherited frmRegisterPerson: TfrmRegisterPerson
         'select id_pessoa, cpf_cnpj, nome, data_nascimento, sexo, email, ' +
         'telefone, cep, bairro, numero, logradouro, complemento, cidade, ' +
         'uf, pais, tipo_pessoa, estado_civil from tb_pessoa')
-    Left = 761
-    Top = 127
+    Left = 633
+    Top = 191
     object QuyObjetosID_PESSOA: TIntegerField
       FieldName = 'ID_PESSOA'
       Origin = 'TB_PESSOA.ID_PESSOA'
@@ -441,18 +509,18 @@ inherited frmRegisterPerson: TfrmRegisterPerson
   end
   inherited TBObjetos: TClientDataSet
     Active = True
-    Left = 793
-    Top = 127
+    Left = 721
+    Top = 207
     object TBObjetosID_PESSOA: TIntegerField
       DisplayLabel = 'ID'
-      DisplayWidth = 8
+      DisplayWidth = 10
       FieldName = 'ID_PESSOA'
       Origin = 'TB_PESSOA.ID_PESSOA'
       Required = True
     end
     object TBObjetosNOME: TStringField
       DisplayLabel = 'Nome'
-      DisplayWidth = 51
+      DisplayWidth = 55
       FieldName = 'NOME'
       Origin = 'TB_PESSOA.NOME'
       Required = True
@@ -460,7 +528,7 @@ inherited frmRegisterPerson: TfrmRegisterPerson
     end
     object TBObjetosCPF_CNPJ: TStringField
       DisplayLabel = 'CPF/CNPJ'
-      DisplayWidth = 17
+      DisplayWidth = 21
       FieldName = 'CPF_CNPJ'
       Origin = 'TB_PESSOA.CPF_CNPJ'
       Required = True
@@ -469,11 +537,11 @@ inherited frmRegisterPerson: TfrmRegisterPerson
     end
     object TBObjetosDATA_NASCIMENTO: TDateField
       DisplayLabel = 'Data de Nascimento'
-      DisplayWidth = 23
+      DisplayWidth = 28
       FieldName = 'DATA_NASCIMENTO'
       Origin = 'TB_PESSOA.DATA_NASCIMENTO'
       Required = True
-      EditMask = '99/99/9999;0;_'
+      DisplayFormat = 'dd/mm/yyyy'
     end
     object TBObjetosSEXO: TStringField
       DisplayLabel = 'Sexo'
@@ -494,7 +562,7 @@ inherited frmRegisterPerson: TfrmRegisterPerson
     end
     object TBObjetosTELEFONE: TStringField
       DisplayLabel = 'Telefone'
-      DisplayWidth = 15
+      DisplayWidth = 18
       FieldName = 'TELEFONE'
       Origin = 'TB_PESSOA.TELEFONE'
       Required = True
@@ -582,28 +650,28 @@ inherited frmRegisterPerson: TfrmRegisterPerson
     end
     object TBObjetosESTADO_CIVIL: TStringField
       DisplayLabel = 'Estado Civil'
-      DisplayWidth = 35
+      DisplayWidth = 24
       FieldName = 'ESTADO_CIVIL'
       Origin = 'TB_PESSOA.ESTADO_CIVIL'
       Required = True
+      Visible = False
       Size = 50
     end
   end
   inherited DSPObjetos: TDataSetProvider
-    Left = 818
-    Top = 127
+    Left = 698
+    Top = 183
   end
   inherited dsObjetos: TDataSource
-    Left = 846
-    Top = 127
+    Left = 758
   end
   inherited QuyComandos: TIBQuery
-    Left = 733
-    Top = 129
+    Left = 541
+    Top = 185
   end
   object XMLDocument1: TXMLDocument
-    Left = 885
-    Top = 84
+    Left = 901
+    Top = 196
     DOMVendorDesc = 'MSXML'
   end
 end
