@@ -3,11 +3,9 @@ unit UFrmFiltro;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants,
-  Classes, Graphics,
-  Controls, Forms, Dialogs, Grids, DBGrids, StdCtrls,
-  ExtCtrls, DB, Provider, DBClient, IBCustomDataSet,
-  IBQuery, ActnList, Buttons, DBCtrls;
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Grids, DBGrids, StdCtrls, ExtCtrls, DB, Provider, DBClient,
+  IBCustomDataSet, IBQuery, ActnList, Buttons, DBCtrls;
 
 type
   TFrmFiltro = class(TForm)
@@ -89,7 +87,8 @@ implementation
 
 {$R *.dfm}
 
-uses UMenu;
+uses
+  UMenu;
 
 procedure TFrmFiltro.AbreForm(aClasseForm: TComponentClass; var aForm);
 begin
@@ -109,63 +108,7 @@ begin
   if VarNomeForm <> '' then
   begin
 
-    if UpperCase(VarNomeForm) = UpperCase('FRMCIDADE') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('TMATRICULA') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('TCOTACAO') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('CAR_TCARTORIO') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('TGRUPO_USUARIOS') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('TFORMASPGTO') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('TMARCAS') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('TMEDIDAS') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('TREPRESENTANTE') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('TATIVIDADE') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('TVENDEDOR') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('TPRODUTO') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('CAR_TPESSOA') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('TPESSOA') then
-    begin
-
-    end;
-    if UpperCase(VarNomeForm) = UpperCase('FRMCAR_TPROFISSAO') then
+    if UpperCase(VarNomeForm) = UpperCase('FRMREGISTERUSER') then
     begin
 
     end;
@@ -197,131 +140,33 @@ end;
 procedure TFrmFiltro.Busca(TipoPesquisa: string);
 begin
   VarNomeForm := '';
-  if TipoPesquisa = 'TPRODUTO' then
+  if TipoPesquisa = 'tb_pessoa' then
   begin
     Tbobjetos.Close;
 
     DBGrid1.Columns.Add;
-    DBGrid1.Columns[0].FieldName := 'CODIGO';
+    DBGrid1.Columns[0].FieldName := 'ID_PESSOA';
     DBGrid1.Columns[0].Title.Caption := 'Código';
     DBGrid1.Columns[0].Width := 80;
 
     DBGrid1.Columns.Add;
     DBGrid1.Columns[1].FieldName := 'NOME';
-    DBGrid1.Columns[1].Title.Caption := 'Nome do Produto';
+    DBGrid1.Columns[1].Title.Caption := 'Nome da Pessoa';
     DBGrid1.Columns[1].Width := 250;
-
 
     with QuyCNSObjetos do
     begin
       Close;
       sql.Clear;
-      sql.Add('SELECT A.CODIGO, A.NOME  FROM TPRODUTO A ');
+      sql.Add('SELECT A.ID_PESSOA, A.NOME  FROM tb_pessoa A ');
       Open;
       Last;
       First;
     end;
     Tbobjetos.Open;
-    VARNOMEFORM := 'TPRODUTO';
+    VARNOMEFORM := 'tb_pessoa';
   end;
   //////////////////////////////////////////////////////////////////////////////////
-  if TipoPesquisa = 'TCARDAPIO_DIA' then
-  begin
-    Tbobjetos.Close;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[0].FieldName := 'CODIGO';
-    DBGrid1.Columns[0].Title.Caption := 'Código';
-    DBGrid1.Columns[0].Width := 80;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[1].FieldName := 'DESCRICAO';
-    DBGrid1.Columns[1].Title.Caption := 'Descrição do Cardápio';
-    DBGrid1.Columns[1].Width := 250;
-
-
-    with QuyCNSObjetos do
-    begin
-      Close;
-      sql.Clear;
-      sql.Add('SELECT A.CODIGO, A.DESCRICAO  FROM TCARDAPIO_DIA A ');
-      Open;
-      Last;
-      First;
-    end;
-    Tbobjetos.Open;
-    VARNOMEFORM := 'TCARDAPIO_DIA';
-  end;
-  //////////////////////////////////////////////////////////////////////////////////
-  if TipoPesquisa = 'TFUNCIONARIO' then
-  begin
-    Tbobjetos.Close;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[0].FieldName := 'CODIGO';
-    DBGrid1.Columns[0].Title.Caption := 'Código';
-    DBGrid1.Columns[0].Width := 80;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[1].FieldName := 'NOME';
-    DBGrid1.Columns[1].Title.Caption := 'Nome do Funcionário';
-    DBGrid1.Columns[1].Width := 250;
-
-
-    with QuyCNSObjetos do
-    begin
-      Close;
-      sql.Clear;
-      sql.Add('SELECT A.CODIGO, A.NOME  FROM TFUNCIONARIO A ');
-      Open;
-      Last;
-      First;
-    end;
-    Tbobjetos.Open;
-    VARNOMEFORM := 'TFUNCIONARIO';
-  end;
-  
-  ////////////////////////////////////////////////////////////////////////////////////
-  if TipoPesquisa = 'TMATRICULA' then
-  begin
-    Tbobjetos.Close;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[0].FieldName := 'CODIGOMAT';
-    DBGrid1.Columns[0].Title.Caption := 'Código';
-    DBGrid1.Columns[0].Width := 80;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[1].FieldName := 'MATRICULA';
-    DBGrid1.Columns[1].Title.Caption := 'Matricula';
-    DBGrid1.Columns[1].Width := 80;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[2].FieldName := 'COMPRADOR';
-    DBGrid1.Columns[2].Title.Caption := 'Comprador';
-    DBGrid1.Columns[2].Width := 220;
-
-    DBGrid1.Columns.Add;
-    DBGrid1.Columns[3].FieldName := 'VENDEDOR';
-    DBGrid1.Columns[3].Title.Caption := 'Vendedor';
-    DBGrid1.Columns[3].Width := 220;
-
-    with QuyCNSObjetos do
-    begin
-      Close;
-      sql.Clear;
-      sql.Add('SELECT A.CODIGOMAT,A.MATRICULA,B.NOME AS COMPRADOR, C.NOME  AS VENDEDOR  FROM TMATRICULA A');
-      sql.Add('LEFT OUTER JOIN tpessoa B ON (B.codigo = A.codcomprador)');
-      sql.Add('LEFT OUTER JOIN TPESSOA C ON (C.CODIGO = A.CODVENDEDOR)');
-      Open;
-      Last;
-      First;
-    end;
-    Tbobjetos.Open;
-    VarNomeForm := 'TMATRICULA';
-  end;
-
-
 end;
 
 procedure TFrmFiltro.DBGrid1DblClick(Sender: TObject);
@@ -457,7 +302,6 @@ begin
         if Validacurrency(edFiltro.Text) then
           ProcurarCampo(edFiltro.Text);
       end
-
       else if DataType in [ftWideString] then
       begin
         if ValidaString(edFiltro.Text) then
@@ -560,11 +404,8 @@ begin
     Tbobjetos.First;
   DBGrid1.SetFocus;
 
-
-
-    DefineOrdemConsulta(DBGrid1, Tbobjetos, 1, false);
-    edFiltro.SetFocus;
-
+  DefineOrdemConsulta(DBGrid1, Tbobjetos, 1, false);
+  edFiltro.SetFocus;
 
   VarCampo := DBGrid1.Columns[1].Field.DisplayName;
 
@@ -574,7 +415,6 @@ begin
 end;
 
 procedure TFrmFiltro.ProcurarCampo(valor: string);
-
 begin
 
   if Tbobjetos.State in [dsInsert, dsEdit] then
@@ -734,7 +574,6 @@ begin
 end;
 
 function TFrmFiltro.VerificaNReal(valor: string): Boolean;
-
 var
   resultado: Boolean;
   VarReal: Real;
@@ -754,7 +593,6 @@ var
   Origem: string;
   VaiAbrir: Boolean;
   Evento: TDataSetNotifyEvent;
-
 begin
 
   if (idxCampo = -1) then
@@ -805,11 +643,10 @@ begin
 end;
 
 initialization
-
   RegisterClass(TFrmFiltro);
 
-finalization
 
+finalization
   UnRegisterClass(TFrmFiltro);
 
 end.

@@ -149,10 +149,9 @@ end;
 procedure TfrmRegisterPerson.actExcluirExecute(Sender: TObject);
 begin
   inherited;
+  
   if (Application.MessageBox('Deseja Realmente Excluir?', 'Atenção', MB_YESNO + MB_ICONWARNING) = id_yes) then
-  begin
     TPerson.GetInstance.delete(TBObjetosID_PESSOA.AsInteger);
-  end;
 end;
 
 procedure TfrmRegisterPerson.dbedtCEPExit(Sender: TObject);

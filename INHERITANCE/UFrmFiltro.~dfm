@@ -1,6 +1,6 @@
 object FrmFiltro: TFrmFiltro
-  Left = 493
-  Top = 271
+  Left = 191
+  Top = 265
   BorderIcons = [biSystemMenu, biHelp]
   BorderStyle = bsDialog
   ClientHeight = 332

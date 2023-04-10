@@ -67,6 +67,7 @@ end;
 
 procedure TfrmLogin.btnLoginClick(Sender: TObject);
 begin
+
   if ValidateFields then
     Exit;
 
@@ -149,7 +150,7 @@ begin
   begin
     Application.MessageBox('Senha Incorreta!', 'Atenção', MB_OK + MB_ICONWARNING);
 
-    edtLogin.SetFocus;
+    edtPassword.SetFocus;
     Result := True;
     Exit;
   end;

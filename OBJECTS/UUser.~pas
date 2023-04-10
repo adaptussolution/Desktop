@@ -1,0 +1,178 @@
+unit UUser;
+
+interface
+
+uses
+  Classes;
+
+type
+  IUser = interface
+    ['{7EA4099E-8AA6-4350-9748-82C4698664B1}']
+    procedure OnSucess(AStatus: string; AId: Integer);
+    procedure OnFaild(AMsg: string);
+  end;
+
+  TUserOBJECT = class
+    ID_USUARIO: Integer;
+    ID_PESSOA: Integer;
+    LOGIN: string;
+    SENHA: string;
+  end;
+
+  TUser = class
+  private
+    FInterfaceList: TInterfaceList;
+    procedure NotifyPersonSucess(AStatus: string; AId: Integer);
+    procedure NotifyPersonFaild(AMsg: string);
+  public
+    procedure AddListener(AIUser: IUser);
+    procedure RemListener(AIUser: IUser);
+    procedure save(AUserOBJECT: TUserOBJECT; AStatus: string = 'I');
+    procedure delete(AId: Integer);
+    constructor Create;
+    class function GetInstance(): TUser;
+  end;
+
+var
+  User: TUser;
+
+implementation
+
+uses
+  UDM_PRINCIPAL, SysUtils;
+
+{ TPerson }
+
+procedure TUser.save(AUserOBJECT: TUserOBJECT; AStatus: string = 'I');
+var
+  xCodigo: string;
+begin
+  try
+    DM_PRINCIPAL.StartTransaction;
+
+    if AStatus = 'U' then
+      xCodigo := IntToStr(AUserOBJECT.id_usuario)
+    else
+      xCodigo := DM_PRINCIPAL.GetSequence('GEN_ID_PESSOA');
+
+    with DM_PRINCIPAL.IBQuery1 do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('update or insert into tb_usuario (id_usuario, id_pessoa, login, senha) ');
+      SQL.Add('values (:id_usuario, :id_pessoa, :login, :senha)                       ');
+      SQL.Add('matching (id_usuario)                                                  ');
+
+      ParamByName('id_usuario').AsString := xCodigo;
+      ParamByName('id_pessoa').AsInteger := AUserOBJECT.id_pessoa;
+      ParamByName('login').AsString := AUserOBJECT.login;
+      ParamByName('senha').AsString := AUserOBJECT.senha;
+      ExecSQL;
+      DM_PRINCIPAL.ConfirmTransaction;
+      AUserOBJECT.id_usuario := StrToInt(xCodigo);
+      NotifyPersonSucess(AStatus, AUserOBJECT.id_usuario);
+    end;
+  except
+    on e: Exception do
+    begin
+      DM_PRINCIPAL.CancelTransaction;
+      NotifyPersonFaild(PCHAR('Ocorreu um erro!' + e.Message));
+    end;
+  end;
+end;
+
+procedure TUser.delete(AId: Integer);
+begin
+  try
+    DM_PRINCIPAL.StartTransaction;
+    with DM_PRINCIPAL.IBQuery1 do
+    begin
+      CLOSE;
+      SQL.Clear;
+      SQL.Add('delete from tb_usuario where (id_usuario = :id_usuario)');
+      ParamByName('id_usuario').AsInteger := AId;
+      ExecSQL;
+    end;
+    DM_PRINCIPAL.ConfirmTransaction;
+    NotifyPersonSucess('D', AId);
+  except
+    on e: Exception do
+    begin
+      DM_PRINCIPAL.CancelTransaction;
+      NotifyPersonFaild('Ocorreu um erro!' + e.Message);
+    end;
+  end;
+end;
+
+procedure TUser.AddListener(AIUser: IUser);
+begin
+  if not Assigned(FInterfaceList) then
+    Exit;
+
+  if FInterfaceList.IndexOf(AIUser) = -1 then
+    FInterfaceList.Add(AIUser);
+end;
+
+procedure TUser.RemListener(AIUser: IUser);
+begin
+  if not Assigned(FInterfaceList) then
+    Exit;
+
+  if FInterfaceList.IndexOf(AIUser) > -1 then
+    FInterfaceList.Remove(AIUser);
+end;
+
+procedure TUser.NotifyPersonFaild(AMsg: string);
+var
+  xUser: IUser;
+  i: Integer;
+begin
+  try
+    if not Assigned(FInterfaceList) then
+      Exit;
+
+    for i := 0 to FInterfaceList.Count - 1 do
+    begin
+      if Supports(FInterfaceList[i], IUser, xUser) then
+        xUser.OnFaild(AMsg);
+    end;
+  except
+
+  end;
+end;
+
+procedure TUser.NotifyPersonSucess(AStatus: string; AId: Integer);
+var
+  xIUser: IUser;
+  i: Integer;
+begin
+  try
+    if not Assigned(FInterfaceList) then
+      Exit;
+
+    for i := 0 to FInterfaceList.Count - 1 do
+    begin
+      if Supports(FInterfaceList[i], IUser, xIUser) then
+        xIUser.OnSucess(AStatus, AId);
+    end;
+  except
+
+  end;
+end;
+
+constructor TUser.Create;
+begin
+  if not Assigned(FInterfaceList) then
+    FInterfaceList := TInterfaceList.Create;
+end;
+
+class function TUser.GetInstance: TUser;
+begin
+  if not Assigned(User) then
+    User := TUser.Create;
+
+  Result := User;
+end;
+
+end.
+

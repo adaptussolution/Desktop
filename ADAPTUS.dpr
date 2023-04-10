@@ -11,7 +11,9 @@ uses
   UFrmFiltro in 'INHERITANCE\UFrmFiltro.pas' {FrmFiltro},
   FrmCadastro in 'INHERITANCE\FrmCadastro.pas' {FrmCadastros},
   UPerson in 'OBJECTS\UPerson.pas',
-  URegisterPerson in 'FORMS\URegisterPerson.pas' {frmRegisterPerson};
+  URegisterPerson in 'FORMS\URegisterPerson.pas' {frmRegisterPerson},
+  URegisterUser in 'FORMS\URegisterUser.pas' {frmRegisterUser},
+  UUser in 'OBJECTS\UUser.pas';
 
 {$R *.res}
 

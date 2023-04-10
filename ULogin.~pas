@@ -67,10 +67,11 @@ end;
 
 procedure TfrmLogin.btnLoginClick(Sender: TObject);
 begin
+  SaveUserPassword(chkSaveUserPassword.Checked);
   if ValidateFields then
     Exit;
 
-  SaveUserPassword(chkSaveUserPassword.Checked);
+
 
   if not Assigned(frmMenu) then
     frmMenu := TfrmMenu.Create(self);
@@ -149,7 +150,7 @@ begin
   begin
     Application.MessageBox('Senha Incorreta!', 'Atenção', MB_OK + MB_ICONWARNING);
 
-    edtLogin.SetFocus;
+    edtPassword.SetFocus;
     Result := True;
     Exit;
   end;

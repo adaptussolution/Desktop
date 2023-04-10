@@ -24,7 +24,6 @@ type
     procedure ExitClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure PersonClick(Sender: TObject);
-    procedure Usurio1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -61,14 +60,6 @@ begin
     frmRegisterPerson := TfrmRegisterPerson.Create(Self);
 
   frmRegisterPerson.Show;
-end;
-
-procedure TfrmMenu.Usurio1Click(Sender: TObject);
-begin
-  if not Assigned(frmRegisterUser) then
-    frmRegisterUser := TfrmRegisterUser.Create(Self);
-
-  frmRegisterUser.Show;
 end;
 
 end.
