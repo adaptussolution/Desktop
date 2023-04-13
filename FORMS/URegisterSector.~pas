@@ -1,0 +1,33 @@
+unit URegisterSector;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, FrmCadastro, DB, Provider, DBClient, IBCustomDataSet, IBQuery,
+  ImgList, ActnList, StdCtrls, Grids, DBGrids, ComCtrls, DBCtrls, Buttons,
+  ToolWin, ExtCtrls;
+
+type
+  TfrmRegisterSector = class(TFrmCadastros)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRegisterSector: TfrmRegisterSector;
+
+implementation
+
+{$R *.dfm}
+
+initialization
+  RegisterClass(TfrmRegisterSector);
+
+
+finalization
+  UnRegisterClass(TfrmRegisterSector);
+
+end.

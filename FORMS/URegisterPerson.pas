@@ -176,18 +176,6 @@ begin
   RxDBComboBox2.Text := RxDBComboBox2.Items[RxDBComboBox2.Values.IndexOf(xCep.uf)];
   dbedtNUMERO.SetFocus;
 
-//  TThread.Create(
-//    procedure
-//    var
-//      xCep: TCep;
-//    begin
-//      xCep := DM_PRINCIPAL.FGlobal.ConsultaCEP(TBObjetosCEP.AsString, XMLDocument1);
-//      TBObjetosLOGRADOURO.AsString := xCep.logradouro;
-//      TBObjetosBAIRRO.AsString := xCep.bairro;
-//      TBObjetosCIDADE.AsString := xCep.cidade;
-//      RxDBComboBox2.ItemIndex := RxDBComboBox2.Values.IndexOf(xCep.uf);
-//    end).Start;
-
 end;
 
 procedure TfrmRegisterPerson.actGravarExecute(Sender: TObject);

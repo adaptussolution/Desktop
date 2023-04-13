@@ -1,6 +1,6 @@
 object frmMenu: TfrmMenu
-  Left = 190
-  Top = 141
+  Left = -22
+  Top = 144
   Width = 1195
   Height = 588
   BorderIcons = [biSystemMenu]
@@ -15,6 +15,7 @@ object frmMenu: TfrmMenu
   OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = FormClose
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -33,7 +34,7 @@ object frmMenu: TfrmMenu
     Height = 19
     Panels = <
       item
-        Width = 790
+        Width = 1000
       end
       item
         Width = 50
@@ -50,16 +51,33 @@ object frmMenu: TfrmMenu
       end
       object Operational: TMenuItem
         Caption = 'Operacional'
-        object Usurio1: TMenuItem
+        object User: TMenuItem
           Caption = 'Usu'#225'rio'
           Hint = 'User'
-          OnClick = Usurio1Click
+          OnClick = UserClick
+        end
+        object RegisterAccess: TMenuItem
+          Caption = 'Acesso'
+          OnClick = RegisterAccessClick
         end
       end
       object company: TMenuItem
         Caption = 'Empresa'
+        object REGISTERCOMPANY: TMenuItem
+          Caption = 'Empresa'
+          OnClick = REGISTERCOMPANYClick
+        end
+        object SECTOR: TMenuItem
+          Caption = 'Setor'
+          OnClick = SECTORClick
+        end
+        object OFFICE: TMenuItem
+          Caption = 'Cargo'
+          OnClick = OFFICEClick
+        end
         object Employee: TMenuItem
           Caption = 'Funcion'#225'rio'
+          OnClick = EmployeeClick
         end
       end
     end

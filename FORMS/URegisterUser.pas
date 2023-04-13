@@ -115,6 +115,20 @@ begin
 end;
 
 function TfrmRegisterUser.validateFileds: Boolean;
+  function VerifyLogin: Boolean;
+  begin
+    with QuyComandos do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('select u.login  from TB_USUARIO u where u.login =:login');
+      ParamByName('login').AsString := TBObjetosLOGIN.AsString;
+      Open;
+      Last;
+      First;
+      Result := IsEmpty
+    end;
+  end;
 begin
   Result := False;
   dbedtID_USUARIO.SetFocus;
@@ -134,6 +148,14 @@ begin
     Exit;
   end;
 
+  IF not VerifyLogin THEN
+  BEGIN
+    Application.MessageBox('POR FAVOR INFORME OUTRO LOGIN, POIS ESSE, JÁ ESTÁ SENDO USADO!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    dbedtLOGIN.SetFocus;
+    Result := True;
+    Exit;
+  end;
+
   if TBObjetosID_PESSOA.AsInteger = 0 then
   begin
     Application.MessageBox('POR FAVOR INFORME UMA PESSOA RELACIONADA AO USUÁRIO!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
@@ -148,13 +170,13 @@ begin
   inherited;
   if chkViewPassword.Checked then
   begin
-    dbedtSENHA.PasswordChar := #0;
-
     if (tbobjetos.State in [dsBrowse]) then
       tbobjetos.Edit;
 
     if (tbobjetos.State in [dsedit]) then
       TBObjetosSENHA.AsString := FPassword.PasswordDecrypt;
+
+    dbedtSENHA.PasswordChar := #0;
   end
   else
   begin

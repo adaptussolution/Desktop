@@ -1,6 +1,6 @@
 object FrmCadastros: TFrmCadastros
-  Left = 337
-  Top = 142
+  Left = 332
+  Top = 109
   BorderStyle = bsSingle
   ClientHeight = 471
   ClientWidth = 744
@@ -10,9 +10,11 @@ object FrmCadastros: TFrmCadastros
   Font.Height = -11
   Font.Name = 'Segoe UI Light'
   Font.Style = []
+  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
   Position = poDefault
+  Visible = True
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress

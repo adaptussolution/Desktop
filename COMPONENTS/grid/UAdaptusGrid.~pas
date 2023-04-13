@@ -1,0 +1,30 @@
+unit UAdaptusGrid;
+
+interface
+
+uses
+  WinTypes, WinProcs, Classes, DBGrids;
+
+type
+  TNoVertScrollDBGrid = class(TDBGrid)
+  protected
+    procedure Paint; override;
+  end;
+
+procedure Register;
+
+implementation
+
+procedure TNoVertScrollDBGrid.Paint;
+begin
+  SetScrollRange(Self.Handle, SB_VERT, 0, 0, False);
+  inherited Paint;
+end;
+
+procedure Register;
+begin
+  RegisterComponents('Data Controls', [TNoVertScrollDBGrid]);
+end;
+
+end.
+

@@ -1,0 +1,33 @@
+unit URegisterEmployee;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, FrmCadastro, DB, Provider, DBClient, IBCustomDataSet, IBQuery,
+  ImgList, ActnList, StdCtrls, Grids, DBGrids, ComCtrls, DBCtrls, Buttons,
+  ToolWin, ExtCtrls;
+
+type
+  TfrmRegisterEmployee = class(TFrmCadastros)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRegisterEmployee: TfrmRegisterEmployee;
+
+implementation
+
+{$R *.dfm}
+
+initialization
+  RegisterClass(TfrmRegisterEmployee);
+
+
+finalization
+  UnRegisterClass(TfrmRegisterEmployee);
+
+end.

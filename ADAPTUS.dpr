@@ -13,7 +13,13 @@ uses
   UPerson in 'OBJECTS\UPerson.pas',
   URegisterPerson in 'FORMS\URegisterPerson.pas' {frmRegisterPerson},
   URegisterUser in 'FORMS\URegisterUser.pas' {frmRegisterUser},
-  UUser in 'OBJECTS\UUser.pas';
+  UUser in 'OBJECTS\UUser.pas',
+  URegisterCompany in 'FORMS\URegisterCompany.pas' {frmRegisterCompany},
+  URegisterSector in 'FORMS\URegisterSector.pas' {frmRegisterSector},
+  URegisterOffice in 'FORMS\URegisterOffice.pas' {frmRegisterOffice},
+  URegisterEmployee in 'FORMS\URegisterEmployee.pas' {frmRegisterEmployee},
+  URegisterAccess in 'FORMS\URegisterAccess.pas' {frmRegisterAccess},
+  UAccess in 'OBJECTS\UAccess.pas';
 
 {$R *.res}
 

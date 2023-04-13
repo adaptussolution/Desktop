@@ -3,10 +3,9 @@ unit UGlobal;
 interface
 
 uses
-  SysUtils, XMLDoc, XMLIntf;
+  SysUtils, XMLDoc, XMLIntf, Classes;
 
 type
-
   TCep = class
     logradouro: string;
     complemento: string;
@@ -105,34 +104,34 @@ begin
     xtempXML := AXMLDocument.DocumentElement;
 
     if xtempXML.ChildNodes.FindNode('logradouro') = nil then
-      Exit; 
+      Exit;
 
     xtempNodePAI := xtempXML.ChildNodes.FindNode('logradouro');
     for xI := 0 to xtempNodePAI.ChildNodes.Count - 1 do
     begin
       xtempNodeFilho := xtempNodePAI.ChildNodes[xI];
-      xCep.logradouro :=  xtempNodeFilho.Text;
+      xCep.logradouro := xtempNodeFilho.Text;
     end;
 
     xtempNodePAI := xtempXML.ChildNodes.FindNode('bairro');
     for xI := 0 to xtempNodePAI.ChildNodes.Count - 1 do
     begin
       xtempNodeFilho := xtempNodePAI.ChildNodes[xI];
-      xCep.bairro :=  xtempNodeFilho.Text;
+      xCep.bairro := xtempNodeFilho.Text;
     end;
 
     xtempNodePAI := xtempXML.ChildNodes.FindNode('localidade');
     for xI := 0 to xtempNodePAI.ChildNodes.Count - 1 do
     begin
       xtempNodeFilho := xtempNodePAI.ChildNodes[xI];
-      xCep.cidade :=  xtempNodeFilho.Text;
+      xCep.cidade := xtempNodeFilho.Text;
     end;
 
     xtempNodePAI := xtempXML.ChildNodes.FindNode('uf');
     for xI := 0 to xtempNodePAI.ChildNodes.Count - 1 do
     begin
       xtempNodeFilho := xtempNodePAI.ChildNodes[xI];
-      xCep.uf :=  xtempNodeFilho.Text;
+      xCep.uf := xtempNodeFilho.Text;
     end;
 
 //    tempNodePAI := xtempXML.ChildNodes.FindNode('ibge');

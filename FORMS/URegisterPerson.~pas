@@ -149,6 +149,7 @@ end;
 procedure TfrmRegisterPerson.actExcluirExecute(Sender: TObject);
 begin
   inherited;
+  
   if (Application.MessageBox('Deseja Realmente Excluir?', 'Atenção', MB_YESNO + MB_ICONWARNING) = id_yes) then
     TPerson.GetInstance.delete(TBObjetosID_PESSOA.AsInteger);
 end;
@@ -156,6 +157,7 @@ end;
 procedure TfrmRegisterPerson.dbedtCEPExit(Sender: TObject);
 var
   xCep: TCep;
+  xThread: TThreadCEP;
 begin
   inherited;
   if Length(Trim(TBObjetosCEP.AsString)) <> 8 then
@@ -167,25 +169,17 @@ begin
   if TBObjetos.State in [dsBrowse] then
     TBObjetos.Edit;
 
-  xCep := DM_PRINCIPAL.FGlobal.ConsultaCEP(TBObjetosCEP.AsString, XMLDocument1);
+  xThread := TThreadCEP.create(TBObjetosCEP.AsString, XMLDocument1);
+  xThread.FreeOnTerminate := True;
+  xThread.Resume;
+  xCep := xThread.fCep;
+  //xCep := DM_PRINCIPAL.FGlobal.ConsultaCEP(TBObjetosCEP.AsString, XMLDocument1);
   TBObjetosLOGRADOURO.AsString := xCep.logradouro;
   TBObjetosBAIRRO.AsString := xCep.bairro;
   TBObjetosCIDADE.AsString := xCep.cidade;
   TBObjetosUF.AsString := xCep.uf;
   RxDBComboBox2.Text := RxDBComboBox2.Items[RxDBComboBox2.Values.IndexOf(xCep.uf)];
   dbedtNUMERO.SetFocus;
-
-//  TThread.Create(
-//    procedure
-//    var
-//      xCep: TCep;
-//    begin
-//      xCep := DM_PRINCIPAL.FGlobal.ConsultaCEP(TBObjetosCEP.AsString, XMLDocument1);
-//      TBObjetosLOGRADOURO.AsString := xCep.logradouro;
-//      TBObjetosBAIRRO.AsString := xCep.bairro;
-//      TBObjetosCIDADE.AsString := xCep.cidade;
-//      RxDBComboBox2.ItemIndex := RxDBComboBox2.Values.IndexOf(xCep.uf);
-//    end).Start;
 
 end;
 

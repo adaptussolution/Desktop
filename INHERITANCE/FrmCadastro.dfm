@@ -13,6 +13,7 @@ object FrmCadastros: TFrmCadastros
   KeyPreview = True
   OldCreateOrder = False
   Position = poDefault
+  Visible = True
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
