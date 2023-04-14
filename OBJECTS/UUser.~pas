@@ -15,6 +15,7 @@ type
   TUserOBJECT = class
     ID_USUARIO: Integer;
     ID_PESSOA: Integer;
+    id_acesso: Integer;
     LOGIN: string;
     SENHA: string;
   end;
@@ -53,7 +54,7 @@ begin
     if AStatus = 'U' then
       xCodigo := IntToStr(AUserOBJECT.id_usuario)
     else
-      xCodigo := DM_PRINCIPAL.GetSequence('GEN_ID_PESSOA');
+      xCodigo := DM_PRINCIPAL.GetSequence('GEN_ID_USUARIO');
 
     with DM_PRINCIPAL.IBQuery1 do
     begin

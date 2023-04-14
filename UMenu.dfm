@@ -1,6 +1,6 @@
 object frmMenu: TfrmMenu
-  Left = -22
-  Top = 144
+  Left = 154
+  Top = 137
   Width = 1195
   Height = 588
   BorderIcons = [biSystemMenu]

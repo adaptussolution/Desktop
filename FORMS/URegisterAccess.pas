@@ -6,10 +6,10 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FrmCadastro, DB, Provider, DBClient, IBCustomDataSet, IBQuery,
   ImgList, ActnList, StdCtrls, Grids, DBGrids, ComCtrls, DBCtrls, Buttons,
-  ToolWin, ExtCtrls, Mask, UAccess, UAdaptusGrid;
+  ToolWin, ExtCtrls, Mask, UAccess, UAdaptusGrid, UMenuAccess;
 
 type
-  TfrmRegisterAccess = class(TFrmCadastros, IAccess)
+  TfrmRegisterAccess = class(TFrmCadastros, IAccess, IMenuAccess)
     intgrfldQuyObjetosID_ACESSO: TIntegerField;
     QuyObjetosNOME: TIBStringField;
     TBObjetosID_ACESSO: TIntegerField;
@@ -68,6 +68,7 @@ type
   private
     { Private declarations }
     function validateFileds: Boolean;
+    procedure OnGetMenu;
     procedure OnSucess(AStatus: string; AId: Integer);
     procedure OnFaild(AMsg: string);
     procedure AccessModification(ACDSAlt: TClientDataSet; ACDSDelete: TClientDataSet; ADelete: boolean = true; AFLAG: string = 'Y');
@@ -88,6 +89,7 @@ procedure TfrmRegisterAccess.FormClose(Sender: TObject; var Action: TCloseAction
 begin
   inherited;
   TAccess.GetInstance.RemListener(self);
+  DM_PRINCIPAL.FMenuAccess.RemListener(Self);
   Action := caFree;
   frmRegisterAccess := NIL;
 end;
@@ -123,6 +125,7 @@ procedure TfrmRegisterAccess.FormCreate(Sender: TObject);
 begin
   inherited;
   TAccess.GetInstance.AddListener(self);
+  DM_PRINCIPAL.FMenuAccess.AddListener(Self);
 end;
 
 procedure TfrmRegisterAccess.OnFaild(AMsg: string);
@@ -145,6 +148,7 @@ begin
       Application.MessageBox('Alteração realizada com sucesso!', 'Atenção', mb_ok + MB_ICONWARNING);
 
     TBObjetos.Post;
+    DM_PRINCIPAL.FMenuAccess.getId(QuyComandos, AId);
     PageControl1.TabIndex := 0;
   end;
 end;
@@ -331,6 +335,11 @@ procedure TfrmRegisterAccess.actCancelarExecute(Sender: TObject);
 begin
   inherited;
   TBObjetosAfterScroll(TBObjetos);
+end;
+
+procedure TfrmRegisterAccess.OnGetMenu;
+begin
+  
 end;
 
 initialization

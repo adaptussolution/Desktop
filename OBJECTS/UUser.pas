@@ -15,6 +15,7 @@ type
   TUserOBJECT = class
     ID_USUARIO: Integer;
     ID_PESSOA: Integer;
+    id_acesso: Integer;
     LOGIN: string;
     SENHA: string;
   end;
@@ -59,14 +60,15 @@ begin
     begin
       Close;
       SQL.Clear;
-      SQL.Add('update or insert into tb_usuario (id_usuario, id_pessoa, login, senha) ');
-      SQL.Add('values (:id_usuario, :id_pessoa, :login, :senha)                       ');
+      SQL.Add('update or insert into tb_usuario (id_usuario, id_pessoa, login, senha, id_acesso) ');
+      SQL.Add('values (:id_usuario, :id_pessoa, :login, :senha, :id_acesso)                       ');
       SQL.Add('matching (id_usuario)                                                  ');
 
       ParamByName('id_usuario').AsString := xCodigo;
       ParamByName('id_pessoa').AsInteger := AUserOBJECT.id_pessoa;
       ParamByName('login').AsString := AUserOBJECT.login;
       ParamByName('senha').AsString := AUserOBJECT.senha;
+      ParamByName('id_acesso').AsInteger := AUserOBJECT.id_acesso;
       ExecSQL;
       DM_PRINCIPAL.ConfirmTransaction;
       AUserOBJECT.id_usuario := StrToInt(xCodigo);

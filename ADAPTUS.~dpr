@@ -19,8 +19,7 @@ uses
   URegisterOffice in 'FORMS\URegisterOffice.pas' {frmRegisterOffice},
   URegisterEmployee in 'FORMS\URegisterEmployee.pas' {frmRegisterEmployee},
   URegisterAccess in 'FORMS\URegisterAccess.pas' {frmRegisterAccess},
-  UAccess in 'OBJECTS\UAccess.pas',
-  UAdaptusGrid in 'COMPONENTS\grid\UAdaptusGrid.pas';
+  UAccess in 'OBJECTS\UAccess.pas';
 
 {$R *.res}
 

@@ -147,9 +147,41 @@ begin
 end;
 
 procedure TfrmRegisterPerson.actExcluirExecute(Sender: TObject);
+
+  function validateDelete(Atable: string): Boolean;
+  begin
+    with QuyComandos do
+    begin
+      Close;
+      sql.Clear;
+      sql.Add('select id_pessoa from ' + Atable + ' where id_pessoa =:id_pessoa');
+      ParamByName('id_pessoa').AsInteger := TBObjetosID_PESSOA.AsInteger;
+      Prepare;
+      Open;
+      Result := IsEmpty;
+    end;
+  end;
+
 begin
   inherited;
-  
+  if not validateDelete('TB_EMPRESA') then
+  begin
+    Application.MessageBox('ESSE REGISTRO NÃO PODE SER EXCLUÍDO, POIS ESTÁ RELACIONADO COM A EMPRESA!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+
+  if not validateDelete('TB_FUNCIONARIO') then
+  begin
+    Application.MessageBox('ESSE REGISTRO NÃO PODE SER EXCLUÍDO, POIS ESTÁ RELACIONADO COM O FUNCIONÁRIO!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+
+  if not validateDelete('TB_USUARIO') then
+  begin
+    Application.MessageBox('ESSE REGISTRO NÃO PODE SER EXCLUÍDO, POIS ESTÁ RELACIONADO COM O USUÁRIO!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    Exit;
+  end;
+                          
   if (Application.MessageBox('Deseja Realmente Excluir?', 'Atenção', MB_YESNO + MB_ICONWARNING) = id_yes) then
     TPerson.GetInstance.delete(TBObjetosID_PESSOA.AsInteger);
 end;
@@ -212,7 +244,7 @@ begin
 
     TBObjetosPAIS.AsString := 'Brasil';
     xPersonOBJECT.PAIS := TBObjetosPAIS.AsString;
-    
+
     xPersonOBJECT.TIPO_PESSOA := TBObjetosTIPO_PESSOA.AsString;
     xPersonOBJECT.estado_civil := TBObjetosESTADO_CIVIL.AsString;
     TPerson.GetInstance.save(xPersonOBJECT, xStatus);

@@ -19,7 +19,8 @@ uses
   URegisterOffice in 'FORMS\URegisterOffice.pas' {frmRegisterOffice},
   URegisterEmployee in 'FORMS\URegisterEmployee.pas' {frmRegisterEmployee},
   URegisterAccess in 'FORMS\URegisterAccess.pas' {frmRegisterAccess},
-  UAccess in 'OBJECTS\UAccess.pas';
+  UAccess in 'OBJECTS\UAccess.pas',
+  UMenuAccess in 'OBJECTS\UMenuAccess.pas';
 
 {$R *.res}
 

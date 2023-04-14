@@ -3,10 +3,11 @@ unit UDM_PRINCIPAL;
 interface
 
 uses
-  SysUtils, Classes, DB, IBDatabase, IBCustomDataSet, IBQuery, UParameters, UGlobal,
+  SysUtils, Classes, DB, IBDatabase, IBCustomDataSet, IBQuery, UParameters, UGlobal, UMenuAccess,
   Dialogs;
 
 type
+
   TDM_PRINCIPAL = class(TDataModule)
     IBTransaction1: TIBTransaction;
     IBQuery1: TIBQuery;
@@ -22,6 +23,7 @@ type
     { Public declarations }
     FParameters: TParameters;
     FGlobal: TGlobal;
+    FMenuAccess: TMenuAccess;
     procedure StartTransaction;
     procedure ConfirmTransaction;
     procedure CancelTransaction;

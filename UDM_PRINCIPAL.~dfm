@@ -7,7 +7,7 @@ object DM_PRINCIPAL: TDM_PRINCIPAL
   Height = 242
   Width = 342
   object IBTransaction1: TIBTransaction
-    Active = False
+    Active = True
     DefaultDatabase = IBDatabase1
     AutoStopAction = saNone
     Left = 160
@@ -22,6 +22,7 @@ object DM_PRINCIPAL: TDM_PRINCIPAL
     Top = 96
   end
   object IBDatabase1: TIBDatabase
+    Connected = True
     DatabaseName = 'C:\Users\Trabalho\Desktop\ADAPTUS\BANCO\ADAPTUS.FDB'
     Params.Strings = (
       'user_name=SYSDBA'

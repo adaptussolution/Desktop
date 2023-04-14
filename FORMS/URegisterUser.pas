@@ -6,14 +6,14 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FrmCadastro, DB, Provider, DBClient, IBCustomDataSet, IBQuery,
   ImgList, ActnList, StdCtrls, Grids, DBGrids, ComCtrls, DBCtrls, Buttons,
-  ToolWin, ExtCtrls, UUser, Mask;
+  ToolWin, ExtCtrls, UUser, Mask, UMenuAccess;
 
 type
   TPassword = class
     PasswordDecrypt: string;
   end;
 
-  TfrmRegisterUser = class(TFrmCadastros, IUser)
+  TfrmRegisterUser = class(TFrmCadastros, IUser, IMenuAccess)
     intgrfldQuyObjetosID_USUARIO: TIntegerField;
     intgrfldQuyObjetosID_PESSOA: TIntegerField;
     QuyObjetosLOGIN: TIBStringField;
@@ -36,6 +36,14 @@ type
     dbedtNOME_PESSOA: TDBEdit;
     btnSeachPerson: TSpeedButton;
     chkViewPassword: TCheckBox;
+    QuyObjetosID_ACESSO: TIntegerField;
+    TBObjetosID_ACESSO: TIntegerField;
+    QuyObjetosACESSO: TIBStringField;
+    TBObjetosACESSO: TStringField;
+    lbl5: TLabel;
+    dbedtID_ACESSO: TDBEdit;
+    dbedtACESSO: TDBEdit;
+    btnbtnSeachAccess: TSpeedButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure actExcluirExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -47,10 +55,13 @@ type
     procedure TBObjetosAfterScroll(DataSet: TDataSet);
     procedure TBObjetosBeforeCancel(DataSet: TDataSet);
     procedure TBObjetosBeforePost(DataSet: TDataSet);
+    procedure dbedtID_ACESSOExit(Sender: TObject);
+    procedure btnbtnSeachAccessClick(Sender: TObject);
   private
     { Private declarations }
     FPassword: TPassword;
     function validateFileds: Boolean;
+    procedure OnGetMenu;
     procedure OnSucess(AStatus: string; AId: Integer);
     procedure OnFaild(AMsg: string);
   public
@@ -71,6 +82,7 @@ procedure TfrmRegisterUser.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
   TUser.GetInstance.RemListener(Self);
+  DM_PRINCIPAL.FMenuAccess.RemListener(Self);
   Action := caFree;
   frmRegisterUser := NIL;
 end;
@@ -86,6 +98,7 @@ procedure TfrmRegisterUser.FormCreate(Sender: TObject);
 begin
   inherited;
   TUser.GetInstance.AddListener(Self);
+  DM_PRINCIPAL.FMenuAccess.AddListener(Self);
 end;
 
 procedure TfrmRegisterUser.OnFaild(AMsg: string);
@@ -108,8 +121,9 @@ begin
       Application.MessageBox('Alteração realizada com sucesso!', 'Atenção', mb_ok + MB_ICONWARNING);
 
     TBObjetos.Post;
-
+    DM_PRINCIPAL.FMenuAccess.getId(QuyComandos, TBObjetosID_ACESSO.AsInteger);
     dbedtSENHA.PasswordChar := '*';
+    dbedtLOGIN.ReadOnly := True;
     PageControl1.TabIndex := 0;
   end;
 end;
@@ -148,6 +162,7 @@ begin
     Exit;
   end;
 
+  if TBObjetos.State in [DSINSERT] then
   IF not VerifyLogin THEN
   BEGIN
     Application.MessageBox('POR FAVOR INFORME OUTRO LOGIN, POIS ESSE, JÁ ESTÁ SENDO USADO!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
@@ -218,8 +233,9 @@ begin
     xUserOBJECT.ID_USUARIO := TBObjetosID_USUARIO.AsInteger;
     xUserOBJECT.ID_PESSOA := TBObjetosID_PESSOA.AsInteger;
     xUserOBJECT.LOGIN := TBObjetosLOGIN.AsString;
-
     xUserOBJECT.SENHA := TBObjetosSENHA.AsString;
+    xUserOBJECT.id_acesso := TBObjetosID_ACESSO.AsInteger;
+    
     TUser.GetInstance.save(xUserOBJECT, xStatus);
   end;
 end;
@@ -228,6 +244,7 @@ procedure TfrmRegisterUser.actNovoExecute(Sender: TObject);
 begin
   inherited;
   dbedtLOGIN.SetFocus;
+  dbedtLOGIN.ReadOnly := False;
 end;
 
 procedure TfrmRegisterUser.dbedtID_PESSOAExit(Sender: TObject);
@@ -305,6 +322,66 @@ procedure TfrmRegisterUser.TBObjetosBeforePost(DataSet: TDataSet);
 begin
   inherited;
   FPassword.PasswordDecrypt := DM_PRINCIPAL.FGlobal.Decrypt(TBObjetosSENHA.AsString, 1010);
+end;
+
+procedure TfrmRegisterUser.dbedtID_ACESSOExit(Sender: TObject);
+begin
+  inherited;
+  if not (TBObjetos.State in [dsedit, dsinsert]) then
+    exit;
+  if TBObjetosID_ACESSO.AsInteger = 0 then
+  begin
+    TBObjetosID_ACESSO.Clear;
+    TBObjetosACESSO.Clear;
+    Abort;
+  end;
+
+  with QuyComandos do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.add('select * from tb_acesso where id_acesso =:id_acesso');
+    parambyname('id_acesso').AsInteger := TBObjetosID_ACESSO.AsInteger;
+    Open;
+    Last;
+    First;
+    if recordcount = 0 then
+    begin
+      Application.MessageBox('ID inválido!', 'Informação', MB_OK + MB_ICONINFORMATION);
+      TBObjetosID_ACESSO.Clear;
+      TBObjetosACESSO.Clear;
+      Abort;
+    end
+    else
+    begin
+      TBObjetosACESSO.ASSTRING := FIELDBYNAME('NOME').ASSTRING;
+    end;
+  end;
+end;
+
+procedure TfrmRegisterUser.btnbtnSeachAccessClick(Sender: TObject);
+begin
+  inherited;
+  if not (tbobjetos.State in [dsedit, dsinsert]) then
+    TBObjetos.Edit;
+
+  try
+    FrmFiltro := TFrmFiltro.Create(self);
+    FrmFiltro.VTabela := 'tb_acesso';
+    FrmFiltro.ShowModal;
+    if FrmFiltro.BtnSelecionar.ModalResult = mrOk then
+    begin
+      TBObjetosID_ACESSO.AsInteger := FrmFiltro.Tbobjetos.fieldbyname('id_acesso').AsInteger;
+      TBObjetosACESSO.AsString := FrmFiltro.Tbobjetos.fieldbyname('ACESSO').AsString;
+    end;
+  finally
+    FreeAndNil(FrmFiltro);
+  end;
+end;
+
+procedure TfrmRegisterUser.OnGetMenu;
+begin
+
 end;
 
 initialization

@@ -29,6 +29,7 @@ type
     FInterfaceList: TInterfaceList;
 
     procedure NotifyPersonFaild(AMsg: string);
+
   public
     procedure AddListener(AIAccess: IAccess);
     procedure RemListener(AIAccess: IAccess);
@@ -127,9 +128,10 @@ begin
     begin
       CLOSE;
       SQL.Clear;
-      SQL.add('select * from TB_ACESSO_ITEM where ID_ACESSO = :ID_ACESSO AND FLAG = :FLAG');
+      //SQL.add('select * from TB_ACESSO_ITEM where ID_ACESSO = :ID_ACESSO AND FLAG = :FLAG');
+      SQL.Text := 'select * from TB_ACESSO_ITEM where (ID_ACESSO = :ID_ACESSO) AND (FLAG = '''+AFlag+''')';
       ParamByName('ID_ACESSO').AsInteger := AId;
-      ParamByName('FLAG').AsString := AFlag;
+      //ParamByName('FLAG').AsString := AFlag;
       Open;
       Last;
       First;

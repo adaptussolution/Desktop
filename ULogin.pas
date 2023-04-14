@@ -29,6 +29,7 @@ type
       Shift: TShiftState);
   private
     { Private declarations }
+    FID_ACESSO: Integer;
     procedure SaveUserPassword(ASave: Boolean);
     function ValidateFields: Boolean;
   public
@@ -41,7 +42,7 @@ var
 implementation
 
 uses
-  UDM_PRINCIPAL, StrUtils, UParameters, UGlobal, UParametersScreen, UMenu;
+  UDM_PRINCIPAL, StrUtils, UParameters, UGlobal, UParametersScreen, UMenu, UMenuAccess;
 
 {$R *.dfm}
 
@@ -63,6 +64,7 @@ begin
   DM_PRINCIPAL.FParameters.FArqIni.WriteString('Geral', 'SaveUserPassword', BoolToStr(ASave));
   DM_PRINCIPAL.FParameters.FArqIni.WriteString('Geral', 'Login', ifthen(ASave, edtLogin.text, ''));
   DM_PRINCIPAL.FParameters.FArqIni.WriteString('Geral', 'Password', ifthen(ASave, DM_PRINCIPAL.FGlobal.Encrypt(edtPassword.text, 1010), ''));
+  DM_PRINCIPAL.FParameters.FArqIni.WriteString('Geral', 'Access', IntToStr(FID_ACESSO));
 end;
 
 procedure TfrmLogin.btnLoginClick(Sender: TObject);
@@ -72,6 +74,8 @@ begin
     Exit;
 
   SaveUserPassword(chkSaveUserPassword.Checked);
+
+  DM_PRINCIPAL.FMenuAccess := TMenuAccess.Create(QuyComandos, FID_ACESSO);
 
   if not Assigned(frmMenu) then
     frmMenu := TfrmMenu.Create(self);
@@ -96,11 +100,12 @@ function TfrmLogin.ValidateFields: Boolean;
     begin
       Close;
       SQL.Clear;
-      SQL.Add('select u.login  from TB_USUARIO u where u.login =:login');
+      SQL.Add('select u.login, ID_ACESSO from TB_USUARIO u where u.login =:login');
       ParamByName('login').AsString := edtLogin.Text;
       Open;
       Last;
       First;
+      FID_ACESSO := FieldByName('ID_ACESSO').AsInteger;
       Result := IsEmpty
     end;
   end;

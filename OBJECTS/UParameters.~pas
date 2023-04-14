@@ -12,8 +12,11 @@ type
     fSaveUserPassword: Boolean;
     fLogin: string;
     fPassword: string;
+    FAccess: Integer;
     procedure getPathBank(const Value: string);
     function setPathBank: string;
+    procedure getAccess(const Value: integer);
+    function setAccess: integer;
   protected
     procedure getPassword(const Value: string);
     function setPassword: string;
@@ -23,6 +26,7 @@ type
     property SaveUserPassword: Boolean read fSaveUserPassword write fSaveUserPassword;
     property Login: string read fLogin write fLogin;
     property Password: string read setPassword write getPassword;
+    property Access: integer read setAccess write getAccess;
     constructor Create;
   end;
 
@@ -35,9 +39,15 @@ begin
   FArqIni := TIniFile.create(ExtractFilePath(Application.ExeName) + 'Config.ini');
 
   fPathBank := FArqIni.readstring('Geral', 'Caminho do banco', fPathBank);
-  fSaveUserPassword := StrToBool(FArqIni.readstring('Geral', 'Caminho do banco', BoolToStr(fSaveUserPassword)));
+  fSaveUserPassword := StrToBool(FArqIni.readstring('Geral', 'SaveUserPassword', BoolToStr(fSaveUserPassword)));
   fLogin := FArqIni.readstring('Geral', 'Login', fLogin);
   fPassword := FArqIni.readstring('Geral', 'Password', fPassword);
+  FAccess := StrToInt(FArqIni.readstring('Geral', 'Access', FAccess));
+end;
+
+procedure TParameters.getAccess(const Value: integer);
+begin
+  FAccess := Value;
 end;
 
 procedure TParameters.getPassword(const Value: string);
@@ -48,6 +58,11 @@ end;
 procedure TParameters.getPathBank(const Value: string);
 begin
   fPathBank := Value;
+end;
+
+function TParameters.setAccess: integer;
+begin
+  Result := FAccess;
 end;
 
 function TParameters.setPassword: string;

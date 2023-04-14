@@ -166,6 +166,33 @@ begin
     Tbobjetos.Open;
     VARNOMEFORM := 'tb_pessoa';
   end;
+
+  if TipoPesquisa = 'tb_acesso' then
+  begin
+    Tbobjetos.Close;
+
+    DBGrid1.Columns.Add;
+    DBGrid1.Columns[0].FieldName := 'id_acesso';
+    DBGrid1.Columns[0].Title.Caption := 'Código';
+    DBGrid1.Columns[0].Width := 80;
+
+    DBGrid1.Columns.Add;
+    DBGrid1.Columns[1].FieldName := 'ACESSO';
+    DBGrid1.Columns[1].Title.Caption := 'Acesso';
+    DBGrid1.Columns[1].Width := 250;
+
+    with QuyCNSObjetos do
+    begin
+      Close;
+      sql.Clear;
+      sql.Add('SELECT A.id_acesso, A.NOME AS ACESSO  FROM tb_acesso A ');
+      Open;
+      Last;
+      First;
+    end;
+    Tbobjetos.Open;
+    VARNOMEFORM := 'tb_acesso';
+  end;
   //////////////////////////////////////////////////////////////////////////////////
 end;
 

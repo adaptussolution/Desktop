@@ -4,9 +4,11 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, Menus, ComCtrls, StdCtrls;
+  Dialogs, ExtCtrls, Menus, ComCtrls, StdCtrls, UMenuAccess;
 
 type
+
+
   TMenuThread = class(TThread)
   private
   protected
@@ -16,7 +18,7 @@ type
     destructor Destroy; override;
   end;
 
-  TfrmMenu = class(TForm)
+  TfrmMenu = class(TForm, IMenuAccess)
     Panel1: TPanel;
     MainMenu1: TMainMenu;
     Register: TMenuItem;
@@ -46,6 +48,7 @@ type
     procedure RegisterAccessClick(Sender: TObject);
   private
     { Private declarations }
+    procedure OnGetMenu;
   public
     { Public declarations }
   end;
@@ -57,12 +60,14 @@ implementation
 
 uses
   UDM_PRINCIPAL, URegisterPerson, URegisterUser, URegisterAccess,
-  URegisterCompany, URegisterSector, URegisterOffice, URegisterEmployee;
+  URegisterCompany, URegisterSector, URegisterOffice, URegisterEmployee,
+  DB, IBQuery;
 
 {$R *.dfm}
 
 procedure TfrmMenu.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  DM_PRINCIPAL.FMenuAccess.RemListener(Self);
   Application.Terminate;
 end;
 
@@ -139,6 +144,8 @@ begin
   xMenu := TMenuThread.Create;
   xMenu.FreeOnTerminate := True;
   xMenu.Resume;
+
+  DM_PRINCIPAL.FMenuAccess.AddListener(Self);
 end;
 
 { TMenuThread }
@@ -163,6 +170,17 @@ begin
   Terminate;
   WaitFor;
   Free;
+end;
+
+procedure TfrmMenu.OnGetMenu;
+begin
+  Person.Visible := DM_PRINCIPAL.FMenuAccess.Person;
+  User.Visible := DM_PRINCIPAL.FMenuAccess.User;
+  RegisterAccess.Visible := DM_PRINCIPAL.FMenuAccess.Access;
+  REGISTERCOMPANY.Visible := DM_PRINCIPAL.FMenuAccess.Company;
+  SECTOR.Visible := DM_PRINCIPAL.FMenuAccess.SECTOR;
+  OFFICE.Visible := DM_PRINCIPAL.FMenuAccess.OFFICE;
+  Employee.Visible := DM_PRINCIPAL.FMenuAccess.Employee;
 end;
 
 initialization

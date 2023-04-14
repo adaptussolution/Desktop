@@ -79,7 +79,7 @@ inherited frmRegisterAccess: TfrmRegisterAccess
           object Label2: TLabel
             Left = 0
             Top = 0
-            Width = 204
+            Width = 87
             Height = 13
             Align = alTop
             Alignment = taCenter
@@ -291,7 +291,7 @@ inherited frmRegisterAccess: TfrmRegisterAccess
           object Label3: TLabel
             Left = 0
             Top = 0
-            Width = 204
+            Width = 59
             Height = 13
             Align = alTop
             Alignment = taCenter
@@ -397,21 +397,25 @@ inherited frmRegisterAccess: TfrmRegisterAccess
     Top = 296
     object tbAccessItemID_ACESSO_ITEM: TIntegerField
       FieldName = 'ID_ACESSO_ITEM'
+      Origin = 'TB_ACESSO_ITEM.ID_ACESSO_ITEM'
       Required = True
       Visible = False
     end
     object tbAccessItemID_ACESSO: TIntegerField
       FieldName = 'ID_ACESSO'
+      Origin = 'TB_ACESSO_ITEM.ID_ACESSO'
       Required = True
       Visible = False
     end
     object tbAccessItemNOME: TStringField
       FieldName = 'NOME'
+      Origin = 'TB_ACESSO_ITEM.NOME'
       Required = True
       Size = 100
     end
     object tbAccessItemFLAG: TStringField
       FieldName = 'FLAG'
+      Origin = 'TB_ACESSO_ITEM.FLAG'
       Required = True
       Visible = False
       FixedChar = True
@@ -508,21 +512,25 @@ inherited frmRegisterAccess: TfrmRegisterAccess
     Top = 336
     object tbNOAccessItemID_ACESSO_ITEM: TIntegerField
       FieldName = 'ID_ACESSO_ITEM'
+      Origin = 'TB_ACESSO_ITEM.ID_ACESSO_ITEM'
       Required = True
       Visible = False
     end
     object tbNOAccessItemID_ACESSO: TIntegerField
       FieldName = 'ID_ACESSO'
+      Origin = 'TB_ACESSO_ITEM.ID_ACESSO'
       Required = True
       Visible = False
     end
     object tbNOAccessItemNOME: TStringField
       FieldName = 'NOME'
+      Origin = 'TB_ACESSO_ITEM.NOME'
       Required = True
       Size = 100
     end
     object tbNOAccessItemFLAG: TStringField
       FieldName = 'FLAG'
+      Origin = 'TB_ACESSO_ITEM.FLAG'
       Required = True
       Visible = False
       FixedChar = True
