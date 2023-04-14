@@ -24,6 +24,7 @@ type
     procedure NotifyGetMenu;
   protected
   public
+    fUserLogged: Boolean;
     property Person: Boolean read fPerson write fPerson;
     property User: Boolean read fUser write fUser;
     property Company: Boolean read fcompany write fcompany;
@@ -56,6 +57,8 @@ constructor TMenuAccess.Create(AQuery: TIBQuery; AIdAcess: Integer);
 begin
   if not Assigned(FInterfaceList) then
     FInterfaceList := TInterfaceList.Create;
+
+  fUserLogged:= False;
     
   getId(AQuery, AIdAcess);
 end;

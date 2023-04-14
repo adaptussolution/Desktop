@@ -121,6 +121,8 @@ begin
       Application.MessageBox('Alteração realizada com sucesso!', 'Atenção', mb_ok + MB_ICONWARNING);
 
     TBObjetos.Post;
+    DM_PRINCIPAL.FMenuAccess.fUserLogged :=
+    DM_PRINCIPAL.FParameters.Login = TBObjetosLOGIN.AsString;
     DM_PRINCIPAL.FMenuAccess.getId(QuyComandos, TBObjetosID_ACESSO.AsInteger);
     dbedtSENHA.PasswordChar := '*';
     dbedtLOGIN.ReadOnly := True;

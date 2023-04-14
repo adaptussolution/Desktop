@@ -67,6 +67,7 @@ uses
 
 procedure TfrmMenu.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  DM_PRINCIPAL.FMenuAccess.RemListener(Self);
   Application.Terminate;
 end;
 
@@ -173,6 +174,9 @@ end;
 
 procedure TfrmMenu.OnGetMenu;
 begin
+  if not DM_PRINCIPAL.FMenuAccess.fUserLogged then
+    Exit;
+    
   Person.Visible := DM_PRINCIPAL.FMenuAccess.Person;
   User.Visible := DM_PRINCIPAL.FMenuAccess.User;
   RegisterAccess.Visible := DM_PRINCIPAL.FMenuAccess.Access;

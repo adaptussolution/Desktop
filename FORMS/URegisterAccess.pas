@@ -148,6 +148,7 @@ begin
       Application.MessageBox('Alteração realizada com sucesso!', 'Atenção', mb_ok + MB_ICONWARNING);
 
     TBObjetos.Post;
+    DM_PRINCIPAL.FMenuAccess.fUserLogged := False;
     DM_PRINCIPAL.FMenuAccess.getId(QuyComandos, AId);
     PageControl1.TabIndex := 0;
   end;

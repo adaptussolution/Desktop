@@ -7,8 +7,6 @@ uses
   Dialogs, ExtCtrls, Menus, ComCtrls, StdCtrls, UMenuAccess;
 
 type
-
-
   TMenuThread = class(TThread)
   private
   protected
@@ -60,8 +58,8 @@ implementation
 
 uses
   UDM_PRINCIPAL, URegisterPerson, URegisterUser, URegisterAccess,
-  URegisterCompany, URegisterSector, URegisterOffice, URegisterEmployee,
-  DB, IBQuery;
+  URegisterCompany, URegisterSector, URegisterOffice, URegisterEmployee, DB,
+  IBQuery;
 
 {$R *.dfm}
 
@@ -174,13 +172,16 @@ end;
 
 procedure TfrmMenu.OnGetMenu;
 begin
-  Person.Visible := DM_PRINCIPAL.FMenuAccess.Person;
-  User.Visible := DM_PRINCIPAL.FMenuAccess.User;
-  RegisterAccess.Visible := DM_PRINCIPAL.FMenuAccess.Access;
-  REGISTERCOMPANY.Visible := DM_PRINCIPAL.FMenuAccess.Company;
-  SECTOR.Visible := DM_PRINCIPAL.FMenuAccess.SECTOR;
-  OFFICE.Visible := DM_PRINCIPAL.FMenuAccess.OFFICE;
-  Employee.Visible := DM_PRINCIPAL.FMenuAccess.Employee;
+  if DM_PRINCIPAL.FMenuAccess.fUserLogged then
+  begin
+    Person.Visible := DM_PRINCIPAL.FMenuAccess.Person;
+    User.Visible := DM_PRINCIPAL.FMenuAccess.User;
+    RegisterAccess.Visible := DM_PRINCIPAL.FMenuAccess.Access;
+    REGISTERCOMPANY.Visible := DM_PRINCIPAL.FMenuAccess.Company;
+    SECTOR.Visible := DM_PRINCIPAL.FMenuAccess.SECTOR;
+    OFFICE.Visible := DM_PRINCIPAL.FMenuAccess.OFFICE;
+    Employee.Visible := DM_PRINCIPAL.FMenuAccess.Employee;
+  end;
 end;
 
 initialization
