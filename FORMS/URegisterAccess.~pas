@@ -347,7 +347,7 @@ end;
 procedure TfrmRegisterAccess.dsObjetosStateChange(Sender: TObject);
 begin
   inherited;
-  dbedtNOME.ReadOnly := not TBObjetos.State in [DSINSERT];
+  dbedtNOME.ReadOnly := not (TBObjetos.State in [DSINSERT]);
 end;
 
 initialization

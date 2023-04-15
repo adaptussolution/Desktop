@@ -82,7 +82,8 @@ var
 
 implementation
 
-USES UDM_PRINCIPAL;
+uses
+  UDM_PRINCIPAL;
 
 {$R *.dfm}
 
@@ -150,8 +151,29 @@ begin
 
     TBObjetos.Post;
     DM_PRINCIPAL.FMenuAccess.fUserLogged := False;
-    DM_PRINCIPAL.FMenuAccess.getId(QuyComandos, AId);
-    PageControl1.TabIndex := 0;
+    try
+      with QuyComandos do
+      begin
+        close;
+        sql.Clear;
+        sql.add('select LOGIN from TB_USUARIO where ID_ACESSO = :ID_ACESSO');
+        ParamByName('ID_ACESSO').AsInteger := AId;
+        Open;
+        First;
+        while not Eof do
+        begin
+          if FieldByName('LOGIN').AsString = DM_PRINCIPAL.FParameters.Login then
+          begin
+            DM_PRINCIPAL.FMenuAccess.fUserLogged := True;
+            Exit;
+          end;
+          Next;
+        end;
+      end;
+    finally
+      DM_PRINCIPAL.FMenuAccess.getId(QuyComandos, AId);
+      PageControl1.TabIndex := 0;
+    end;
   end;
 end;
 
@@ -244,7 +266,7 @@ begin
   if not (ACDSAlt.State in [DSINSERT]) then
     ACDSAlt.Append;
 
-  ACDSAlt.FieldByName('ID_ACESSO').AsInteger := ACDSDelete.FieldByName('ID_ACESSO').AsInteger;  
+  ACDSAlt.FieldByName('ID_ACESSO').AsInteger := ACDSDelete.FieldByName('ID_ACESSO').AsInteger;
   ACDSAlt.FieldByName('ID_ACESSO_ITEM').AsInteger := ACDSDelete.FieldByName('ID_ACESSO_ITEM').AsInteger;
   ACDSAlt.FieldByName('NOME').AsString := ACDSDelete.FieldByName('NOME').AsString;
   ACDSAlt.FieldByName('FLAG').AsString := AFLAG;
@@ -341,7 +363,7 @@ end;
 
 procedure TfrmRegisterAccess.OnGetMenu;
 begin
-  
+
 end;
 
 procedure TfrmRegisterAccess.dsObjetosStateChange(Sender: TObject);
