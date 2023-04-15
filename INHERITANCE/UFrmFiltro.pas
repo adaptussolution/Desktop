@@ -193,6 +193,39 @@ begin
     Tbobjetos.Open;
     VARNOMEFORM := 'tb_acesso';
   end;
+
+  if TipoPesquisa = 'TB_EMPRESA' then
+  begin
+    Tbobjetos.Close;
+
+    DBGrid1.Columns.Add;
+    DBGrid1.Columns[0].FieldName := 'id_acesso';
+    DBGrid1.Columns[0].Title.Caption := 'Código';
+    DBGrid1.Columns[0].Width := 80;
+
+    DBGrid1.Columns.Add;
+    DBGrid1.Columns[1].FieldName := 'cnpj';
+    DBGrid1.Columns[1].Title.Caption := 'CNPJ';
+    DBGrid1.Columns[1].Width := 250;
+
+    DBGrid1.Columns.Add;
+    DBGrid1.Columns[1].FieldName := 'nome_empresa';
+    DBGrid1.Columns[1].Title.Caption := 'NOME DA EMPRESA';
+    DBGrid1.Columns[1].Width := 250;
+
+    with QuyCNSObjetos do
+    begin
+      Close;
+      sql.Clear;
+      sql.Add('select id_pessoa, cpf_cnpj as cnpj, nome as nome_empresa from tb_pessoa ');
+      sql.Add('where tipo_pessoa = ''J'' and char_length(cpf_cnpj) = 14 ');
+      Open;
+      Last;
+      First;
+    end;
+    Tbobjetos.Open;
+    VARNOMEFORM := 'tb_acesso';
+  end;
   //////////////////////////////////////////////////////////////////////////////////
 end;
 

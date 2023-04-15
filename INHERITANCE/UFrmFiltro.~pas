@@ -191,7 +191,7 @@ begin
       First;
     end;
     Tbobjetos.Open;
-    VARNOMEFORM := 'tb_pessoa';
+    VARNOMEFORM := 'tb_acesso';
   end;
   //////////////////////////////////////////////////////////////////////////////////
 end;
