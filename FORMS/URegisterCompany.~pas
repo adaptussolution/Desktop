@@ -41,6 +41,7 @@ type
     procedure btnSeachPersonClick(Sender: TObject);
     procedure dbedtID_PESSOAExit(Sender: TObject);
     procedure dbedtCNPJExit(Sender: TObject);
+    procedure dsObjetosStateChange(Sender: TObject);
   private
     { Private declarations }
     function validateFileds: Boolean;
@@ -263,7 +264,7 @@ begin
     else
     begin
       TBObjetosNOME_EMPRESA.ASSTRING := FIELDBYNAME('nome_empresa').ASSTRING;
-      TBObjetosCNPJ.AsString := FIELDBYNAME('cpf_cnpj').AsString;
+      TBObjetosCNPJ.AsString := FIELDBYNAME('cnpj').AsString;
     end;
   end;
 end;
@@ -305,6 +306,13 @@ begin
       TBObjetosID_PESSOA.AsInteger := FIELDBYNAME('id_pessoa').AsInteger;
     end;
   end;
+end;
+
+procedure TfrmRegisterCompany.dsObjetosStateChange(Sender: TObject);
+begin
+  inherited;
+  dbedtNOME_FANTASIA.ReadOnly := not TBObjetos.State in [DSINSERT];
+  dbedtRAZAO_SOCIAL.ReadOnly := not TBObjetos.State in [DSINSERT];
 end;
 
 initialization

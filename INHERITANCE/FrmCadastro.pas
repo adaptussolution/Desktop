@@ -170,6 +170,8 @@ begin
 
   Screen.OnActiveControlChange := ChangeControl;
 
+  PageControl1.ActivePageIndex := 1;
+
   // DBGrid1.Columns.SaveToFile();
 
 end;

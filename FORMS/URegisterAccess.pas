@@ -65,6 +65,7 @@ type
     procedure sbRigthArrowAllClick(Sender: TObject);
     procedure actNovoExecute(Sender: TObject);
     procedure actCancelarExecute(Sender: TObject);
+    procedure dsObjetosStateChange(Sender: TObject);
   private
     { Private declarations }
     function validateFileds: Boolean;
@@ -341,6 +342,12 @@ end;
 procedure TfrmRegisterAccess.OnGetMenu;
 begin
   
+end;
+
+procedure TfrmRegisterAccess.dsObjetosStateChange(Sender: TObject);
+begin
+  inherited;
+  dbedtNOME.ReadOnly := not (TBObjetos.State in [DSINSERT]);
 end;
 
 initialization

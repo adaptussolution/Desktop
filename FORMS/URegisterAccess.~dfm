@@ -79,7 +79,7 @@ inherited frmRegisterAccess: TfrmRegisterAccess
           object Label2: TLabel
             Left = 0
             Top = 0
-            Width = 87
+            Width = 204
             Height = 13
             Align = alTop
             Alignment = taCenter
@@ -291,7 +291,7 @@ inherited frmRegisterAccess: TfrmRegisterAccess
           object Label3: TLabel
             Left = 0
             Top = 0
-            Width = 59
+            Width = 204
             Height = 13
             Align = alTop
             Alignment = taCenter

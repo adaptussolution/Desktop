@@ -57,6 +57,7 @@ type
     procedure TBObjetosBeforePost(DataSet: TDataSet);
     procedure dbedtID_ACESSOExit(Sender: TObject);
     procedure btnbtnSeachAccessClick(Sender: TObject);
+    procedure dsObjetosStateChange(Sender: TObject);
   private
     { Private declarations }
     FPassword: TPassword;
@@ -384,6 +385,12 @@ end;
 procedure TfrmRegisterUser.OnGetMenu;
 begin
 
+end;
+
+procedure TfrmRegisterUser.dsObjetosStateChange(Sender: TObject);
+begin
+  inherited;
+  dbedtLOGIN.ReadOnly := not (TBObjetos.State in [DSINSERT]);
 end;
 
 initialization

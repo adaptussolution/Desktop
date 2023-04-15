@@ -85,6 +85,7 @@ type
     procedure actNovoExecute(Sender: TObject);
     procedure dbrgrpTIPO_PESSOAExit(Sender: TObject);
     procedure TBObjetosAfterScroll(DataSet: TDataSet);
+    procedure dsObjetosStateChange(Sender: TObject);
   private
     { Private declarations }
     function validateFileds: Boolean;
@@ -357,6 +358,13 @@ begin
   inherited;
   RxDBComboBox1.Text := RxDBComboBox1.Items[RxDBComboBox1.Values.IndexOf(TBObjetosESTADO_CIVIL.AsString)];
   RxDBComboBox2.Text := RxDBComboBox2.Items[RxDBComboBox2.Values.IndexOf(TBObjetosUF.AsString)];
+end;
+
+procedure TfrmRegisterPerson.dsObjetosStateChange(Sender: TObject);
+begin
+  inherited;
+  DBEdit2.ReadOnly := not (TBObjetos.State in [DSINSERT]);
+  DBEdit3.ReadOnly := not (TBObjetos.State in [DSINSERT]);
 end;
 
 initialization

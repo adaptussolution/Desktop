@@ -10,7 +10,6 @@ object FrmCadastros: TFrmCadastros
   Font.Height = -11
   Font.Name = 'Segoe UI Light'
   Font.Style = []
-  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
   Position = poDefault

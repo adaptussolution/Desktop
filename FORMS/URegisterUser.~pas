@@ -57,6 +57,7 @@ type
     procedure TBObjetosBeforePost(DataSet: TDataSet);
     procedure dbedtID_ACESSOExit(Sender: TObject);
     procedure btnbtnSeachAccessClick(Sender: TObject);
+    procedure dsObjetosStateChange(Sender: TObject);
   private
     { Private declarations }
     FPassword: TPassword;
@@ -121,6 +122,8 @@ begin
       Application.MessageBox('Alteração realizada com sucesso!', 'Atenção', mb_ok + MB_ICONWARNING);
 
     TBObjetos.Post;
+    DM_PRINCIPAL.FMenuAccess.fUserLogged :=
+    DM_PRINCIPAL.FParameters.Login = TBObjetosLOGIN.AsString;
     DM_PRINCIPAL.FMenuAccess.getId(QuyComandos, TBObjetosID_ACESSO.AsInteger);
     dbedtSENHA.PasswordChar := '*';
     dbedtLOGIN.ReadOnly := True;
@@ -382,6 +385,12 @@ end;
 procedure TfrmRegisterUser.OnGetMenu;
 begin
 
+end;
+
+procedure TfrmRegisterUser.dsObjetosStateChange(Sender: TObject);
+begin
+  inherited;
+  dbedtLOGIN.ReadOnly := not TBObjetos.State in [DSINSERT];
 end;
 
 initialization
