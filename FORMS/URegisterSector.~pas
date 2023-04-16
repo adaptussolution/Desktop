@@ -72,7 +72,7 @@ begin
     TBObjetos.Delete
   else
   begin
-    TBObjetosid_empresa.AsInteger := AId;
+    TBObjetosID_SETOR.AsInteger := AId;
 
     if TBObjetos.State in [DSINSERT] then
       Application.MessageBox('Cadastro realizado com sucesso!', 'Atenção', mb_ok + MB_ICONWARNING)

@@ -22,8 +22,8 @@ type
   TCompany = class
   private
     FInterfaceList: TInterfaceList;
-    procedure NotifyPersonSucess(AStatus: string; AId: Integer);
-    procedure NotifyPersonFaild(AMsg: string);
+    procedure NotifyCompanySucess(AStatus: string; AId: Integer);
+    procedure NotifyCompanyFaild(AMsg: string);
   public
     procedure AddListener(AICompany: ICompany);
     procedure RemListener(AICompany: ICompany);
@@ -70,13 +70,13 @@ begin
       ExecSQL;
       DM_PRINCIPAL.ConfirmTransaction;
       ACompanyOBJECT.id_empresa := StrToInt(xCodigo);
-      NotifyPersonSucess(AStatus, ACompanyOBJECT.id_empresa);
+      NotifyCompanySucess(AStatus, ACompanyOBJECT.id_empresa);
     end;
   except
     on e: Exception do
     begin
       DM_PRINCIPAL.CancelTransaction;
-      NotifyPersonFaild(PCHAR('Ocorreu um erro!' + e.Message));
+      NotifyCompanyFaild(PCHAR('Ocorreu um erro!' + e.Message));
     end;
   end;
 end;
@@ -94,12 +94,12 @@ begin
       ExecSQL;
     end;
     DM_PRINCIPAL.ConfirmTransaction;
-    NotifyPersonSucess('D', AId);
+    NotifyCompanySucess('D', AId);
   except
     on e: Exception do
     begin
       DM_PRINCIPAL.CancelTransaction;
-      NotifyPersonFaild('Ocorreu um erro!' + e.Message);
+      NotifyCompanyFaild('Ocorreu um erro!' + e.Message);
     end;
   end;
 end;
@@ -122,7 +122,7 @@ begin
     FInterfaceList.Remove(AICompany);
 end;
 
-procedure TCompany.NotifyPersonFaild(AMsg: string);
+procedure TCompany.NotifyCompanyFaild(AMsg: string);
 var
   xICompany: ICompany;
   i: Integer;
@@ -141,7 +141,7 @@ begin
   end;
 end;
 
-procedure TCompany.NotifyPersonSucess(AStatus: string; AId: Integer);
+procedure TCompany.NotifyCompanysucess(AStatus: string; AId: Integer);
 var
   xICompany: ICompany;
   i: Integer;

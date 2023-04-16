@@ -29,7 +29,6 @@ type
     FInterfaceList: TInterfaceList;
 
     procedure NotifyPersonFaild(AMsg: string);
-
   public
     procedure AddListener(AIAccess: IAccess);
     procedure RemListener(AIAccess: IAccess);

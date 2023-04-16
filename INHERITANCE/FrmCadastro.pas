@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, ExtCtrls, ImgList, ActnList, Menus, ComCtrls, ToolWin,
   StdCtrls, Mask, Buttons, Grids, DBGrids, DB, IBCustomDataSet, IBQuery,
-  Provider, DBClient, ib;
+  Provider, DBClient, ib, AppEvent, Placemnt;
 
 type
   TFrmCadastros = class(TForm)
@@ -71,17 +71,17 @@ type
 
     procedure EnterEx(Sender: TObject);
     procedure ExitEx(Sender: TObject);
-    PROCEDURE MUDAFOCO(Sender: TObject);
+    procedure MUDAFOCO(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure edPesquisarChange(Sender: TObject);
-    function DefineOrdemConsulta(VAR Grid: TDBGrid; VAR tabela: TClientDataSet; idxCampo: Integer; decrescente: Boolean = false): Integer;
+    function DefineOrdemConsulta(var Grid: TDBGrid; var tabela: TClientDataSet; idxCampo: Integer; decrescente: Boolean = false): Integer;
     function ValidaData(value: string): Boolean;
-    function ValidaInteiro(value: String): Boolean;
-    function ValidaDouble(value: String): Boolean;
-    function ValidaString(value: String): Boolean;
+    function ValidaInteiro(value: string): Boolean;
+    function ValidaDouble(value: string): Boolean;
+    function ValidaString(value: string): Boolean;
 
-    Procedure ProcurarCampo(valor: String);
+    procedure ProcurarCampo(valor: string);
     procedure ComboBox2Change(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
 
@@ -114,7 +114,6 @@ type
 
 var
   FrmCadastros: TFrmCadastros;
-
   FCorFocado: TColor = $00FCC294;
   _FAlterado: Boolean = false;
   _FCorAntiga: TColor;
@@ -122,38 +121,24 @@ var
 
 implementation
 
-USES UDM_PRINCIPAL;
+uses
+  UDM_PRINCIPAL, UFrmFiltro;
+
+
+
 
 {$R *.dfm}
 
 procedure TFrmCadastros.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-
-
-
   LimpezaMemoria;
-  // MUDANCAFOCOTELA(nil);
-  // Free;
 end;
 
 procedure TFrmCadastros.FormCreate(Sender: TObject);
 var
   a: array of string;
   i, J: Integer;
-
 begin
-
-  inherited;
-
-
-  { setlength(a, DBGrid1.columns.count);
-    for i := 0 to DBGrid1.columns.count - 1 do
-    BEGIN
-    // a[i] := DBGrid1.columns.Items[i].DisplayName;
-    a[i] := TBObjetos.FieldDefs.Items[i].DisplayName;
-    ComboBox2.Items.Add(a[i])
-    END;
-  }
 
   if DBGrid1.Columns.Count > 0 then
   begin
@@ -165,14 +150,9 @@ begin
 
   end;
 
-
-
-
   Screen.OnActiveControlChange := ChangeControl;
 
   PageControl1.ActivePageIndex := 1;
-
-  // DBGrid1.Columns.SaveToFile();
 
 end;
 
@@ -180,13 +160,13 @@ procedure TFrmCadastros.FormKeyPress(Sender: TObject; var Key: Char);
 var
   i: Integer;
 begin
-  Begin
+  begin
 
-    If Key = #13 then // Se o comando for igual a enter
-    Begin
+    if Key = #13 then // Se o comando for igual a enter
+    begin
       Key := #0;
       Perform(WM_NEXTDLGCTL, 0, 0); // Para pular de campo em campo
-    End;
+    end;
 
     if Key = chr(27) then
     begin
@@ -229,11 +209,9 @@ begin
 end;
 
 procedure TFrmCadastros.MUDAFOCO(Sender: TObject);
-
 var
   i: Integer;
   edt: TEdit;
-
   edbt: TDBEdit;
 begin
   { : muda a cor dos componentes }
@@ -252,17 +230,6 @@ begin
       end;
 
     end;
-    {
-      if (Components[i] is TMemo) then
-      begin
-      if (Components[i] as TMemo).Focused then
-      (Components[i] as TMemo).Color := clYellow
-      else
-
-      (Components[i] as TMemo).Color := clWindow
-      end;
-
-    }
 
     { : se for um DBEdit }
     if (Components[i] is TDBEdit) then
@@ -272,25 +239,12 @@ begin
       begin
 
         if edbt.focused then
-
           edbt.Color := clYellow
         else
           edbt.Color := clWindow;
 
       end;
     end;
-    { : se for um DBMemo }
-
-    { if (Components[i] is TDBMemo) then
-      begin
-      if (Components[i] as TDBMemo).Focused then
-
-      (Components[i] as TDBMemo).Color := clYellow
-      else
-      (Components[i] as TDBMemo).Color := clWindow;
-
-      end;
-    }
   end;
 
 end;
@@ -300,7 +254,6 @@ var
   i: Integer;
   Ed: TDBEdit;
   EDIT: TEdit;
-
 begin
   { Percorre a matriz de componentes do form }
   for i := 0 to componentCount - 1 do
@@ -318,16 +271,16 @@ begin
 
     end;
 
-  if Components[i] IS TEdit then
-  BEGIN
-    EDIT := Components[i] AS TEdit;
+  if Components[i] is TEdit then
+  begin
+    EDIT := Components[i] as TEdit;
 
     if (EDIT.focused) then
       EDIT.Color := clYellow
     else
       EDIT.Color := clWhite;
 
-  END;
+  end;
 
 end;
 
@@ -343,10 +296,10 @@ end;
 
 procedure TFrmCadastros.PageControl1Changing(Sender: TObject; var AllowChange: Boolean);
 begin
-  AllowChange := not(TBObjetos.State in [DSEDIT, DSINSERT]);
+  AllowChange := not (TBObjetos.State in [DSEDIT, DSINSERT]);
 end;
 
-procedure TFrmCadastros.ProcurarCampo(valor: String);
+procedure TFrmCadastros.ProcurarCampo(valor: string);
 begin
 
   if TBObjetos.State in [DSINSERT, DSEDIT] then
@@ -364,39 +317,38 @@ end;
 procedure TFrmCadastros.SetCtrlFocado(Focar: Boolean);
 begin
   if (_FControleAtivo <> nil) then
-    try
-      if (_FControleAtivo is TCustomEdit) or (_FControleAtivo is TCustomComboBox) then
+  try
+    if (_FControleAtivo is TCustomEdit) or (_FControleAtivo is TCustomComboBox) then
+    begin
+      if Focar then
       begin
-        if Focar then
-        begin
-          _FCorAntiga := TEdit(_FControleAtivo).Color;
-          _FAlterado := true;
-          TEdit(_FControleAtivo).Color := FCorFocado;
-        end
-        else
-        begin
-          TEdit(_FControleAtivo).Color := _FCorAntiga;
-          _FAlterado := false;
-        end;
+        _FCorAntiga := TEdit(_FControleAtivo).Color;
+        _FAlterado := true;
+        TEdit(_FControleAtivo).Color := FCorFocado;
+      end
+      else
+      begin
+        TEdit(_FControleAtivo).Color := _FCorAntiga;
+        _FAlterado := false;
       end;
-    except
-      // vai q o individuo já foi destruido!!!
     end;
+  except
+      // vai q o individuo já foi destruido!!!
+  end;
 end;
 
 procedure TFrmCadastros.actSairExecute(Sender: TObject);
 begin
-  if (TBObjetos.State IN [DSEDIT, DSINSERT]) then
-  BEGIN
-    if (Application.MessageBox('Você está no meio de uma operação, se optar por continuar a operação será cancelada, deseja continuar?', 'Atenção',
-      MB_YESNO + MB_ICONWARNING) = id_yes) then
+  if (TBObjetos.State in [DSEDIT, DSINSERT]) then
+  begin
+    if (Application.MessageBox('Você está no meio de uma operação, se optar por continuar a operação será cancelada, deseja continuar?', 'Atenção', MB_YESNO + MB_ICONWARNING) = id_yes) then
     begin
       TBObjetos.Cancel;
     end
     else
       abort;
 
-  END;
+  end;
 
   Close;
 end;
@@ -456,11 +408,14 @@ end;
 
 procedure TFrmCadastros.actExcluirExecute(Sender: TObject);
 begin
+
   if TBObjetos.RecordCount = 0 then
   begin
     Application.MessageBox('Não há registros para excluir!', 'Atenção', MB_OK + MB_ICONWARNING);
-    Abort;
+    if (TBObjetos.State in [dsBrowse]) then
+      abort;
   end;
+
 end;
 
 procedure TFrmCadastros.ChangeControl(Sender: TObject);
@@ -495,8 +450,6 @@ begin
 
   actSair.Enabled := true;
 
-
-
 end;
 
 procedure TFrmCadastros.DBGrid1DblClick(Sender: TObject);
@@ -510,7 +463,7 @@ begin
 end;
 
 procedure TFrmCadastros.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
-begiN
+begin
   { if idxColunaProcura = DataCol then
     begin
     DBGrid1.Columns[DataCol].Color := clBtnFace;
@@ -610,7 +563,7 @@ end;
 function TFrmCadastros.DefineOrdemConsulta(var Grid: TDBGrid; var tabela: TClientDataSet; idxCampo: Integer; decrescente: Boolean): Integer;
 var
   i: Integer;
-  Origem: String;
+  Origem: string;
   VaiAbrir: Boolean;
   Evento: TDataSetNotifyEvent;
 begin
@@ -666,8 +619,8 @@ end;
 procedure TFrmCadastros.TabConsultaShow(Sender: TObject);
 begin
 
-  if (TBObjetos.State IN [DSEDIT, DSINSERT]) then
-  BEGIN
+  if (TBObjetos.State in [DSEDIT, DSINSERT]) then
+  begin
     TBObjetos.Cancel;
   end;
 
@@ -693,7 +646,7 @@ begin
 
 end;
 
-function TFrmCadastros.ValidaDouble(value: String): Boolean;
+function TFrmCadastros.ValidaDouble(value: string): Boolean;
 var
   Numero: Double;
 begin
@@ -706,7 +659,7 @@ begin
 
 end;
 
-function TFrmCadastros.ValidaInteiro(value: String): Boolean;
+function TFrmCadastros.ValidaInteiro(value: string): Boolean;
 var
   Numero: Integer;
 begin
@@ -719,7 +672,7 @@ begin
 
 end;
 
-function TFrmCadastros.ValidaString(value: String): Boolean;
+function TFrmCadastros.ValidaString(value: string): Boolean;
 var
   VString: string;
 begin
@@ -763,17 +716,16 @@ begin
         if ValidaDouble(edPesquisar.Text) then
           ProcurarCampo(edPesquisar.Text);
       end
-      ELSE if DataType in [ftWideString] then
+      else if DataType in [ftWideString] then
       begin
         if ValidaString(edPesquisar.Text) then
           ProcurarCampo(edPesquisar.Text);
       end
-            ELSE if DataType in [ftString] then
+      else if DataType in [ftString] then
       begin
         if ValidaString(edPesquisar.Text) then
           ProcurarCampo(edPesquisar.Text);
       end;
-
 
     end;
 
@@ -841,3 +793,4 @@ begin
 end;
 
 end.
+

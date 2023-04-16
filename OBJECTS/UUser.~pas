@@ -126,7 +126,7 @@ end;
 
 procedure TUser.NotifyPersonFaild(AMsg: string);
 var
-  xUser: IUser;
+  xIUser: IUser;
   i: Integer;
 begin
   try
@@ -135,8 +135,8 @@ begin
 
     for i := 0 to FInterfaceList.Count - 1 do
     begin
-      if Supports(FInterfaceList[i], IUser, xUser) then
-        xUser.OnFaild(AMsg);
+      if Supports(FInterfaceList[i], IUser, xIUser) then
+        xIUser.OnFaild(AMsg);
     end;
   except
 

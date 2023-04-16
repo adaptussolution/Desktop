@@ -23,8 +23,8 @@ type
   TUser = class
   private
     FInterfaceList: TInterfaceList;
-    procedure NotifyPersonSucess(AStatus: string; AId: Integer);
-    procedure NotifyPersonFaild(AMsg: string);
+    procedure NotifyUserSucess(AStatus: string; AId: Integer);
+    procedure NotifyUserFaild(AMsg: string);
   public
     procedure AddListener(AIUser: IUser);
     procedure RemListener(AIUser: IUser);
@@ -72,13 +72,13 @@ begin
       ExecSQL;
       DM_PRINCIPAL.ConfirmTransaction;
       AUserOBJECT.id_usuario := StrToInt(xCodigo);
-      NotifyPersonSucess(AStatus, AUserOBJECT.id_usuario);
+      NotifyUserSucess(AStatus, AUserOBJECT.id_usuario);
     end;
   except
     on e: Exception do
     begin
       DM_PRINCIPAL.CancelTransaction;
-      NotifyPersonFaild(PCHAR('Ocorreu um erro!' + e.Message));
+      NotifyUserFaild(PCHAR('Ocorreu um erro!' + e.Message));
     end;
   end;
 end;
@@ -96,12 +96,12 @@ begin
       ExecSQL;
     end;
     DM_PRINCIPAL.ConfirmTransaction;
-    NotifyPersonSucess('D', AId);
+    NotifyUserSucess('D', AId);
   except
     on e: Exception do
     begin
       DM_PRINCIPAL.CancelTransaction;
-      NotifyPersonFaild('Ocorreu um erro!' + e.Message);
+      NotifyUserFaild('Ocorreu um erro!' + e.Message);
     end;
   end;
 end;
@@ -124,7 +124,7 @@ begin
     FInterfaceList.Remove(AIUser);
 end;
 
-procedure TUser.NotifyPersonFaild(AMsg: string);
+procedure TUser.NotifyUserFaild(AMsg: string);
 var
   xIUser: IUser;
   i: Integer;
@@ -143,7 +143,7 @@ begin
   end;
 end;
 
-procedure TUser.NotifyPersonSucess(AStatus: string; AId: Integer);
+procedure TUser.NotifyUserSucess(AStatus: string; AId: Integer);
 var
   xIUser: IUser;
   i: Integer;

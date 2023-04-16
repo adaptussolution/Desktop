@@ -21,8 +21,8 @@ type
   TSector = class
   private
     FInterfaceList: TInterfaceList;
-    procedure NotifyPersonSucess(AStatus: string; AId: Integer);
-    procedure NotifyPersonFaild(AMsg: string);
+    procedure NotifySectorSucess(AStatus: string; AId: Integer);
+    procedure NotifySectorFaild(AMsg: string);
   public
     procedure AddListener(AISector: ISector);
     procedure RemListener(AISector: ISector);
@@ -68,13 +68,13 @@ begin
       ExecSQL;
       DM_PRINCIPAL.ConfirmTransaction;
       ASectorOBJECT.id_setor := StrToInt(xCodigo);
-      NotifyPersonSucess(AStatus, ASectorOBJECT.id_setor);
+      NotifySectorSucess(AStatus, ASectorOBJECT.id_setor);
     end;
   except
     on e: Exception do
     begin
       DM_PRINCIPAL.CancelTransaction;
-      NotifyPersonFaild(PCHAR('Ocorreu um erro!' + e.Message));
+      NotifySectorFaild(PCHAR('Ocorreu um erro!' + e.Message));
     end;
   end;
 end;
@@ -92,12 +92,12 @@ begin
       ExecSQL;
     end;
     DM_PRINCIPAL.ConfirmTransaction;
-    NotifyPersonSucess('D', AId);
+    NotifySectorSucess('D', AId);
   except
     on e: Exception do
     begin
       DM_PRINCIPAL.CancelTransaction;
-      NotifyPersonFaild('Ocorreu um erro!' + e.Message);
+      NotifySectorFaild('Ocorreu um erro!' + e.Message);
     end;
   end;
 end;
@@ -120,7 +120,7 @@ begin
     FInterfaceList.Remove(AISector);
 end;
 
-procedure TSector.NotifyPersonFaild(AMsg: string);
+procedure TSector.NotifySectorFaild(AMsg: string);
 var
   xISector: ISector;
   i: Integer;
@@ -139,7 +139,7 @@ begin
   end;
 end;
 
-procedure TSector.NotifyPersonSucess(AStatus: string; AId: Integer);
+procedure TSector.NotifySectorSucess(AStatus: string; AId: Integer);
 var
   xISector: ISector;
   i: Integer;

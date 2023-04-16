@@ -253,6 +253,33 @@ begin
     Tbobjetos.Open;
     VARNOMEFORM := 'TB_SETOR';
   end;
+
+  if TipoPesquisa = 'TB_CARGO' then
+  begin
+    Tbobjetos.Close;
+
+    DBGrid1.Columns.Add;
+    DBGrid1.Columns[0].FieldName := 'id_setor';
+    DBGrid1.Columns[0].Title.Caption := 'Código';
+    DBGrid1.Columns[0].Width := 80;
+
+    DBGrid1.Columns.Add;
+    DBGrid1.Columns[1].FieldName := 'SETOR';
+    DBGrid1.Columns[1].Title.Caption := 'Setor';
+    DBGrid1.Columns[1].Width := 250;
+
+    with QuyCNSObjetos do
+    begin
+      Close;
+      sql.Clear;
+      sql.Add('SELECT S.id_setor, S.nome AS SETOR FROM tb_setor S ');
+      Open;
+      Last;
+      First;
+    end;
+    Tbobjetos.Open;
+    VARNOMEFORM := 'TB_CARGO';
+  end;
   //////////////////////////////////////////////////////////////////////////////////
 end;
 

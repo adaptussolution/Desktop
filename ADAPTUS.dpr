@@ -22,7 +22,8 @@ uses
   UAccess in 'OBJECTS\UAccess.pas',
   UMenuAccess in 'OBJECTS\UMenuAccess.pas',
   UCompany in 'OBJECTS\UCompany.pas',
-  USector in 'OBJECTS\USector.pas';
+  USector in 'OBJECTS\USector.pas',
+  UOffice in 'OBJECTS\UOffice.pas';
 
 {$R *.res}
 

@@ -245,7 +245,7 @@ begin
     begin
       Close;
       sql.Clear;
-      sql.Add('SELECT e.id_empresa, e.razao_social as empresa AS ACESSO FROM tb_empresa e ');
+      sql.Add('SELECT e.id_empresa, e.razao_social as empresa FROM tb_empresa e ');
       Open;
       Last;
       First;

@@ -248,7 +248,7 @@ begin
       tbAccessItem.Next;
     end;
 
-    TAccess.GetInstance.NotifyPersonSucess(xStatus, xAccessOBJECT.ID_Access);
+    TAccess.GetInstance.NotifyAccessSucess(xStatus, xAccessOBJECT.ID_Access);
   end;
 end;
 

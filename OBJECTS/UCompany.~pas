@@ -22,8 +22,8 @@ type
   TCompany = class
   private
     FInterfaceList: TInterfaceList;
-    procedure NotifyPersonSucess(AStatus: string; AId: Integer);
-    procedure NotifyPersonFaild(AMsg: string);
+    procedure NotifyCompanySucess(AStatus: string; AId: Integer);
+    procedure NotifyCompanyFaild(AMsg: string);
   public
     procedure AddListener(AICompany: ICompany);
     procedure RemListener(AICompany: ICompany);
@@ -41,7 +41,7 @@ implementation
 uses
   UDM_PRINCIPAL, SysUtils;
 
-{ TPerson }
+{ TCompany}
 
 procedure TCompany.save(ACompanyOBJECT: TCompanyOBJECT; AStatus: string = 'I');
 var
@@ -70,7 +70,7 @@ begin
       ExecSQL;
       DM_PRINCIPAL.ConfirmTransaction;
       ACompanyOBJECT.id_empresa := StrToInt(xCodigo);
-      NotifyPersonSucess(AStatus, ACompanyOBJECT.id_empresa);
+      NotifyCompanySucess(AStatus, ACompanyOBJECT.id_empresa);
     end;
   except
     on e: Exception do
@@ -122,7 +122,7 @@ begin
     FInterfaceList.Remove(AICompany);
 end;
 
-procedure TCompany.NotifyPersonFaild(AMsg: string);
+procedure TCompany.NotifyCompanyFaild(AMsg: string);
 var
   xICompany: ICompany;
   i: Integer;
@@ -141,7 +141,7 @@ begin
   end;
 end;
 
-procedure TCompany.NotifyPersonSucess(AStatus: string; AId: Integer);
+procedure TCompany.NotifyCompanyucess(AStatus: string; AId: Integer);
 var
   xICompany: ICompany;
   i: Integer;

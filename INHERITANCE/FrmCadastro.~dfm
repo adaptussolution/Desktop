@@ -1134,7 +1134,6 @@ object FrmCadastros: TFrmCadastros
       Caption = '&Gravar (F2)'
       ImageIndex = 0
       ShortCut = 113
-      OnExecute = actGravarExecute
     end
     object actExcluir: TAction
       Caption = '&Excluir (F4)'

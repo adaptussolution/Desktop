@@ -28,7 +28,7 @@ type
   private
     FInterfaceList: TInterfaceList;
 
-    procedure NotifyPersonFaild(AMsg: string);
+    procedure NotifyAccessFaild(AMsg: string);
   public
     procedure AddListener(AIAccess: IAccess);
     procedure RemListener(AIAccess: IAccess);
@@ -37,7 +37,7 @@ type
     procedure delete(AId: Integer);
     procedure deleteItens(AId: Integer);
     procedure getItens(AQuery: TIBQuery; AId: Integer; AFlag: string);
-    procedure NotifyPersonSucess(AStatus: string; AId: Integer);
+    procedure NotifyAccessSucess(AStatus: string; AId: Integer);
     constructor Create;
     class function GetInstance(): TAccess;
   end;
@@ -80,12 +80,12 @@ begin
       ExecSQL;
     end;
     DM_PRINCIPAL.ConfirmTransaction;
-    NotifyPersonSucess('D', AId);
+    NotifyAccessSucess('D', AId);
   except
     on e: Exception do
     begin
       DM_PRINCIPAL.CancelTransaction;
-      NotifyPersonFaild('Ocorreu um erro!' + e.Message);
+      NotifyAccessFaild('Ocorreu um erro!' + e.Message);
     end;
   end;
 end;
@@ -107,7 +107,7 @@ begin
     on e: Exception do
     begin
       DM_PRINCIPAL.CancelTransaction;
-      NotifyPersonFaild('Ocorreu um erro!' + e.Message);
+      NotifyAccessFaild('Ocorreu um erro!' + e.Message);
     end;
   end;
 end;
@@ -138,12 +138,12 @@ begin
   except
     on e: Exception do
     begin
-      NotifyPersonFaild('Ocorreu um erro!' + e.Message);
+      NotifyAccessFaild('Ocorreu um erro!' + e.Message);
     end;
   end;
 end;
 
-procedure TAccess.NotifyPersonFaild(AMsg: string);
+procedure TAccess.NotifyAccessFaild(AMsg: string);
 var
   xIAccess: IAccess;
   i: Integer;
@@ -162,7 +162,7 @@ begin
   end;
 end;
 
-procedure TAccess.NotifyPersonSucess(AStatus: string; AId: Integer);
+procedure TAccess.NotifyAccessSucess(AStatus: string; AId: Integer);
 var
   xIAccess: IAccess;
   i: Integer;
@@ -220,7 +220,7 @@ begin
     on e: Exception do
     begin
       DM_PRINCIPAL.CancelTransaction;
-      NotifyPersonFaild(PCHAR('Ocorreu um erro!' + e.Message));
+      NotifyAccessFaild(PCHAR('Ocorreu um erro!' + e.Message));
     end;
   end;
 end;
@@ -257,7 +257,7 @@ begin
     on e: Exception do
     begin
       DM_PRINCIPAL.CancelTransaction;
-      NotifyPersonFaild(PCHAR('Ocorreu um erro!' + e.Message));
+      NotifyAccessFaild(PCHAR('Ocorreu um erro!' + e.Message));
     end;
   end;
 end;
