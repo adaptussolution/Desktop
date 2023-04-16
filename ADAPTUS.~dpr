@@ -20,7 +20,8 @@ uses
   URegisterEmployee in 'FORMS\URegisterEmployee.pas' {frmRegisterEmployee},
   URegisterAccess in 'FORMS\URegisterAccess.pas' {frmRegisterAccess},
   UAccess in 'OBJECTS\UAccess.pas',
-  UMenuAccess in 'OBJECTS\UMenuAccess.pas';
+  UMenuAccess in 'OBJECTS\UMenuAccess.pas',
+  UCompany in 'OBJECTS\UCompany.pas';
 
 {$R *.res}
 

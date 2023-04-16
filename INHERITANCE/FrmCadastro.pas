@@ -143,7 +143,7 @@ var
 
 begin
 
-
+  inherited;
 
 
   { setlength(a, DBGrid1.columns.count);
@@ -456,17 +456,11 @@ end;
 
 procedure TFrmCadastros.actExcluirExecute(Sender: TObject);
 begin
-
-
-
-  /// ///////////////////////////////////////////////////////////////////////////
-
   if TBObjetos.RecordCount = 0 then
   begin
     Application.MessageBox('Não há registros para excluir!', 'Atenção', MB_OK + MB_ICONWARNING);
-    abort;
+    Abort;
   end;
-
 end;
 
 procedure TFrmCadastros.ChangeControl(Sender: TObject);

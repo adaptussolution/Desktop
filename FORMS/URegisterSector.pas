@@ -6,13 +6,38 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, FrmCadastro, DB, Provider, DBClient, IBCustomDataSet, IBQuery,
   ImgList, ActnList, StdCtrls, Grids, DBGrids, ComCtrls, DBCtrls, Buttons,
-  ToolWin, ExtCtrls;
+  ToolWin, ExtCtrls, USector, Mask;
 
 type
-  TfrmRegisterSector = class(TFrmCadastros)
+  TfrmRegisterSector = class(TFrmCadastros, ISector)
+    QuyObjetosID_SETOR: TIntegerField;
+    QuyObjetosID_EMPRESA: TIntegerField;
+    QuyObjetosNOME: TIBStringField;
+    QuyObjetosEMPRESA: TIBStringField;
+    TBObjetosID_SETOR: TIntegerField;
+    TBObjetosID_EMPRESA: TIntegerField;
+    TBObjetosNOME: TStringField;
+    TBObjetosEMPRESA: TStringField;
+    dbedtID_SETOR: TDBEdit;
+    lbl1: TLabel;
+    dbedtID_EMPRESA: TDBEdit;
+    lbl2: TLabel;
+    dbedtNOME: TDBEdit;
+    dbedtEMPRESA: TDBEdit;
+    btnSeachCompany: TSpeedButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
+    procedure dsObjetosStateChange(Sender: TObject);
+    procedure actGravarExecute(Sender: TObject);
+    procedure dbedtID_EMPRESAExit(Sender: TObject);
+    procedure btnSeachCompanyClick(Sender: TObject);
+    procedure actNovoExecute(Sender: TObject);
   private
     { Private declarations }
+    function validateFileds: Boolean;
+    procedure OnSucess(AStatus: string; AId: Integer);
+    procedure OnFaild(AMsg: string);
   public
     { Public declarations }
   end;
@@ -22,14 +47,187 @@ var
 
 implementation
 
+uses
+  UDM_PRINCIPAL, UFrmFiltro;
+
 {$R *.dfm}
 
-procedure TfrmRegisterSector.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+procedure TfrmRegisterSector.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
+  TSector.GetInstance.RemListener(Self);
   Action := caFree;
   frmRegisterSector := NIL;
+end;
+
+procedure TfrmRegisterSector.OnFaild(AMsg: string);
+begin
+  Application.MessageBox(PCHAR(AMsg), 'Atenção', mb_ok + MB_ICONERROR);
+  abort;
+end;
+
+procedure TfrmRegisterSector.OnSucess(AStatus: string; AId: Integer);
+begin
+  if AStatus = 'D' then
+    TBObjetos.Delete
+  else
+  begin
+    TBObjetosID_SETOR.AsInteger := AId;
+
+    if TBObjetos.State in [DSINSERT] then
+      Application.MessageBox('Cadastro realizado com sucesso!', 'Atenção', mb_ok + MB_ICONWARNING)
+    else
+      Application.MessageBox('Alteração realizada com sucesso!', 'Atenção', mb_ok + MB_ICONWARNING);
+
+    TBObjetos.Post;
+    PageControl1.TabIndex := 0;
+  end;
+end;
+
+procedure TfrmRegisterSector.FormCreate(Sender: TObject);
+begin
+  inherited;
+  TSector.GetInstance.AddListener(Self);
+end;
+
+procedure TfrmRegisterSector.actExcluirExecute(Sender: TObject);
+begin
+  inherited;
+  if (Application.MessageBox('Deseja Realmente Excluir?', 'Atenção', MB_YESNO + MB_ICONWARNING) = id_yes) then
+    TSector.GetInstance.delete(TBObjetosid_setor.AsInteger);
+end;
+
+procedure TfrmRegisterSector.dsObjetosStateChange(Sender: TObject);
+begin
+  inherited;
+  dbedtNOME.ReadOnly := not (TBObjetos.State in [DSINSERT]);
+end;
+
+procedure TfrmRegisterSector.actGravarExecute(Sender: TObject);
+var
+  xSectorOBJECT: TSectorOBJECT;
+  xStatus: string;
+begin
+  inherited;
+  if validateFileds then
+    Exit;
+
+  if TBObjetos.State in [DSINSERT, DSEDIT] then
+  begin
+    if TBObjetos.State in [DSINSERT] then
+      xStatus := 'I'
+    else
+      xStatus := 'U';
+
+    xSectorOBJECT := TSectorOBJECT.Create;
+    xSectorOBJECT.ID_SETOR := TBObjetosID_SETOR.AsInteger;
+    xSectorOBJECT.ID_EMPRESA := TBObjetosID_EMPRESA.AsInteger;
+    xSectorOBJECT.NOME := TBObjetosNOME.AsString;
+    TSector.GetInstance.save(xSectorOBJECT, xStatus);
+  end;
+end;
+
+function TfrmRegisterSector.validateFileds: Boolean;
+
+  function VerifySector: Boolean;
+  begin
+    with QuyComandos do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('select S.nome from tb_setor s where s.nome = :nome');
+      ParamByName('nome').AsString := TBObjetosNOME.AsString;
+      Open;
+      Last;
+      First;
+      Result := IsEmpty
+    end;
+  end;
+
+begin
+  Result := False;
+  dbedtID_SETOR.SetFocus;
+  if TBObjetosNOME.AsString = '' then
+  begin
+    Application.MessageBox('POR FAVOR INFORME O SETOR!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+    dbedtNOME.SetFocus;
+    Result := True;
+    Exit;
+  end;
+
+  if TBObjetos.State in [DSINSERT] then
+  begin
+    if not VerifySector then
+    begin
+      Application.MessageBox('POR FAVOR INFORME OUTRO SETOR, POIS ESSE, JÁ ESTÁ SENDO USADO!', 'ATENÇÃO', MB_OK + MB_ICONWARNING);
+      dbedtNOME.SetFocus;
+      Result := True;
+      Exit;
+    end;
+  end;
+
+end;
+
+procedure TfrmRegisterSector.dbedtID_EMPRESAExit(Sender: TObject);
+begin
+  inherited;
+  if not (TBObjetos.State in [dsedit, dsinsert]) then
+    exit;
+  if TBObjetosID_EMPRESA.AsInteger = 0 then
+  begin
+    TBObjetosID_EMPRESA.Clear;
+    TBObjetosEMPRESA.Clear;
+    Abort;
+  end;
+
+  with QuyComandos do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.add('select id_empresa, razao_social as empresa from tb_empresa where id_empresa =:id_empresa');
+    parambyname('id_empresa').AsInteger := TBObjetosID_EMPRESA.AsInteger;
+    Open;
+    Last;
+    First;
+
+    if recordcount = 0 then
+    begin
+      Application.MessageBox('ID inválido!', 'Informação', MB_OK + MB_ICONINFORMATION);
+      TBObjetosID_EMPRESA.Clear;
+      TBObjetosEMPRESA.Clear;
+      Abort;
+    end
+    else
+    begin
+      TBObjetosEMPRESA.ASSTRING := FIELDBYNAME('empresa').ASSTRING;
+    end;
+  end;
+end;
+
+procedure TfrmRegisterSector.btnSeachCompanyClick(Sender: TObject);
+begin
+  inherited;
+  if not (tbobjetos.State in [dsedit, dsinsert]) then
+    TBObjetos.Edit;
+
+  try
+    FrmFiltro := TFrmFiltro.Create(self);
+    FrmFiltro.VTabela := 'TB_SETOR';
+    FrmFiltro.ShowModal;
+    if FrmFiltro.BtnSelecionar.ModalResult = mrOk then
+    begin
+      TBObjetosID_EMPRESA.AsInteger := FrmFiltro.Tbobjetos.fieldbyname('ID_EMPRESA').AsInteger;
+      TBObjetosEMPRESA.AsString := FrmFiltro.Tbobjetos.fieldbyname('EMPRESA').AsString;
+    end;
+  finally
+    FreeAndNil(FrmFiltro);
+  end;
+end;
+
+procedure TfrmRegisterSector.actNovoExecute(Sender: TObject);
+begin
+  inherited;
+  dbedtNOME.SetFocus;
 end;
 
 initialization
@@ -40,3 +238,4 @@ finalization
   UnRegisterClass(TfrmRegisterSector);
 
 end.
+

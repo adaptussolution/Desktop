@@ -224,7 +224,34 @@ begin
       First;
     end;
     Tbobjetos.Open;
-    VARNOMEFORM := 'tb_acesso';
+    VARNOMEFORM := 'TB_EMPRESA';
+  end;
+
+  if TipoPesquisa = 'TB_SETOR' then
+  begin
+    Tbobjetos.Close;
+
+    DBGrid1.Columns.Add;
+    DBGrid1.Columns[0].FieldName := 'id_empresa';
+    DBGrid1.Columns[0].Title.Caption := 'Código';
+    DBGrid1.Columns[0].Width := 80;
+
+    DBGrid1.Columns.Add;
+    DBGrid1.Columns[1].FieldName := 'empresa';
+    DBGrid1.Columns[1].Title.Caption := 'Empresa';
+    DBGrid1.Columns[1].Width := 250;
+
+    with QuyCNSObjetos do
+    begin
+      Close;
+      sql.Clear;
+      sql.Add('SELECT e.id_empresa, e.razao_social as empresa FROM tb_empresa e ');
+      Open;
+      Last;
+      First;
+    end;
+    Tbobjetos.Open;
+    VARNOMEFORM := 'TB_SETOR';
   end;
   //////////////////////////////////////////////////////////////////////////////////
 end;

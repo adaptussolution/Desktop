@@ -25,9 +25,9 @@ type
     procedure NotifyPersonSucess(AStatus: string; AId: Integer);
     procedure NotifyPersonFaild(AMsg: string);
   public
-    procedure AddListener(AICompany: IUser);
-    procedure RemListener(AICompany: IUser);
-    procedure save(AUserOBJECT: TCompanyOBJECT; AStatus: string = 'I');
+    procedure AddListener(AICompany: ICompany);
+    procedure RemListener(AICompany: ICompany);
+    procedure save(ACompanyOBJECT: TCompanyOBJECT; AStatus: string = 'I');
     procedure delete(AId: Integer);
     constructor Create;
     class function GetInstance(): TCompany;

@@ -41,7 +41,7 @@ implementation
 uses
   UDM_PRINCIPAL, SysUtils;
 
-{ TPerson }
+{ TCompany}
 
 procedure TCompany.save(ACompanyOBJECT: TCompanyOBJECT; AStatus: string = 'I');
 var

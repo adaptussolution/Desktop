@@ -363,8 +363,13 @@ end;
 procedure TfrmRegisterPerson.dsObjetosStateChange(Sender: TObject);
 begin
   inherited;
-  DBEdit2.ReadOnly := not TBObjetos.State in [DSINSERT];
-  DBEdit3.ReadOnly := not TBObjetos.State in [DSINSERT];
+  DBEdit2.ReadOnly := not (TBObjetos.State in [DSINSERT]);
+  DBEdit3.ReadOnly := not (TBObjetos.State in [DSINSERT]);
+end;
+
+constructor TfrmRegisterPerson.create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
 end;
 
 initialization
