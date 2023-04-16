@@ -11,10 +11,12 @@ object FrmRelatorio: TFrmRelatorio
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
   Position = poDefault
   Visible = True
+  OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
@@ -149,6 +151,7 @@ object FrmRelatorio: TFrmRelatorio
     Top = 56
   end
   object DsSource: TDataSource
+    DataSet = DM_PRINCIPAL.IBQuery1
     Left = 184
     Top = 56
   end
@@ -158,8 +161,11 @@ object FrmRelatorio: TFrmRelatorio
     Top = 45
   end
   object RLPDFFilter1: TRLPDFFilter
+    DocumentInfo.Creator = 
+      'FortesReport Community Edition v4.0.1.2 \251 Copyright '#169' 1999-20' +
+      '21 Fortes Inform'#225'tica'
     DisplayName = 'Documento PDF'
-    Left = 126
-    Top = 117
+    Left = 366
+    Top = 109
   end
 end

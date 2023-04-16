@@ -75,8 +75,6 @@ begin
 
   SaveUserPassword(chkSaveUserPassword.Checked);
 
-  DM_PRINCIPAL.FMenuAccess := TMenuAccess.Create(QuyComandos, FID_ACESSO);
-
   if not Assigned(frmMenu) then
     frmMenu := TfrmMenu.Create(self);
     

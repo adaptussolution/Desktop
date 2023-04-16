@@ -22,7 +22,11 @@ uses
   UAccess in 'OBJECTS\UAccess.pas',
   UMenuAccess in 'OBJECTS\UMenuAccess.pas',
   UCompany in 'OBJECTS\UCompany.pas',
-  USector in 'OBJECTS\USector.pas';
+  USector in 'OBJECTS\USector.pas',
+  UOffice in 'OBJECTS\UOffice.pas',
+  UFrmRelatorio in 'INHERITANCE\UFrmRelatorio.pas' {FrmRelatorio},
+  URegisterCustomer in 'FORMS\URegisterCustomer.pas' {frmRegisterCustomer},
+  URegisterSupplier in 'FORMS\URegisterSupplier.pas' {frmRegisterSupplier};
 
 {$R *.res}
 
@@ -30,5 +34,6 @@ begin
   Application.Initialize;
   Application.CreateForm(TDM_PRINCIPAL, DM_PRINCIPAL);
   Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmRegisterSupplier, frmRegisterSupplier);
   Application.Run;
 end.

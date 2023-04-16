@@ -42,7 +42,7 @@ var
 implementation
 
 uses
-  UDM_PRINCIPAL, StrUtils, UParameters, UGlobal, UParametersScreen, UMenu;
+  UDM_PRINCIPAL, StrUtils, UParameters, UGlobal, UParametersScreen, UMenu, UMenuAccess;
 
 {$R *.dfm}
 

@@ -1,0 +1,33 @@
+unit URegisterCustomer;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, FrmCadastro, DB, Provider, DBClient, IBCustomDataSet, IBQuery,
+  ImgList, ActnList, StdCtrls, Grids, DBGrids, ComCtrls, DBCtrls, Buttons,
+  ToolWin, ExtCtrls;
+
+type
+  TfrmRegisterCustomer = class(TFrmCadastros)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmRegisterCustomer: TfrmRegisterCustomer;
+
+implementation
+
+{$R *.dfm}
+
+initialization
+  RegisterClass(TfrmRegisterCustomer);
+
+
+finalization
+  UnRegisterClass(TfrmRegisterCustomer);
+
+end.

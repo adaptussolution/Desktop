@@ -23,7 +23,10 @@ uses
   UMenuAccess in 'OBJECTS\UMenuAccess.pas',
   UCompany in 'OBJECTS\UCompany.pas',
   USector in 'OBJECTS\USector.pas',
-  UOffice in 'OBJECTS\UOffice.pas';
+  UOffice in 'OBJECTS\UOffice.pas',
+  UFrmRelatorio in 'INHERITANCE\UFrmRelatorio.pas' {FrmRelatorio},
+  URegisterCustomer in 'FORMS\URegisterCustomer.pas' {frmRegisterCustomer},
+  URegisterSupplier in 'FORMS\URegisterSupplier.pas' {frmRegisterSupplier};
 
 {$R *.res}
 

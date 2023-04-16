@@ -1,7 +1,7 @@
 object frmMenu: TfrmMenu
-  Left = 154
-  Top = 137
-  Width = 1195
+  Left = 230
+  Top = 121
+  Width = 1083
   Height = 588
   BorderIcons = [biSystemMenu]
   Caption = 'Menu'
@@ -21,7 +21,7 @@ object frmMenu: TfrmMenu
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1187
+    Width = 1075
     Height = 518
     Align = alClient
     BevelOuter = bvNone
@@ -30,11 +30,11 @@ object frmMenu: TfrmMenu
   object StatusBar1: TStatusBar
     Left = 0
     Top = 518
-    Width = 1187
+    Width = 1075
     Height = 19
     Panels = <
       item
-        Width = 1000
+        Width = 950
       end
       item
         Width = 50
@@ -79,6 +79,26 @@ object frmMenu: TfrmMenu
           Caption = 'Funcion'#225'rio'
           OnClick = EmployeeClick
         end
+        object Customer: TMenuItem
+          Caption = 'Cliente'
+          OnClick = CustomerClick
+        end
+        object Supplier: TMenuItem
+          Caption = 'Fornecedor'
+          OnClick = SupplierClick
+        end
+      end
+    end
+    object Movement: TMenuItem
+      Caption = 'Movimenta'#231#227'o'
+      object Sale: TMenuItem
+        Caption = 'Venda'
+      end
+      object Purchase: TMenuItem
+        Caption = 'Compra'
+      end
+      object Product: TMenuItem
+        Caption = 'Produto'
       end
     end
     object Report: TMenuItem

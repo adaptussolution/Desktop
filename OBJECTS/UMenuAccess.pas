@@ -21,6 +21,11 @@ type
     fSECTOR: Boolean;
     fOFFICE: Boolean;
     fAccess: Boolean;
+    fCustomer: Boolean;
+    fSupplier: Boolean;
+    fSale: Boolean;
+    fPurchase: Boolean;
+    fProduct: Boolean;
     procedure NotifyGetMenu;
   protected
   public
@@ -32,10 +37,15 @@ type
     property SECTOR: Boolean read fSECTOR write fSECTOR;
     property OFFICE: Boolean read fOFFICE write fOFFICE;
     property Access: Boolean read fAccess write fAccess;
+    property Customer: Boolean read fCustomer write fCustomer;
+    property Supplier: Boolean read fSupplier write fSupplier;
+    property Sale: Boolean read fSale write fSale;
+    property Purchase: Boolean read fPurchase write fPurchase;
+    property Product: Boolean read fProduct write fProduct;
     procedure getId(AQuery: TIBQuery; AIdAcess: Integer);
     procedure AddListener(AIMenuAccess: IMenuAccess);
     procedure RemListener(AIMenuAccess: IMenuAccess);
-    constructor Create(AQuery: TIBQuery; AIdAcess: Integer);
+    constructor Create(AQuery: TIBQuery; AIdAcess: Integer; ALogar: Boolean = True);
   end;
 
 implementation
@@ -53,14 +63,15 @@ begin
     FInterfaceList.Add(AIMenuAccess);
 end;
 
-constructor TMenuAccess.Create(AQuery: TIBQuery; AIdAcess: Integer);
+constructor TMenuAccess.Create(AQuery: TIBQuery; AIdAcess: Integer; ALogar: Boolean = True);
 begin
   if not Assigned(FInterfaceList) then
     FInterfaceList := TInterfaceList.Create;
 
   fUserLogged:= False;
-    
-  getId(AQuery, AIdAcess);
+
+  if ALogar then
+    getId(AQuery, AIdAcess);
 end;
 
 procedure TMenuAccess.getId(AQuery: TIBQuery; AIdAcess: Integer);
@@ -100,6 +111,21 @@ begin
 
     if AQuery.FieldByName('telas').AsString = 'FUNCIONÁRIO' then
       FEmployee := AQuery.FieldByName('flag').AsString = 'Y';
+
+    if AQuery.FieldByName('telas').AsString = 'CLIENTE' then
+      FCustomer := AQuery.FieldByName('flag').AsString = 'Y';
+
+    if AQuery.FieldByName('telas').AsString = 'FORNECEDOR' then
+      FSupplier := AQuery.FieldByName('flag').AsString = 'Y';
+
+    if AQuery.FieldByName('telas').AsString = 'PRODUTO' then
+      FProduct := AQuery.FieldByName('flag').AsString = 'Y';
+
+    if AQuery.FieldByName('telas').AsString = 'VENDA' then
+      FSale := AQuery.FieldByName('flag').AsString = 'Y';
+
+    if AQuery.FieldByName('telas').AsString = 'COMPRAR' then
+      FPurchase := AQuery.FieldByName('flag').AsString = 'Y';
 
     AQuery.Next;
   end;

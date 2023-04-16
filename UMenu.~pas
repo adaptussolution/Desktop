@@ -33,6 +33,12 @@ type
     SECTOR: TMenuItem;
     OFFICE: TMenuItem;
     RegisterAccess: TMenuItem;
+    Customer: TMenuItem;
+    Supplier: TMenuItem;
+    Movement: TMenuItem;
+    Sale: TMenuItem;
+    Purchase: TMenuItem;
+    Product: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ExitClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -44,6 +50,8 @@ type
     procedure OFFICEClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure RegisterAccessClick(Sender: TObject);
+    procedure CustomerClick(Sender: TObject);
+    procedure SupplierClick(Sender: TObject);
   private
     { Private declarations }
     procedure OnGetMenu;
@@ -58,8 +66,8 @@ implementation
 
 uses
   UDM_PRINCIPAL, URegisterPerson, URegisterUser, URegisterAccess,
-  URegisterCompany, URegisterSector, URegisterOffice, URegisterEmployee, DB,
-  IBQuery;
+  URegisterCompany, URegisterSector, URegisterOffice, URegisterEmployee, URegisterCustomer,
+  URegisterSupplier;
 
 {$R *.dfm}
 
@@ -82,7 +90,7 @@ end;
 procedure TfrmMenu.PersonClick(Sender: TObject);
 begin
   if not Assigned(frmRegisterPerson) then
-    frmRegisterPerson := TfrmRegisterPerson.Create(Application);
+    frmRegisterPerson := TfrmRegisterPerson.Create(Self);
 
   frmRegisterPerson.Show;
 end;
@@ -135,15 +143,34 @@ begin
   frmRegisterAccess.Show;
 end;
 
+procedure TfrmMenu.CustomerClick(Sender: TObject);
+begin
+  if not Assigned(frmRegisterCustomer) then
+    frmRegisterCustomer := TfrmRegisterCustomer.Create(Self);
+
+  frmRegisterCustomer.Show;
+end;
+
+procedure TfrmMenu.SupplierClick(Sender: TObject);
+begin
+  if not Assigned(frmRegisterSupplier) then
+    frmRegisterSupplier := TfrmRegisterSupplier.Create(Self);
+
+  frmRegisterSupplier.Show;
+end;
+
 procedure TfrmMenu.FormCreate(Sender: TObject);
 var
   xMenu: TMenuThread;
 begin
+  DM_PRINCIPAL.FMenuAccess := TMenuAccess.Create(DM_PRINCIPAL.IBQuery1, DM_PRINCIPAL.FParameters.Access);
+  DM_PRINCIPAL.FMenuAccess.fUserLogged := TRUE;
+  DM_PRINCIPAL.FMenuAccess.AddListener(Self);
+  DM_PRINCIPAL.FMenuAccess.getId(DM_PRINCIPAL.IBQuery1, DM_PRINCIPAL.FParameters.Access);
+  
   xMenu := TMenuThread.Create;
   xMenu.FreeOnTerminate := True;
   xMenu.Resume;
-
-  DM_PRINCIPAL.FMenuAccess.AddListener(Self);
 end;
 
 { TMenuThread }
@@ -181,6 +208,11 @@ begin
     SECTOR.Visible := DM_PRINCIPAL.FMenuAccess.SECTOR;
     OFFICE.Visible := DM_PRINCIPAL.FMenuAccess.OFFICE;
     Employee.Visible := DM_PRINCIPAL.FMenuAccess.Employee;
+    Supplier.Visible := DM_PRINCIPAL.FMenuAccess.Supplier;
+    Customer.Visible := DM_PRINCIPAL.FMenuAccess.Customer;
+    Product.Visible := DM_PRINCIPAL.FMenuAccess.Product;
+    Sale.Visible := DM_PRINCIPAL.FMenuAccess.Sale;
+    Purchase.Visible := DM_PRINCIPAL.FMenuAccess.Purchase;
   end;
 end;
 
